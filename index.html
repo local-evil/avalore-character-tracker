@@ -349,18 +349,18 @@ body { min-height: 100vh; }
 }
 .feat-chip {
   display: flex; align-items: flex-start; gap: 6px;
-  padding: 5px 0; border-bottom: 1px solid var(--border);
+  padding: 4px 0 4px 10px; border-bottom: 1px solid var(--border);
   font-size: 12px;
 }
 .feat-chip:last-child { border-bottom: none; }
-.feat-chip-name { font-weight: 500; color: var(--text-primary); flex-shrink: 0; }
+.feat-chip-name { font-weight: 500; color: var(--text-secondary); flex-shrink: 0; }
 .feat-chip-lim { font-size: 10px; color: var(--warning); border: 1px solid var(--warning-border); background: var(--warning-dim); border-radius: 3px; padding: 0 4px; flex-shrink: 0; margin-left: 4px; }
 .feat-chip-hind { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.hind-chip { padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.hind-chip { padding: 4px 0 4px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
 .hind-chip:last-child { border-bottom: none; }
 .hind-chip-name { font-weight: 500; color: var(--danger); }
 .hind-chip-type { font-size: 10px; color: var(--text-muted); margin-left: 5px; }
-.no-features { font-size: 12px; color: var(--text-muted); font-style: italic; }
+.no-features { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 10px; }
 .feat-chip-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 
 /* ── Usable weapon chips ── */
@@ -412,6 +412,7 @@ body { min-height: 100vh; }
 }
 
 /* ── Weapon table in features — fixed column layout ── */
+.feat-weapon-wrap { padding-left: 10px; }
 .feat-weapon-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
 .feat-weapon-table th {
   font-size: 10px; color: var(--text-muted); font-weight: 600;
@@ -623,6 +624,7 @@ const SHEET_URLS = {
   feats:      SHEET_BASE + '?gid=315087813&single=true&output=csv',
   hindrances: SHEET_BASE + '?gid=1409015949&single=true&output=csv',
   costs:      SHEET_BASE + '?gid=1918420385&single=true&output=csv',
+  weapons:    SHEET_BASE + '?gid=WEAPONS_GID&single=true&output=csv',
 };
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -654,10 +656,11 @@ function splitLine(line) {
 }
 
 async function loadSheetData() {
-  const [fCSV, hCSV, cCSV] = await Promise.all([
+  const [fCSV, hCSV, cCSV, wCSV] = await Promise.all([
     fetch(SHEET_URLS.feats).then(r => { if(!r.ok) throw new Error('Feats sheet returned '+r.status); return r.text(); }),
     fetch(SHEET_URLS.hindrances).then(r => { if(!r.ok) throw new Error('Hindrances sheet returned '+r.status); return r.text(); }),
     fetch(SHEET_URLS.costs).then(r => { if(!r.ok) throw new Error('Costs sheet returned '+r.status); return r.text(); }),
+    fetch(SHEET_URLS.weapons).then(r => { if(!r.ok) throw new Error('Weapons sheet returned '+r.status); return r.text(); }),
   ]);
   FEATS = parseCSV(fCSV).map(r => ({
     name: r['Name']||'', cat: r['Category']||'',
@@ -672,6 +675,22 @@ async function loadSheetData() {
     COSTS[t] = parseInt(r['XP Cost'])||0;
     LABELS[t] = r['Label']||t;
   });
+
+  // Parse weapons — overwrite the static fallback
+  const wRows = parseCSV(wCSV);
+  if (wRows.length > 0) {
+    WEAPONS = wRows.filter(r => r['Name']).map(r => ({
+      cat:   r['Category'] || '',
+      name:  r['Name'] || '',
+      req:   r['Requirement'] || '',
+      hit:   r['To Hit'] !== '' ? parseInt(r['To Hit']) : null,
+      hands: r['Hands'] !== '' ? parseInt(r['Hands']) : null,
+      dmg:   r['Damage'] !== '' ? parseInt(r['Damage']) : null,
+      acts:  r['Actions'] !== '' ? parseInt(r['Actions']) : null,
+      dpt:   r['Damage Per Turn'] !== '' ? parseInt(r['Damage Per Turn']) : null,
+      notes: r['Notes'] || '',
+    }));
+  }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -699,7 +718,7 @@ STATS.forEach(g=>{
   });
 });
 
-const WEAPONS=[
+let WEAPONS=[
   {cat:'Melee (0–2)',name:'Staff',req:'Dex: Acrobatics +2',hit:2,hands:1,dmg:5,acts:2,dpt:5,notes:'Bypasses grazing hits'},
   {cat:'Melee (0–2)',name:'Small weapon',req:'Dex: Acrobatics -1',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:''},
   {cat:'Melee (0–2)',name:'Arming sword',req:'Str: Athletics 0',hit:1,hands:1,dmg:4,acts:1,dpt:8,notes:''},
@@ -1032,6 +1051,11 @@ function renderSheet(){
   document.getElementById('char-name').value=ch.name||'';
   document.getElementById('xp-total').value=ch.xpTotal||200;
   document.getElementById('is-vampire').checked=ch.isVampire||false;
+  // Explicitly set portrait so switching characters updates the image
+  const img=document.getElementById('char-portrait-img');
+  if(img){
+    img.src = ch.portrait || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E";
+  }
   refreshAll();
 }
 
@@ -1088,9 +1112,17 @@ document.getElementById('imp-file').addEventListener('change',e=>{
 });
 document.getElementById('imp-confirm').addEventListener('click',()=>{
   if(!pendingImp)return;
-  const nc={...pendingImp,id:Date.now()+'_'+Math.random().toString(36).slice(2)};
-  chars.push(nc);saveAll(chars);activeId=nc.id;setAct(activeId);
-  document.getElementById('imp-modal').classList.add('hidden');pendingImp=null;renderSheet();
+  // Deep-clone the imported data so we don't share object refs
+  const nc = JSON.parse(JSON.stringify(pendingImp));
+  nc.id = Date.now()+'_'+Math.random().toString(36).slice(2);
+  chars.push(nc);
+  saveAll(chars);
+  activeId = nc.id;
+  setAct(activeId);
+  document.getElementById('imp-modal').classList.add('hidden');
+  pendingImp = null;
+  // Fully re-render with the imported character's data
+  renderSheet();
 });
 document.getElementById('imp-cancel').addEventListener('click',()=>{
   document.getElementById('imp-modal').classList.add('hidden');pendingImp=null;
@@ -1244,7 +1276,7 @@ function buildFeatures() {
       <td>${w.dpt}</td>
       <td>${w.notes||'—'}</td>
     </tr>`).join('')}</tbody>`;
-    el.appendChild(tbl);
+    const wrap = document.createElement('div'); wrap.className = 'feat-weapon-wrap'; wrap.appendChild(tbl); el.appendChild(wrap);
   }
 }
 
