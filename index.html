@@ -857,7 +857,7 @@ function getChar(){return chars.find(c=>c.id===activeId)||chars[0]||null;}
 // ╚══════════════════════════════════════════════════════════╝
 function buildTypeDropdown(){
   const sel=document.getElementById('new-type');
-  sel.innerHTML='<option value="">— Add expenditure —</option>';
+  sel.innerHTML='<option value="" disabled selected>— Select type —</option>';
   Object.keys(COSTS).forEach(type=>{
     const opt=document.createElement('option');
     opt.value=type; if(type.startsWith('mage'))opt.id='opt-'+type;
@@ -895,7 +895,7 @@ function refreshTypeDropdown(){
 
 function makeFeatSel(idx,currentVal,ch){
   const cats=[...new Set(FEATS.map(f=>f.cat))];
-  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled>— pick feat —</option>`;
+  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled selected>— pick feat —</option>`;
   cats.forEach(cat=>{
     html+=`<optgroup label="— ${cat} —">`;
     FEATS.filter(f=>f.cat===cat).forEach(f=>{
@@ -957,13 +957,13 @@ function buildExps(){
     let sel='';
 
     if(e.type==='skill_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled>— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='stat_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled>— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='skill_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled>↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
     }else if(e.type==='stat_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled>↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
     }else if(e.type==='feat'){
       const feat=FEATS.find(f=>f.name===e.target);
       const isMutFeat=feat&&feat.cat==='Mutation';
@@ -974,14 +974,14 @@ function buildExps(){
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
-        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="" disabled>— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
+        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="" disabled selected>— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
       }
     }else if(e.type.startsWith('mage')){
       const t=parseInt(e.type.slice(-1));
       const needsH=t>=2,hv=(e.hindrances||[])[0]||'';
       let inner=`<div class="inline-block-title">${LABELS[e.type]||'Mage '+t} — feat limit: ${getFeatMax({...ch,exps:[{type:'mage'+t}]})}${needsH?', +1 arcane hindrance required':''}</div>`;
       if(needsH){
-        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="" disabled>— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
+        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="" disabled selected>— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
       }
       sel=`<div class="inline-block">${inner}</div>`;
     }
