@@ -424,6 +424,28 @@ body { min-height: 100vh; }
 .feat-weapon-table tr:last-child td { border-bottom: none; }
 .feat-weapon-table tbody tr:hover td { background: var(--surface-3); }
 
+
+/* ── Share modal ── */
+.share-url-box {
+  width: 100%; padding: 8px 10px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--surface-1);
+  color: var(--text-primary); font-size: 12px; font-family: monospace;
+  resize: none; margin-top: 8px;
+}
+.share-mode-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--accent); color: #fff; text-align: center;
+  padding: 8px 16px; font-size: 13px; font-family: var(--font-body);
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.share-mode-banner a {
+  color: #fff; font-weight: 600; text-decoration: underline; cursor: pointer;
+}
+.view-only-overlay {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 </style>
 </head>
 <body>
@@ -443,6 +465,7 @@ body { min-height: 100vh; }
         <i class="ti ti-upload"></i> Import
         <input type="file" accept=".json" id="imp-file" style="display:none">
       </label>
+      <button class="btn" id="share-btn" title="Share character via URL"><i class="ti ti-link"></i> Share</button>
       <button class="btn" id="exp-btn" title="Export current character as JSON"><i class="ti ti-download"></i> Export</button>
       <button class="btn btn-accent" id="save-btn"><i class="ti ti-device-floppy"></i> Save</button>
     </div>
@@ -585,6 +608,19 @@ body { min-height: 100vh; }
 
 </div><!-- /.page -->
 
+<!-- Share modal -->
+<div id="share-modal" class="modal-back hidden">
+  <div class="modal">
+    <h3>Share Character</h3>
+    <p>Anyone with this link can view this character in read-only mode. The URL includes all character data — portrait included, so it may be long.</p>
+    <textarea class="share-url-box" id="share-url-box" rows="4" readonly></textarea>
+    <div class="modal-btns">
+      <button class="btn" id="share-close">Close</button>
+      <button class="btn btn-accent" id="share-copy"><i class="ti ti-copy"></i> Copy link</button>
+    </div>
+  </div>
+</div>
+
 <!-- Import modal -->
 <div id="imp-modal" class="modal-back hidden">
   <div class="modal">
@@ -610,6 +646,7 @@ body { min-height: 100vh; }
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <script>
 // ╔══════════════════════════════════════════════════════════╗
 // ║  GOOGLE SHEETS CONFIG                                    ║
@@ -823,7 +860,7 @@ function buildTypeDropdown(){
 
 function makeFeatSel(idx,currentVal,ch){
   const cats=[...new Set(FEATS.map(f=>f.cat))];
-  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="">— pick feat —</option>`;
+  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled>— pick feat —</option>`;
   cats.forEach(cat=>{
     html+=`<optgroup label="— ${cat} —">`;
     FEATS.filter(f=>f.cat===cat).forEach(f=>{
@@ -885,13 +922,13 @@ function buildExps(){
     let sel='';
 
     if(e.type==='skill_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="">— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled>— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='stat_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="">— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled>— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='skill_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="">↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="">↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled>↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
     }else if(e.type==='stat_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="">↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="">↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled>↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
     }else if(e.type==='feat'){
       const feat=FEATS.find(f=>f.name===e.target);
       const isMutFeat=feat&&feat.cat==='Mutation';
@@ -902,14 +939,14 @@ function buildExps(){
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
-        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="">— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
+        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="" disabled>— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
       }
     }else if(e.type.startsWith('mage')){
       const t=parseInt(e.type.slice(-1));
       const needsH=t>=2,hv=(e.hindrances||[])[0]||'';
       let inner=`<div class="inline-block-title">${LABELS[e.type]||'Mage '+t} — feat limit: ${getFeatMax({...ch,exps:[{type:'mage'+t}]})}${needsH?', +1 arcane hindrance required':''}</div>`;
       if(needsH){
-        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="">— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
+        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="" disabled>— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
       }
       sel=`<div class="inline-block">${inner}</div>`;
     }
@@ -1276,6 +1313,84 @@ function buildFeatures() {
   }
 }
 
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  URL SHARING                                             ║
+// ╚══════════════════════════════════════════════════════════╝
+function encodeCharForURL(ch) {
+  const json = JSON.stringify(ch);
+  return LZString.compressToEncodedURIComponent(json);
+}
+
+function decodeCharFromURL(str) {
+  try {
+    const json = LZString.decompressFromEncodedURIComponent(str);
+    return json ? JSON.parse(json) : null;
+  } catch { return null; }
+}
+
+function generateShareURL(ch) {
+  const encoded = encodeCharForURL(ch);
+  const base = window.location.origin + window.location.pathname;
+  return `${base}#share/${encoded}`;
+}
+
+function checkShareMode() {
+  const hash = window.location.hash;
+  if (!hash.startsWith('#share/')) return false;
+  const encoded = hash.slice(7);
+  const ch = decodeCharFromURL(encoded);
+  if (!ch) return false;
+
+  // Show view-only banner
+  const banner = document.createElement('div');
+  banner.className = 'share-mode-banner';
+  banner.innerHTML = `<i class="ti ti-eye"></i> Viewing <b>${ch.name || 'a character'}</b> in read-only mode &nbsp;·&nbsp; <a onclick="window.location.hash='';window.location.reload()">Exit to your own sheet</a>`;
+  document.body.prepend(banner);
+  document.body.style.paddingTop = '40px';
+
+  // Load shared char as a temporary view-only state
+  chars = [ch];
+  activeId = ch.id || 'shared';
+  if (!ch.id) ch.id = 'shared';
+
+  // Disable all editable inputs after render
+  setTimeout(() => {
+    document.querySelectorAll('input, select, button, textarea, label').forEach(el => {
+      if (el.id === 'share-close' || el.id === 'share-copy') return;
+      el.disabled = true;
+    });
+    // Keep tab switching working
+    document.querySelectorAll('.tab-btn').forEach(btn => { btn.disabled = false; });
+  }, 200);
+
+  return true;
+}
+
+document.getElementById('share-btn').addEventListener('click', () => {
+  const ch = getChar(); if (!ch) return;
+  const url = generateShareURL(ch);
+  document.getElementById('share-url-box').value = url;
+  document.getElementById('share-modal').classList.remove('hidden');
+});
+
+document.getElementById('share-close').addEventListener('click', () => {
+  document.getElementById('share-modal').classList.add('hidden');
+});
+
+document.getElementById('share-copy').addEventListener('click', () => {
+  const box = document.getElementById('share-url-box');
+  navigator.clipboard.writeText(box.value).then(() => {
+    const btn = document.getElementById('share-copy');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  }).catch(() => {
+    box.select();
+    document.execCommand('copy');
+  });
+});
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  BOOT                                                    ║
 // ╚══════════════════════════════════════════════════════════╝
@@ -1289,7 +1404,8 @@ function buildFeatures() {
     if(!chars.find(c=>c.id===activeId)&&chars.length>0){activeId=chars[0].id;setAct(activeId);}
     document.getElementById('loading-screen').classList.add('hidden');
     document.getElementById('main-content').classList.remove('hidden');
-    buildTypeDropdown();buildDC();renderSheet();
+    buildTypeDropdown();buildDC();
+    if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
     dot.className='data-dot';
     statusText.textContent='Data loaded';
     setTimeout(()=>document.getElementById('data-status').style.opacity='0',2500);
