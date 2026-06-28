@@ -323,19 +323,12 @@ body { min-height: 100vh; }
 .hidden { display: none !important; }
 
 /* ── Top row: 3-col grid for char card + stats ── */
-.top-row { display: grid; grid-template-columns: minmax(260px, 1.2fr) 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-@media (max-width: 900px) { .top-row { grid-template-columns: 1fr 1fr; } }
+.top-row { display: grid; grid-template-columns: minmax(260px, 1fr) 1.4fr; gap: 1rem; margin-bottom: 1rem; align-items: start; }
+@media (max-width: 900px) { .top-row { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .top-row { grid-template-columns: 1fr; } }
 
 /* ── Character portrait ── */
-.char-portrait {
-  width: 100px; height: 100px; border-radius: var(--radius-lg);
-  border: 1px solid var(--border); background: var(--surface-1);
-  object-fit: cover; display: block; flex-shrink: 0;
-  cursor: pointer; transition: border-color 0.15s;
-}
-.char-portrait:hover { border-color: var(--accent-border); }
-.char-portrait-wrap { position: relative; width: 100px; flex-shrink: 0; }
+/* portrait styles moved to new_css block */
 .char-portrait-overlay {
   position: absolute; inset: 0; border-radius: var(--radius-lg);
   background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center;
@@ -393,6 +386,47 @@ body { min-height: 100vh; }
 .tab-panel { padding-top: 1rem; }
 .tab-panel.hidden { display: none; }
 
+
+/* ── Left col stacks two cards ── */
+.top-left-col { display: flex; flex-direction: column; gap: 1rem; }
+
+/* ── XP boxes stretch full width beneath portrait ── */
+.xp-beneath { display: flex; gap: 8px; margin-top: 10px; }
+.xp-beneath .xp-box { flex: 1; }
+
+/* ── Portrait sizing ── */
+.char-portrait { width: 80px; height: 80px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface-1); object-fit: cover; display: block; flex-shrink: 0; cursor: pointer; transition: border-color 0.15s; }
+.char-portrait-wrap { position: relative; width: 80px; flex-shrink: 0; }
+
+/* ── Stat-style section headers for features pane ── */
+.feat-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+  margin-bottom: 4px; margin-top: 12px;
+}
+.feat-section-header:first-of-type { margin-top: 0; }
+.feat-section-header-name {
+  font-size: 13px; font-weight: 600;
+  font-family: var(--font-display);
+  color: var(--gold-text); letter-spacing: 0.03em;
+}
+
+/* ── Weapon table in features — fixed column layout ── */
+.feat-weapon-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+.feat-weapon-table th {
+  font-size: 10px; color: var(--text-muted); font-weight: 600;
+  padding: 4px 6px; border-bottom: 1px solid var(--border);
+  font-family: var(--font-display); letter-spacing: 0.06em;
+  text-align: center;
+}
+.feat-weapon-table th:first-child { text-align: left; }
+.feat-weapon-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 12px; text-align: center; vertical-align: middle; }
+.feat-weapon-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+.feat-weapon-table td:last-child { text-align: left; color: var(--text-muted); font-size: 11px; }
+.feat-weapon-table th:last-child { text-align: left; }
+.feat-weapon-table tr:last-child td { border-bottom: none; }
+.feat-weapon-table tbody tr:hover td { background: var(--surface-3); }
+
 </style>
 </head>
 <body>
@@ -427,73 +461,81 @@ body { min-height: 100vh; }
   <div id="main-content" class="hidden">
     <div class="char-select" id="char-sel"></div>
 
-    <!-- Row 1: Character card + Stats + DC -->
+    <!-- Row 1: Left col (char + DC) | Right col (stats) -->
     <div class="top-row">
 
-      <!-- Character card -->
-      <div class="card">
-        <div class="char-header-inner">
-          <div class="char-portrait-wrap">
-            <img class="char-portrait" id="char-portrait-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E" alt="Character portrait">
-            <div class="char-portrait-overlay"><i class="ti ti-camera" style="font-size:18px;display:block;margin-bottom:3px"></i>Upload</div>
-            <input type="file" accept="image/*" class="portrait-input" id="portrait-input">
-          </div>
-          <div style="flex:1;min-width:0">
-            <div class="char-name-lbl">Character name</div>
-            <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off">
-            <div class="trait-boxes" style="margin-top:8px">
-              <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
-                <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
-                <span>Vampire</span>
-              </label>
-              <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
-                <i class="ti ti-dna" style="font-size:14px"></i>
-                <span id="mutant-label">Mutant</span>
+      <!-- Left column: character card stacked above DC calculator -->
+      <div class="top-left-col">
+
+        <!-- Character card -->
+        <div class="card">
+          <div class="char-header-inner">
+            <div class="char-portrait-wrap">
+              <img class="char-portrait" id="char-portrait-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E" alt="Character portrait">
+              <div class="char-portrait-overlay"><i class="ti ti-camera" style="font-size:18px;display:block;margin-bottom:3px"></i>Upload</div>
+              <input type="file" accept="image/*" class="portrait-input" id="portrait-input">
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+              <div>
+                <div class="char-name-lbl">Character name</div>
+                <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px">
+              </div>
+              <div class="trait-boxes">
+                <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
+                  <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
+                  <span>Vampire</span>
+                </label>
+                <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
+                  <i class="ti ti-dna" style="font-size:14px"></i>
+                  <span id="mutant-label">Mutant</span>
+                </div>
               </div>
             </div>
-            <div class="xp-boxes" style="margin-top:10px">
-              <div class="xp-box">
-                <div class="xp-lbl">Total XP</div>
-                <input class="xp-inp" id="xp-total" value="200" type="number" min="0">
-              </div>
-              <div class="xp-box">
-                <div class="xp-lbl">Used</div>
-                <div class="xp-big" id="xp-used">0</div>
-              </div>
-              <div class="xp-box">
-                <div class="xp-lbl">Remaining</div>
-                <div class="xp-big remain" id="xp-rem">200</div>
-              </div>
+          </div>
+          <!-- XP row stretches full width beneath portrait+name row -->
+          <div class="xp-beneath">
+            <div class="xp-box">
+              <div class="xp-lbl">Total XP</div>
+              <input class="xp-inp" id="xp-total" value="200" type="number" min="0">
+            </div>
+            <div class="xp-box">
+              <div class="xp-lbl">Used</div>
+              <div class="xp-big" id="xp-used">0</div>
+            </div>
+            <div class="xp-box">
+              <div class="xp-lbl">Remaining</div>
+              <div class="xp-big remain" id="xp-rem">200</div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Stats -->
+        <!-- DC Calculator -->
+        <div class="card">
+          <div class="card-title">DC Probability</div>
+          <div class="dc-row">
+            <span class="dc-lbl">Stat</span>
+            <select class="dc-select" id="dc-stat"></select>
+          </div>
+          <div class="dc-row">
+            <span class="dc-lbl">DC</span>
+            <input class="dc-input" id="dc-val" value="10" type="number">
+          </div>
+          <div class="dc-row">
+            <span class="dc-lbl">Extra mod</span>
+            <input class="dc-input" id="dc-mod" value="0" type="number">
+          </div>
+          <div class="prob-box" id="prob-box">
+            <span class="prob-pct" id="prob-pct">55%</span>
+            <span class="prob-desc" id="prob-desc">chance of passing DC 10</span>
+          </div>
+        </div>
+
+      </div><!-- /.top-left-col -->
+
+      <!-- Right column: Stats -->
       <div class="card">
         <div class="card-title">Stats</div>
         <div id="stats-panel"></div>
-      </div>
-
-      <!-- DC Calculator -->
-      <div class="card">
-        <div class="card-title">DC Probability</div>
-        <div class="dc-row">
-          <span class="dc-lbl">Stat</span>
-          <select class="dc-select" id="dc-stat"></select>
-        </div>
-        <div class="dc-row">
-          <span class="dc-lbl">DC</span>
-          <input class="dc-input" id="dc-val" value="10" type="number">
-        </div>
-        <div class="dc-row">
-          <span class="dc-lbl">Extra mod</span>
-          <input class="dc-input" id="dc-mod" value="0" type="number">
-        </div>
-        <div class="prob-box" id="prob-box">
-          <span class="prob-pct" id="prob-pct">55%</span>
-          <span class="prob-desc" id="prob-desc">chance of passing DC 10</span>
-        </div>
       </div>
 
     </div>
@@ -1120,14 +1162,28 @@ function buildFeatures() {
   const el = document.getElementById('features-panel'); if (!el) return;
   el.innerHTML = '';
 
-  // ── Feats ──
+  // ── Helper: stat-style section header ──
+  function secHeader(label) {
+    const d = document.createElement('div');
+    d.className = 'feat-section-header';
+    d.innerHTML = `<span class="feat-section-header-name">${label}</span>`;
+    return d;
+  }
+
+  // ── Feats (including mage tiers, all under one "Feats" header) ──
   const featExps = ch.exps.filter(e => e.type === 'feat' && e.target);
-  const featSection = document.createElement('div');
-  featSection.className = 'features-section';
-  featSection.innerHTML = '<div class="features-section-title">Feats</div>';
-  if (featExps.length === 0) {
-    featSection.innerHTML += '<div class="no-features">No feats selected yet.</div>';
+  const mageExps = ch.exps.filter(e => e.type && e.type.startsWith('mage'));
+  const hasAnyFeat = featExps.length > 0 || mageExps.length > 0;
+
+  el.appendChild(secHeader('Feats'));
+
+  if (!hasAnyFeat) {
+    const empty = document.createElement('div');
+    empty.className = 'no-features';
+    empty.textContent = 'No feats selected yet.';
+    el.appendChild(empty);
   } else {
+    // Regular feats
     featExps.forEach(e => {
       const feat = FEATS.find(f => f.name === e.target);
       if (!feat) return;
@@ -1141,21 +1197,13 @@ function buildFeatures() {
       }
       html += '</div>';
       chip.innerHTML = html;
-      featSection.appendChild(chip);
+      el.appendChild(chip);
     });
-  }
-  el.appendChild(featSection);
-
-  // ── Mage tiers + arcane hindrances ──
-  const mageExps = ch.exps.filter(e => e.type && e.type.startsWith('mage'));
-  if (mageExps.length > 0) {
-    const mageSection = document.createElement('div');
-    mageSection.className = 'features-section';
-    mageSection.innerHTML = '<div class="features-section-title">Mage</div>';
+    // Mage tiers — listed inline under the same Feats header
     mageExps.forEach(e => {
+      const tier = parseInt(e.type.slice(-1));
       const chip = document.createElement('div');
       chip.className = 'feat-chip';
-      const tier = parseInt(e.type.slice(-1));
       let html = `<div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>`;
       const hv = (e.hindrances || [])[0];
       if (hv) {
@@ -1164,31 +1212,40 @@ function buildFeatures() {
       }
       html += '</div>';
       chip.innerHTML = html;
-      mageSection.appendChild(chip);
+      el.appendChild(chip);
     });
-    el.appendChild(mageSection);
   }
 
   // ── Usable weapons ──
+  el.appendChild(secHeader('Usable Weapons'));
   const usable = WEAPONS.filter(w => checkW(w, ch) && w.hit !== null);
-  const wpnSection = document.createElement('div');
-  wpnSection.className = 'features-section';
-  wpnSection.innerHTML = '<div class="features-section-title">Usable Weapons</div>';
   if (usable.length === 0) {
-    wpnSection.innerHTML += '<div class="no-features">No weapons available with current stats.</div>';
+    const empty = document.createElement('div');
+    empty.className = 'no-features';
+    empty.textContent = 'No weapons available with current stats.';
+    el.appendChild(empty);
   } else {
-    const hdr = document.createElement('div');
-    hdr.className = 'weapon-chip-header';
-    hdr.innerHTML = '<span>Weapon</span><span>To Hit</span><span>Hands</span><span>Dmg</span><span>Acts</span><span>Dmg/Turn</span><span>Notes</span>';
-    wpnSection.appendChild(hdr);
-    usable.forEach(w => {
-      const chip = document.createElement('div');
-      chip.className = 'weapon-chip';
-      chip.innerHTML = `<span class="weapon-chip-name">${w.name}</span><span class="weapon-chip-stat">${w.hit}</span><span class="weapon-chip-stat">${w.hands}</span><span class="weapon-chip-stat">${w.dmg}</span><span class="weapon-chip-stat">${w.acts}</span><span class="weapon-chip-stat">${w.dpt}</span><span class="weapon-chip-notes">${w.notes || '—'}</span>`;
-      wpnSection.appendChild(chip);
-    });
+    const tbl = document.createElement('table');
+    tbl.className = 'feat-weapon-table';
+    tbl.innerHTML = `<thead><tr>
+      <th style="width:28%">Weapon</th>
+      <th style="width:9%">To Hit</th>
+      <th style="width:9%">Hands</th>
+      <th style="width:9%">Dmg</th>
+      <th style="width:9%">Acts</th>
+      <th style="width:9%">Dmg/Turn</th>
+      <th>Notes</th>
+    </tr></thead><tbody>${usable.map(w=>`<tr>
+      <td>${w.name}</td>
+      <td>${w.hit}</td>
+      <td>${w.hands}</td>
+      <td>${w.dmg}</td>
+      <td>${w.acts}</td>
+      <td>${w.dpt}</td>
+      <td>${w.notes||'—'}</td>
+    </tr>`).join('')}</tbody>`;
+    el.appendChild(tbl);
   }
-  el.appendChild(wpnSection);
 }
 
 // ╔══════════════════════════════════════════════════════════╗
