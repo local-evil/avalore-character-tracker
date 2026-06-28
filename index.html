@@ -324,16 +324,9 @@ body { min-height: 100vh; }
 @media (max-width: 600px) { .top-row { grid-template-columns: 1fr; } }
 
 /* ── Character portrait ── */
-/* portrait styles moved to new_css block */
-.char-portrait-overlay {
-  position: absolute; inset: 0; border-radius: var(--radius-lg);
-  background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.15s; cursor: pointer; font-size: 11px;
-  color: #fff; text-align: center; pointer-events: none;
-}
-.char-portrait-wrap:hover .char-portrait-overlay { opacity: 1; }
-.portrait-input { display: none; }
-.char-header-inner { display: flex; gap: 14px; align-items: flex-start; }
+
+
+
 
 /* ── Features pane ── */
 .features-section { margin-bottom: 8px; }
@@ -390,9 +383,7 @@ body { min-height: 100vh; }
 .xp-beneath { display: flex; gap: 8px; margin-top: 10px; }
 .xp-beneath .xp-box { flex: 1; }
 
-/* ── Portrait sizing ── */
-.char-portrait { width: 80px; height: 80px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface-1); object-fit: cover; display: block; flex-shrink: 0; cursor: pointer; transition: border-color 0.15s; }
-.char-portrait-wrap { position: relative; width: 80px; flex-shrink: 0; }
+
 
 /* ── Stat-style section headers for features pane ── */
 .feat-section-header {
@@ -446,6 +437,21 @@ body { min-height: 100vh; }
   opacity: 0.7;
 }
 
+
+/* ── Expenditure status bar ── */
+.exp-status-bar {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  padding: 7px 10px; border-radius: var(--radius);
+  background: var(--surface-1); border: 1px solid var(--border);
+  margin-top: 1rem; font-size: 12px;
+}
+.exp-status-item { display: flex; align-items: center; gap: 5px; }
+.exp-status-label { color: var(--text-muted); }
+.exp-status-val { font-weight: 600; }
+.exp-status-ok   { color: var(--text-primary); }
+.exp-status-warn { color: var(--text-warning); }
+.exp-status-over { color: var(--text-danger); }
+
 </style>
 </head>
 <body>
@@ -489,26 +495,19 @@ body { min-height: 100vh; }
 
         <!-- Character card -->
         <div class="card">
-          <div class="char-header-inner">
-            <div class="char-portrait-wrap">
-              <img class="char-portrait" id="char-portrait-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E" alt="Character portrait">
-              <div class="char-portrait-overlay"><i class="ti ti-camera" style="font-size:18px;display:block;margin-bottom:3px"></i>Upload</div>
-              <input type="file" accept="image/*" class="portrait-input" id="portrait-input">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div>
+              <div class="char-name-lbl">Character name</div>
+              <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px">
             </div>
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
-              <div>
-                <div class="char-name-lbl">Character name</div>
-                <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px">
-              </div>
-              <div class="trait-boxes">
-                <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
-                  <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
-                  <span>Vampire</span>
-                </label>
-                <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
-                  <i class="ti ti-dna" style="font-size:14px"></i>
-                  <span id="mutant-label">Mutant</span>
-                </div>
+            <div class="trait-boxes">
+              <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
+                <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
+                <span>Vampire</span>
+              </label>
+              <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
+                <i class="ti ti-dna" style="font-size:14px"></i>
+                <span id="mutant-label">Mutant</span>
               </div>
             </div>
           </div>
@@ -594,6 +593,16 @@ body { min-height: 100vh; }
           <select id="new-type"><option value="">— Add expenditure —</option></select>
           <button class="btn btn-sm" id="add-btn"><i class="ti ti-plus"></i> Add</button>
           <span id="add-err" style="font-size:12px;color:var(--danger);display:none"></span>
+        </div>
+        <div class="exp-status-bar" id="exp-status-bar">
+          <div class="exp-status-item">
+            <span class="exp-status-label">Remaining XP:</span>
+            <span class="exp-status-val exp-status-ok" id="sb-xp">200 / 200</span>
+          </div>
+          <div class="exp-status-item">
+            <span class="exp-status-label">Feat slots:</span>
+            <span class="exp-status-val exp-status-ok" id="sb-feats">0 / 12</span>
+          </div>
         </div>
       </div>
 
@@ -858,6 +867,32 @@ function buildTypeDropdown(){
   });
 }
 
+function refreshTypeDropdown(){
+  const ch=getChar(); if(!ch) return;
+  const rem=ch.xpTotal-xpUsed(ch);
+  const tier=getMageTier(ch);
+  Object.keys(COSTS).forEach(type=>{
+    const opt=document.getElementById('opt-'+type)||document.querySelector(`#new-type option[value="${type}"]`);
+    if(!opt)return;
+    const cost=COSTS[type]||0;
+    if(type.startsWith('mage')){
+      // Hard limit: already added = disabled, prereq not met = disabled
+      const t=parseInt(type.slice(-1));
+      const prereqMet=t===1||tier>=t-1;
+      const alreadyHas=ch.exps.some(e=>e.type===type);
+      opt.disabled=!prereqMet||alreadyHas;
+      opt.textContent=(LABELS[type]||type)+(alreadyHas?' (added)':!prereqMet?` (requires Mage ${t-1})`:'');
+    } else {
+      // Soft grey: can still add but warn if not enough XP
+      opt.disabled=false;
+      const cantAfford=cost>0&&rem<cost;
+      const base=(LABELS[type]||type)+(cost>0?` (${cost} XP)`:'');
+      opt.textContent=cantAfford?base+' — insufficient XP':base;
+      opt.style.color=cantAfford?'var(--text-muted)':'';
+    }
+  });
+}
+
 function makeFeatSel(idx,currentVal,ch){
   const cats=[...new Set(FEATS.map(f=>f.cat))];
   let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled>— pick feat —</option>`;
@@ -1076,7 +1111,7 @@ function buildCharSel(){
   el.appendChild(nb);
 }
 
-function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refreshDC();refreshTraits();buildFeatures();refreshPortrait();}
+function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refreshDC();refreshTraits();buildFeatures();refreshTypeDropdown();refreshStatusBar();}
 
 function renderSheet(){
   buildCharSel();
@@ -1084,11 +1119,7 @@ function renderSheet(){
   document.getElementById('char-name').value=ch.name||'';
   document.getElementById('xp-total').value=ch.xpTotal||200;
   document.getElementById('is-vampire').checked=ch.isVampire||false;
-  // Explicitly set portrait so switching characters updates the image
-  const img=document.getElementById('char-portrait-img');
-  if(img){
-    img.src = ch.portrait || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E";
-  }
+
   refreshAll();
 }
 
@@ -1189,35 +1220,7 @@ function switchTab(tab) {
 // ╔══════════════════════════════════════════════════════════╗
 // ║  PORTRAIT UPLOAD                                         ║
 // ╚══════════════════════════════════════════════════════════╝
-document.addEventListener('DOMContentLoaded', () => {
-  const wrap = document.getElementById('char-portrait-img');
-  const input = document.getElementById('portrait-input');
-  if (wrap) {
-    wrap.parentElement.addEventListener('click', () => input.click());
-    input.addEventListener('change', e => {
-      const file = e.target.files[0]; if (!file) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const ch = getChar(); if (!ch) return;
-        ch.portrait = ev.target.result;
-        document.getElementById('char-portrait-img').src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
-      e.target.value = '';
-    });
-  }
-});
 
-function refreshPortrait() {
-  const ch = getChar();
-  const img = document.getElementById('char-portrait-img');
-  if (!img) return;
-  if (ch && ch.portrait) {
-    img.src = ch.portrait;
-  } else {
-    img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2319181f'/%3E%3Ccircle cx='50' cy='38' r='18' fill='%232e2d3a'/%3E%3Cellipse cx='50' cy='80' rx='26' ry='18' fill='%232e2d3a'/%3E%3C/svg%3E";
-  }
-}
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  FEATURES PANEL                                          ║
@@ -1449,6 +1452,33 @@ document.getElementById('share-copy').addEventListener('click', () => {
   });
 });
 
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  STATUS BAR                                              ║
+// ╚══════════════════════════════════════════════════════════╝
+function refreshStatusBar(){
+  const ch=getChar(); if(!ch) return;
+  const total=ch.xpTotal||200;
+  const used=xpUsed(ch);
+  const rem=total-used;
+  const featCount=countFeats(ch);
+  const maxFeats=getFeatMax(ch);
+
+  // XP display
+  const xpEl=document.getElementById('sb-xp');
+  if(xpEl){
+    xpEl.textContent=`${rem} / ${total}`;
+    xpEl.className='exp-status-val '+(rem<0?'exp-status-over':rem<20?'exp-status-warn':'exp-status-ok');
+  }
+
+  // Feat slots display
+  const ftEl=document.getElementById('sb-feats');
+  if(ftEl){
+    ftEl.textContent=`${featCount} / ${maxFeats}`;
+    ftEl.className='exp-status-val '+(featCount>maxFeats?'exp-status-over':featCount===maxFeats?'exp-status-warn':'exp-status-ok');
+  }
+}
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  BOOT                                                    ║
 // ╚══════════════════════════════════════════════════════════╝
@@ -1464,6 +1494,7 @@ document.getElementById('share-copy').addEventListener('click', () => {
     document.getElementById('main-content').classList.remove('hidden');
     buildTypeDropdown();buildDC();
     if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
+    refreshTypeDropdown();refreshStatusBar();
     dot.className='data-dot';
     statusText.textContent='Data loaded';
     setTimeout(()=>document.getElementById('data-status').style.opacity='0',2500);
