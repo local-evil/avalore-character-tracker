@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avalore — Character Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Design tokens ── */
+:root {
+  --bg:           #0f0e13;
+  --surface-1:    #19181f;
+  --surface-2:    #201f28;
+  --surface-3:    #2a2934;
+  --border:       #2e2d3a;
+  --border-strong:#3e3d4e;
+
+  --text-primary:  #e8e6f0;
+  --text-secondary:#a09eb8;
+  --text-muted:    #5e5c78;
+
+  --accent:        #8b6fd4;
+  --accent-dim:    #2d2248;
+  --accent-border: #5c4499;
+  --accent-text:   #c4aff8;
+
+  --gold:          #c9a84c;
+  --gold-dim:      #2a2210;
+  --gold-border:   #7a601e;
+  --gold-text:     #e8cc88;
+
+  --success:       #4caf7d;
+  --success-dim:   #0d2a1a;
+  --success-border:#1e6640;
+
+  --warning:       #c9943a;
+  --warning-dim:   #2a1e08;
+  --warning-border:#7a5410;
+
+  --danger:        #c95555;
+  --danger-dim:    #2a0e0e;
+  --danger-border: #7a2222;
+
+  --radius:        6px;
+  --radius-lg:     10px;
+  --font-body:     'Inter', system-ui, sans-serif;
+  --font-display:  'Cinzel', 'Georgia', serif;
+}
+
+/* ── Base ── */
+html { background: var(--bg); color: var(--text-primary); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+body { min-height: 100vh; }
+
+/* ── Layout ── */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+/* ── Top bar ── */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+  gap: 1rem; flex-wrap: wrap;
+}
+.branding { display: flex; align-items: baseline; gap: 10px; }
+.game-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, var(--gold-text), var(--accent-text));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.game-sub { font-size: 12px; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.top-bar-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.data-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+.data-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
+.data-dot.loading { background: var(--gold); animation: pulse 1s ease-in-out infinite; }
+.data-dot.err { background: var(--danger); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: transparent; color: var(--text-primary);
+  font-size: 13px; font-family: var(--font-body);
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--surface-3); border-color: var(--accent-border); }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-accent:hover { background: #7a5fc4; border-color: #7a5fc4; }
+.btn-danger { border-color: var(--danger-border); color: var(--danger); }
+.btn-danger:hover { background: var(--danger-dim); }
+.btn-sm { padding: 3px 8px; font-size: 12px; }
+
+/* ── Character tabs ── */
+.char-select { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+.char-slot {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text-secondary); font-size: 13px; cursor: pointer;
+  transition: all 0.15s;
+}
+.char-slot:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.char-slot.active { border-color: var(--accent-border); background: var(--accent-dim); color: var(--accent-text); }
+.char-slot .del { color: var(--text-muted); margin-left: 4px; line-height: 1; }
+.char-slot .del:hover { color: var(--danger); }
+.new-slot {
+  padding: 6px 12px; border-radius: var(--radius);
+  border: 1px dashed var(--border); background: transparent;
+  color: var(--text-muted); font-size: 13px; cursor: pointer;
+  transition: all 0.15s;
+}
+.new-slot:hover { border-color: var(--accent-border); color: var(--accent-text); }
+
+/* ── Sheet grid ── */
+.sheet { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.full { grid-column: 1 / -1; }
+@media (max-width: 700px) { .sheet { grid-template-columns: 1fr; } .full { grid-column: 1; } }
+
+/* ── Cards ── */
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+}
+.card-title {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 1rem; font-family: var(--font-display);
+}
+
+/* ── Character header card ── */
+.char-header { display: flex; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; }
+.char-name-wrap { flex: 2; min-width: 160px; }
+.char-name-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.char-name-input {
+  font-size: 24px; font-weight: 500; font-family: var(--font-display);
+  border: none; background: transparent; color: var(--text-primary);
+  width: 100%; outline: none;
+  border-bottom: 1px solid var(--border); padding-bottom: 2px;
+  letter-spacing: 0.03em;
+  transition: border-color 0.15s;
+}
+.char-name-input:focus { border-bottom-color: var(--accent-border); }
+.char-name-input::placeholder { color: var(--text-muted); font-weight: 400; }
+
+.trait-boxes { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.trait-box {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 10px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--surface-1);
+  font-size: 12px; cursor: pointer; user-select: none;
+  transition: all 0.15s;
+}
+.trait-box.active-vampire { border-color: var(--accent-border); background: var(--accent-dim); color: var(--accent-text); }
+.trait-box.active-mutant { border-color: var(--success-border); background: var(--success-dim); color: var(--success); }
+
+/* ── XP boxes ── */
+.xp-boxes { display: flex; gap: 10px; flex: 3; margin-top: 0; }
+.xp-box { flex: 1; background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; text-align: center; border: 1px solid var(--border); }
+.xp-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; font-family: var(--font-display); }
+.xp-big { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+.xp-big.remain { color: var(--accent-text); }
+.xp-big.danger { color: var(--danger); }
+.xp-inp {
+  font-size: 22px; font-weight: 600; font-family: var(--font-body);
+  border: none; background: transparent; width: 80px;
+  text-align: center; color: var(--text-primary); outline: none;
+}
+
+/* ── Stats ── */
+.stat-group { margin-bottom: 0.75rem; }
+.stat-group:last-child { margin-bottom: 0; }
+.stat-par {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+}
+.stat-par-name { font-size: 13px; font-weight: 600; font-family: var(--font-display); color: var(--gold-text); letter-spacing: 0.03em; }
+.stat-par-val { font-size: 15px; font-weight: 600; color: var(--accent-text); min-width: 32px; text-align: right; }
+.stat-sub { display: flex; align-items: center; justify-content: space-between; padding: 3px 0 3px 12px; }
+.stat-sub-name { font-size: 12px; color: var(--text-secondary); }
+.stat-sub-mod { font-size: 11px; color: var(--text-muted); }
+.stat-sub-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; }
+
+/* ── DC calculator ── */
+.dc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.dc-lbl { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
+.dc-select, .dc-input {
+  font-size: 13px; padding: 4px 8px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--surface-1); color: var(--text-primary);
+  font-family: var(--font-body);
+}
+.dc-select { flex: 1; }
+.dc-input { width: 60px; text-align: center; }
+.prob-box {
+  border-radius: var(--radius); padding: 0.75rem 1rem;
+  display: flex; align-items: baseline; gap: 10px; margin-top: 0.5rem;
+  border: 1px solid var(--success-border); background: var(--success-dim);
+  transition: all 0.2s;
+}
+.prob-pct { font-size: 30px; font-weight: 700; font-family: var(--font-display); color: var(--success); }
+.prob-desc { font-size: 12px; color: var(--success); }
+
+/* ── Expenditure table ── */
+.exp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.exp-table th { font-size: 10px; color: var(--text-muted); font-weight: 600; text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); font-family: var(--font-display); letter-spacing: 0.06em; }
+.exp-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
+.exp-table tr:last-child td { border-bottom: none; }
+.exp-sel {
+  font-size: 12px; padding: 3px 6px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--surface-1); color: var(--text-primary);
+  width: 100%; font-family: var(--font-body);
+}
+.exp-sel:focus { outline: none; border-color: var(--accent-border); }
+
+/* ── Badges ── */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.b-su { background: var(--accent-dim); color: var(--accent-text); border: 1px solid var(--accent-border); }
+.b-st { background: var(--gold-dim); color: var(--gold-text); border: 1px solid var(--gold-border); }
+.b-ku { background: var(--success-dim); color: var(--success); border: 1px solid var(--success-border); }
+.b-kt { background: var(--warning-dim); color: var(--warning); border: 1px solid var(--warning-border); }
+.b-ft { background: var(--danger-dim); color: var(--danger); border: 1px solid var(--danger-border); }
+.b-mg { background: #1a1030; color: #b89cf0; border: 1px solid #4a3080; }
+
+/* ── Feat preview ── */
+.feat-preview {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.5rem 0.75rem; margin-top: 5px;
+}
+.feat-preview b { font-size: 13px; font-weight: 600; display: block; margin-bottom: 3px; color: var(--text-primary); font-family: var(--font-display); letter-spacing: 0.02em; }
+.feat-preview .fx { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.feat-preview .req { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.lim-tag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 10px; background: var(--warning-dim); color: var(--warning); border: 1px solid var(--warning-border); vertical-align: middle; margin-left: 5px; }
+.lim-note { font-size: 11px; color: var(--warning); margin-top: 3px; font-style: italic; }
+
+/* ── Inline blocks (hindrances inside rows) ── */
+.inline-block {
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.5rem 0.75rem; margin-top: 6px;
+}
+.inline-block-title { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; font-family: var(--font-display); }
+.hind-slot { display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; }
+.hind-slot:first-of-type { margin-top: 0; }
+.hind-lbl { font-size: 11px; color: var(--text-muted); padding-top: 6px; white-space: nowrap; min-width: 70px; }
+.hind-inner { flex: 1; }
+
+/* ── Trade pair ── */
+.trade-pair { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.trade-pair select { flex: 1; min-width: 90px; }
+.trade-arrow { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+
+/* ── Add row ── */
+.add-row { display: flex; gap: 8px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+.add-row select {
+  font-size: 13px; padding: 6px 10px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--surface-1);
+  color: var(--text-primary); font-family: var(--font-body);
+}
+
+/* ── Feat / mage counters ── */
+.feat-counter {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 8px 12px; border-radius: var(--radius);
+  background: var(--surface-1); border: 1px solid var(--border);
+  margin-bottom: 1rem; font-size: 13px;
+}
+.fc-ok { color: var(--success); }
+.fc-warn { color: var(--warning); }
+.fc-over { color: var(--danger); }
+
+/* ── Notice bars ── */
+.notice-bar { padding: 7px 12px; border-radius: var(--radius); font-size: 12px; margin-bottom: 8px; border: 1px solid; }
+.nb-danger { background: var(--danger-dim); border-color: var(--danger-border); color: var(--danger); }
+.nb-warning { background: var(--warning-dim); border-color: var(--warning-border); color: var(--warning); }
+
+/* ── Weapon table ── */
+.wtbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.wtbl th { text-align: left; font-size: 10px; color: var(--text-muted); font-weight: 600; padding: 4px 8px; border-bottom: 1px solid var(--border); font-family: var(--font-display); letter-spacing: 0.06em; }
+.wtbl td { padding: 5px 8px; border-bottom: 1px solid var(--border); }
+.wtbl tr:last-child td { border-bottom: none; }
+.wtbl tbody tr:hover td { background: var(--surface-3); }
+.wtbl-cat td { font-size: 10px; font-weight: 600; color: var(--gold-text); text-transform: uppercase; letter-spacing: 0.08em; padding-top: 10px; background: var(--surface-1); font-family: var(--font-display); }
+.can-use { color: var(--success); font-weight: 600; }
+.no-use { color: var(--text-muted); }
+
+/* ── Loading / error ── */
+.loading-screen {
+  text-align: center; padding: 4rem 1rem; color: var(--text-muted);
+}
+.spinner {
+  display: inline-block; width: 28px; height: 28px;
+  border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-title { font-family: var(--font-display); font-size: 15px; color: var(--text-secondary); letter-spacing: 0.05em; }
+.err-box { background: var(--danger-dim); border: 1px solid var(--danger-border); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 480px; margin: 0 auto; color: var(--danger); }
+.err-box h3 { font-family: var(--font-display); margin-bottom: 0.5rem; }
+.err-box p { font-size: 13px; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6; }
+
+/* ── Modals ── */
+.modal-back { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(2px); }
+.modal { background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); padding: 1.5rem; width: 360px; max-width: 94vw; }
+.modal h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+.modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1rem; }
+.modal-preview { background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; font-size: 13px; border: 1px solid var(--border); }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="top-bar">
+    <div class="branding">
+      <div class="game-title">Avalore</div>
+      <div class="game-sub">Character Sheet</div>
+    </div>
+    <div class="top-bar-right">
+      <div class="data-status" id="data-status">
+        <div class="data-dot loading" id="data-dot"></div>
+        <span id="data-status-text">Loading…</span>
+      </div>
+      <label class="btn" style="cursor:pointer" title="Import character from JSON file">
+        <i class="ti ti-upload"></i> Import
+        <input type="file" accept=".json" id="imp-file" style="display:none">
+      </label>
+      <button class="btn" id="exp-btn" title="Export current character as JSON"><i class="ti ti-download"></i> Export</button>
+      <button class="btn btn-accent" id="save-btn"><i class="ti ti-device-floppy"></i> Save</button>
+    </div>
+  </header>
+
+  <!-- Loading screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="spinner"></div>
+    <div class="loading-title">Loading game data…</div>
+  </div>
+
+  <!-- Main content -->
+  <div id="main-content" class="hidden">
+    <div class="char-select" id="char-sel"></div>
+
+    <div class="sheet">
+
+      <!-- Character header -->
+      <div class="card full">
+        <div class="char-header">
+          <div class="char-name-wrap">
+            <div class="char-name-lbl">Character name</div>
+            <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off">
+            <div class="trait-boxes">
+              <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
+                <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
+                <span>Vampire</span>
+              </label>
+              <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
+                <i class="ti ti-dna" style="font-size:14px"></i>
+                <span id="mutant-label">Mutant</span>
+              </div>
+            </div>
+          </div>
+          <div class="xp-boxes">
+            <div class="xp-box">
+              <div class="xp-lbl">Total XP</div>
+              <input class="xp-inp" id="xp-total" value="200" type="number" min="0">
+            </div>
+            <div class="xp-box">
+              <div class="xp-lbl">XP used</div>
+              <div class="xp-big" id="xp-used">0</div>
+            </div>
+            <div class="xp-box">
+              <div class="xp-lbl">XP remaining</div>
+              <div class="xp-big remain" id="xp-rem">200</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="card">
+        <div class="card-title">Stats</div>
+        <div id="stats-panel"></div>
+      </div>
+
+      <!-- DC Calculator -->
+      <div class="card">
+        <div class="card-title">DC Probability</div>
+        <div class="dc-row">
+          <span class="dc-lbl">Stat</span>
+          <select class="dc-select" id="dc-stat"></select>
+        </div>
+        <div class="dc-row">
+          <span class="dc-lbl">DC</span>
+          <input class="dc-input" id="dc-val" value="10" type="number">
+        </div>
+        <div class="dc-row">
+          <span class="dc-lbl">Extra mod</span>
+          <input class="dc-input" id="dc-mod" value="0" type="number">
+        </div>
+        <div class="prob-box" id="prob-box">
+          <span class="prob-pct" id="prob-pct">55%</span>
+          <span class="prob-desc" id="prob-desc">chance of passing DC 10</span>
+        </div>
+      </div>
+
+      <!-- Expenditure -->
+      <div class="card full">
+        <div class="card-title">Expenditure</div>
+        <div id="feat-counter" class="feat-counter" style="display:none"></div>
+        <div id="notices"></div>
+        <table class="exp-table">
+          <colgroup>
+            <col style="width:28px">
+            <col style="width:130px">
+            <col>
+            <col style="width:60px">
+            <col style="width:36px">
+          </colgroup>
+          <thead>
+            <tr><th>#</th><th>Type</th><th>Selection</th><th>XP cost</th><th></th></tr>
+          </thead>
+          <tbody id="exp-body"></tbody>
+        </table>
+        <div class="add-row">
+          <select id="new-type"><option value="">— Add expenditure —</option></select>
+          <button class="btn btn-sm" id="add-btn"><i class="ti ti-plus"></i> Add</button>
+          <span id="add-err" style="font-size:12px;color:var(--danger);display:none"></span>
+        </div>
+      </div>
+
+      <!-- Weapons -->
+      <div class="card full">
+        <div class="card-title">Weapons & Equipment</div>
+        <div style="overflow-x:auto">
+          <table class="wtbl" id="wtbl"></table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.page -->
+
+<!-- Import modal -->
+<div id="imp-modal" class="modal-back hidden">
+  <div class="modal">
+    <h3>Import Character</h3>
+    <p>This adds the character as a new slot. Your existing characters won't be affected.</p>
+    <div class="modal-preview" id="imp-preview"></div>
+    <div class="modal-btns">
+      <button class="btn" id="imp-cancel">Cancel</button>
+      <button class="btn btn-accent" id="imp-confirm">Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete modal -->
+<div id="del-modal" class="modal-back hidden">
+  <div class="modal">
+    <h3>Delete Character?</h3>
+    <p id="del-msg"></p>
+    <div class="modal-btns">
+      <button class="btn" id="del-cancel">Cancel</button>
+      <button class="btn btn-danger" id="del-confirm">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════╗
+// ║  GOOGLE SHEETS CONFIG                                    ║
+// ║  To update: change the gid values to match your sheet   ║
+// ╚══════════════════════════════════════════════════════════╝
+const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/1DyYM3yhbfq8Nnk-Fc9trumgiup_--f-ZWVFccKm2y98/pub';
+const SHEET_URLS = {
+  feats:      SHEET_BASE + '?gid=315087813&single=true&output=csv',
+  hindrances: SHEET_BASE + '?gid=1409015949&single=true&output=csv',
+  costs:      SHEET_BASE + '?gid=1918420385&single=true&output=csv',
+};
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  GAME DATA (loaded from sheets)                          ║
+// ╚══════════════════════════════════════════════════════════╝
+let FEATS = [], ARCANE_HINDRANCES = [], MUTANT_HINDRANCES = [];
+let COSTS = {}, LABELS = {};
+
+// ── CSV parser ──────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const headers = splitLine(lines[0]);
+  return lines.slice(1).filter(l => l.trim()).map(line => {
+    const vals = splitLine(line);
+    const obj = {};
+    headers.forEach((h, i) => { obj[h.trim()] = (vals[i] || '').trim(); });
+    return obj;
+  });
+}
+function splitLine(line) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
+    else if (c === ',' && !inQ) { res.push(cur); cur = ''; }
+    else cur += c;
+  }
+  res.push(cur); return res;
+}
+
+async function loadSheetData() {
+  const [fCSV, hCSV, cCSV] = await Promise.all([
+    fetch(SHEET_URLS.feats).then(r => { if(!r.ok) throw new Error('Feats sheet returned '+r.status); return r.text(); }),
+    fetch(SHEET_URLS.hindrances).then(r => { if(!r.ok) throw new Error('Hindrances sheet returned '+r.status); return r.text(); }),
+    fetch(SHEET_URLS.costs).then(r => { if(!r.ok) throw new Error('Costs sheet returned '+r.status); return r.text(); }),
+  ]);
+  FEATS = parseCSV(fCSV).map(r => ({
+    name: r['Name']||'', cat: r['Category']||'',
+    req: r['Requirement']||'None', desc: r['Description']||'',
+    limited: (r['Limited']||'').toLowerCase()==='true',
+  })).filter(f => f.name);
+  const hRows = parseCSV(hCSV);
+  ARCANE_HINDRANCES = hRows.filter(r=>(r['Type']||'').toLowerCase()==='arcane').map(r=>({name:r['Name'],desc:r['Description']}));
+  MUTANT_HINDRANCES = hRows.filter(r=>(r['Type']||'').toLowerCase()==='mutant').map(r=>({name:r['Name'],desc:r['Description']}));
+  parseCSV(cCSV).forEach(r => {
+    const t = r['Type']||''; if(!t) return;
+    COSTS[t] = parseInt(r['XP Cost'])||0;
+    LABELS[t] = r['Label']||t;
+  });
+}
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  STATIC GAME DATA                                        ║
+// ╚══════════════════════════════════════════════════════════╝
+const STATS = [
+  {group:'Dexterity',key:'dex',subs:[{name:'Acrobatics',key:'dex_acro'},{name:'Stealth',key:'dex_stlth'},{name:'Finesse',key:'dex_fin'}]},
+  {group:'Intelligence',key:'int',subs:[{name:'Healing',key:'int_heal'},{name:'Perception',key:'int_perc'},{name:'Research',key:'int_res'}]},
+  {group:'Harmony',key:'har',subs:[{name:'Arcana',key:'har_arc'},{name:'Nature',key:'har_nat'},{name:'Belief',key:'har_bel'}]},
+  {group:'Strength',key:'str',subs:[{name:'Fortitude',key:'str_fort'},{name:'Athletics',key:'str_ath'},{name:'Forging',key:'str_forg'}]},
+];
+const SKILL_OPTS=[], STAT_OPTS=[];
+STATS.forEach(g=>{
+  STAT_OPTS.push({label:g.group,key:g.key});
+  g.subs.forEach(s=>SKILL_OPTS.push({label:g.group+': '+s.name,key:s.key}));
+});
+const SKM={};
+STATS.forEach(g=>{
+  const ab={dexterity:'dex',intelligence:'int',harmony:'har',strength:'str'};
+  const sh=ab[g.group.toLowerCase()]||g.group.toLowerCase();
+  SKM[g.group.toLowerCase()]=g.key; SKM[sh]=g.key;
+  g.subs.forEach(s=>{
+    SKM[(g.group+': '+s.name).toLowerCase()]={sub:s.key,par:g.key};
+    SKM[sh+': '+s.name.toLowerCase()]={sub:s.key,par:g.key};
+  });
+});
+
+const WEAPONS=[
+  {cat:'Melee (0–2)',name:'Staff',req:'Dex: Acrobatics +2',hit:2,hands:1,dmg:5,acts:2,dpt:5,notes:'Bypasses grazing hits'},
+  {cat:'Melee (0–2)',name:'Small weapon',req:'Dex: Acrobatics -1',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:''},
+  {cat:'Melee (0–2)',name:'Arming sword',req:'Str: Athletics 0',hit:1,hands:1,dmg:4,acts:1,dpt:8,notes:''},
+  {cat:'Melee (0–2)',name:'Greatsword',req:'Str: Athletics +2',hit:1,hands:2,dmg:8,acts:2,dpt:8,notes:''},
+  {cat:'Melee (0–2)',name:'Polearm',req:'Str: Athletics +2, Dex: Acrobatics +2',hit:2,hands:2,dmg:6,acts:2,dpt:6,notes:''},
+  {cat:'Melee (0–2)',name:'Finesse blade',req:'Dex: Finesse +2',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:'+1 dmg vs unarmored'},
+  {cat:'Melee (0–2)',name:'Mace',req:'Dex: Acrobatics -1',hit:1,hands:1,dmg:3,acts:1,dpt:6,notes:'+2 dmg vs unarmored'},
+  {cat:'Melee (0–2)',name:'Small shield',req:'Str: Athletics 0, Str: Fortitude +1',hit:1,hands:1,dmg:2,acts:1,dpt:4,notes:'Armour does not mitigate damage'},
+  {cat:'Melee (0–2)',name:'Large shield',req:'Str: Athletics +2, Str: Fortitude +2',hit:0,hands:1,dmg:3,acts:1,dpt:6,notes:'Armour does not mitigate damage'},
+  {cat:'Skirmishing (2–6)',name:'Javelin',req:'Dex: Acrobatics +1, Str: Athletics +1',hit:1,hands:1,dmg:5,acts:2,dpt:5,notes:''},
+  {cat:'Skirmishing (2–6)',name:'Meteor hammer',req:'Dex: Acrobatics +1',hit:2,hands:1,dmg:3,acts:1,dpt:6,notes:''},
+  {cat:'Skirmishing (2–6)',name:'Sling',req:'Dex: Acrobatics +1',hit:1,hands:2,dmg:6,acts:2,dpt:6,notes:''},
+  {cat:'Skirmishing (2–6)',name:'Whip',req:'Dex: Finesse +1',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:'Cannot penetrate heavy armour, +1 dmg vs unarmored'},
+  {cat:'Skirmishing (2–6)',name:'Throwing knife',req:'Dex: Acrobatics 0',hit:1,hands:1,dmg:4,acts:1,dpt:8,notes:''},
+  {cat:'Ranged (3–30)',name:'Recurve bow',req:'Dex: Finesse +1',hit:2,hands:2,dmg:3,acts:1,dpt:6,notes:'+1 dmg vs unarmored'},
+  {cat:'Ranged (3–30)',name:'Longbow',req:'Dex: Acrobatics +1, Str: Athletics +1',hit:3,hands:2,dmg:6,acts:2,dpt:6,notes:''},
+  {cat:'Ranged (3–30)',name:'Crossbow',req:'Str: Athletics +1',hit:3,hands:2,dmg:5,acts:2,dpt:5,notes:'Penetrates armour'},
+  {cat:'Armour',name:'Light armour',req:'Dex: Acrobatics -1',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:''},
+  {cat:'Armour',name:'Medium armour',req:'Str: Athletics +1',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:'-1 to evasion rolls'},
+  {cat:'Armour',name:'Heavy armour',req:'Str: Athletics +3',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:'-1 movement, -2 evasion, -3 stealth when moving'},
+  {cat:'Magic',name:'Spellblade',req:'Har: Arcana +2, Str: Athletics 0',hit:3,hands:2,dmg:5,acts:2,dpt:5,notes:''},
+  {cat:'Magic',name:'Arcane wand',req:'Har: Arcana +2',hit:2,hands:1,dmg:2,acts:1,dpt:4,notes:'-1 to evasion rolls'},
+  {cat:'Magic',name:'Spellbook',req:'Har: Arcana +2',hit:3,hands:2,dmg:4,acts:2,dpt:4,notes:'Armour piercing'},
+];
+
+const BADGES={skill_up:'b-ku',skill_tr:'b-kt',stat_up:'b-su',stat_tr:'b-st',feat:'b-ft',mage1:'b-mg',mage2:'b-mg',mage3:'b-mg',mage4:'b-mg'};
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  LOCAL STORAGE                                           ║
+// ╚══════════════════════════════════════════════════════════╝
+const LS='av_chars', LSA='av_active';
+function loadAll(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch{return[]}}
+function saveAll(c){localStorage.setItem(LS,JSON.stringify(c))}
+function getAct(){return localStorage.getItem(LSA)||''}
+function setAct(id){localStorage.setItem(LSA,id)}
+function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2),name:name||'New character',xpTotal:200,isVampire:false,exps:[]};}
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  STAT HELPERS                                            ║
+// ╚══════════════════════════════════════════════════════════╝
+function statTot(ch,key){
+  let v=0;
+  ch.exps.forEach(e=>{
+    if((e.type==='stat_up'||e.type==='stat_tr')&&e.target===key)v++;
+    if(e.type==='stat_tr'&&e.trade===key)v--;
+    if((e.type==='skill_up'||e.type==='skill_tr')&&e.target===key)v++;
+    if(e.type==='skill_tr'&&e.trade===key)v--;
+  });
+  return v;
+}
+function fullTot(ch,sk,pk){return statTot(ch,sk)+statTot(ch,pk);}
+function xpUsed(ch){return ch.exps.reduce((s,e)=>s+(COSTS[e.type]||0),0);}
+function getMageTier(ch){for(let t=4;t>=1;t--){if(ch.exps.some(e=>e.type==='mage'+t))return t;}return 0;}
+function getFeatMax(ch){const t=getMageTier(ch);if(t===1)return 9;if(t===2)return 6;if(t===3)return 4;if(t===4)return 2;return 12;}
+function countFeats(ch){return ch.exps.filter(e=>e.type==='feat').length;}
+function isMutant(ch){return ch.exps.some(e=>e.type==='feat'&&FEATS.find(f=>f.name===e.target&&f.cat==='Mutation'));}
+
+function parseReq(reqStr){
+  if(!reqStr||reqStr==='None'||reqStr==='Vampire'||reqStr==='Mutant')return[];
+  const results=[];
+  reqStr.split(/\s+and\s+|\s+or\s+/i).forEach(part=>{
+    part=part.trim();
+    const m=part.match(/^([A-Z]+(?::\s*[A-Za-z]+)?)\s*([+-]?\d+)$/i);
+    if(!m)return;
+    const sp=m[1].trim().toLowerCase(),val=parseInt(m[2]);
+    const ab={dex:'dexterity',int:'intelligence',har:'harmony',str:'strength'};
+    const found=SKM[sp]??SKM[ab[sp]||sp]??null;
+    if(found!==null&&found!==undefined)results.push({key:found,min:val,label:m[1]});
+  });
+  return results;
+}
+
+function checkFeatReq(feat,ch){
+  const req=feat.req||'None';
+  if(req==='None')return{met:true,reason:''};
+  if(req==='Vampire')return ch.isVampire?{met:true,reason:''}:{met:false,reason:'Requires: Vampire'};
+  if(req==='Mutant')return{met:true,reason:''};
+  const failed=[];
+  parseReq(req).forEach(r=>{
+    const val=r.key&&typeof r.key==='object'?fullTot(ch,r.key.sub,r.key.par):statTot(ch,r.key);
+    if(val<r.min)failed.push(`${r.label} ${r.min>=0?'+':''}${r.min} (have ${val>=0?'+':''}${val})`);
+  });
+  return failed.length>0?{met:false,reason:'Needs: '+failed.join(', ')}:{met:true,reason:''};
+}
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  STATE                                                   ║
+// ╚══════════════════════════════════════════════════════════╝
+let chars=[], activeId='';
+function getChar(){return chars.find(c=>c.id===activeId)||chars[0]||null;}
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  BUILD UI                                                ║
+// ╚══════════════════════════════════════════════════════════╝
+function buildTypeDropdown(){
+  const sel=document.getElementById('new-type');
+  sel.innerHTML='<option value="">— Add expenditure —</option>';
+  Object.keys(COSTS).forEach(type=>{
+    const opt=document.createElement('option');
+    opt.value=type; if(type.startsWith('mage'))opt.id='opt-'+type;
+    const costLabel=COSTS[type]>0?` (${COSTS[type]} XP)`:'';
+    opt.textContent=(LABELS[type]||type)+costLabel;
+    sel.appendChild(opt);
+  });
+}
+
+function makeFeatSel(idx,currentVal,ch){
+  const cats=[...new Set(FEATS.map(f=>f.cat))];
+  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="">— pick feat —</option>`;
+  cats.forEach(cat=>{
+    html+=`<optgroup label="— ${cat} —">`;
+    FEATS.filter(f=>f.cat===cat).forEach(f=>{
+      const chk=checkFeatReq(f,ch);
+      const tip=!chk.met?chk.reason:(f.req!=='None'&&f.req!=='Mutant'?'Requires: '+f.req:'');
+      html+=`<option value="${f.name}"${currentVal===f.name?' selected':''}${!chk.met?' disabled':''} title="${tip}">${!chk.met?'○ ':''}${f.name}${f.limited?' ✦':''}${!chk.met?' ('+chk.reason+')':''}</option>`;
+    });
+    html+=`</optgroup>`;
+  });
+  return html+'</select>';
+}
+
+function hindPreview(name,list){
+  const h=list.find(x=>x.name===name);
+  return h?`<div class="feat-preview" style="margin-top:4px"><b>${h.name}</b><div class="fx">${h.desc}</div></div>`:'';
+}
+
+function buildStats(){
+  const ch=getChar();if(!ch)return;
+  const el=document.getElementById('stats-panel');el.innerHTML='';
+  STATS.forEach(g=>{
+    const pv=statTot(ch,g.key);
+    const grp=document.createElement('div');grp.className='stat-group';
+    grp.innerHTML=`<div class="stat-par"><span class="stat-par-name">${g.group}</span><span class="stat-par-val">${pv>=0?'+':''}${pv}</span></div>`;
+    g.subs.forEach(s=>{
+      const sv=statTot(ch,s.key),tot=fullTot(ch,s.key,g.key);
+      const row=document.createElement('div');row.className='stat-sub';
+      row.innerHTML=`<span class="stat-sub-name">${s.name} <span class="stat-sub-mod">(${sv>=0?'+':''}${sv})</span></span><span class="stat-sub-val">${tot>=0?'+':''}${tot}</span>`;
+      grp.appendChild(row);
+    });
+    el.appendChild(grp);
+  });
+}
+
+function buildExps(){
+  const ch=getChar();if(!ch)return;
+  const tbody=document.getElementById('exp-body');tbody.innerHTML='';
+  const tier=getMageTier(ch),maxFeats=getFeatMax(ch),featCount=countFeats(ch);
+
+  const counter=document.getElementById('feat-counter');
+  if(tier>0){
+    counter.style.display='flex';
+    const cl=featCount>maxFeats?'fc-over':featCount===maxFeats?'fc-warn':'fc-ok';
+    counter.innerHTML=`<span class="${cl}">${featCount} / ${maxFeats} feats used (Mage ${tier})</span>`;
+  }else{counter.style.display='none';}
+
+  const notices=document.getElementById('notices');notices.innerHTML='';
+  const addN=(msg,cls)=>{const n=document.createElement('div');n.className='notice-bar '+cls;n.textContent=msg;notices.appendChild(n);};
+  if(featCount>maxFeats)addN(`Too many feats: you have ${featCount} but Mage ${tier} limits you to ${maxFeats}.`,'nb-danger');
+  for(let t=2;t<=4;t++){
+    const mExp=ch.exps.find(e=>e.type==='mage'+t);
+    if(!mExp)continue;
+    if(!((mExp.hindrances||[])[0]))addN(`Mage ${t} requires 1 arcane hindrance — select it on the Mage ${t} row.`,'nb-warning');
+  }
+
+  ch.exps.forEach((e,i)=>{
+    const tr=document.createElement('tr');
+    const cost=COSTS[e.type]||0;
+    let sel='';
+
+    if(e.type==='skill_up'){
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="">— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+    }else if(e.type==='stat_up'){
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="">— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+    }else if(e.type==='skill_tr'){
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="">↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="">↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+    }else if(e.type==='stat_tr'){
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="">↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="">↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+    }else if(e.type==='feat'){
+      const feat=FEATS.find(f=>f.name===e.target);
+      const isMutFeat=feat&&feat.cat==='Mutation';
+      sel=makeFeatSel(i,e.target,ch);
+      if(feat){
+        const chk=checkFeatReq(feat,ch);
+        sel+=`<div class="feat-preview"><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}<div class="fx">${feat.desc}</div><div class="req">Requires: ${feat.req}${!chk.met?` <span style="color:var(--danger)">— not met</span>`:''}</div></div>`;
+      }
+      if(isMutFeat){
+        const hv=e.hindrance||'';
+        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="">— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
+      }
+    }else if(e.type.startsWith('mage')){
+      const t=parseInt(e.type.slice(-1));
+      const needsH=t>=2,hv=(e.hindrances||[])[0]||'';
+      let inner=`<div class="inline-block-title">${LABELS[e.type]||'Mage '+t} — feat limit: ${getFeatMax({...ch,exps:[{type:'mage'+t}]})}${needsH?', +1 arcane hindrance required':''}</div>`;
+      if(needsH){
+        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="">— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
+      }
+      sel=`<div class="inline-block">${inner}</div>`;
+    }
+
+    tr.innerHTML=`
+      <td style="color:var(--text-muted);font-size:12px;padding-top:7px">${i+1}</td>
+      <td style="padding-top:7px"><span class="badge ${BADGES[e.type]||''}">${LABELS[e.type]||e.type}</span></td>
+      <td>${sel}</td>
+      <td style="padding-top:7px;font-size:12px;font-weight:600;color:var(--text-secondary)">${cost>0?cost+' XP':'—'}</td>
+      <td style="padding-top:5px"><button class="btn btn-sm btn-danger del-e" data-i="${i}" style="padding:3px 6px" title="Remove"><i class="ti ti-x"></i></button></td>`;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('.exp-sel:not(.mage-hind-sel):not(.mut-hind-sel)').forEach(s=>{
+    s.addEventListener('change',ev=>{
+      const i=parseInt(ev.target.dataset.i),f=ev.target.dataset.f;
+      ch.exps[i][f]=ev.target.value;
+      if(f==='target'){const feat=FEATS.find(x=>x.name===ev.target.value);if(!feat||feat.cat!=='Mutation')ch.exps[i].hindrance='';}
+      refreshAll();
+    });
+  });
+  tbody.querySelectorAll('.mut-hind-sel').forEach(s=>{
+    s.addEventListener('change',ev=>{ch.exps[parseInt(ev.target.dataset.i)].hindrance=ev.target.value;refreshAll();});
+  });
+  tbody.querySelectorAll('.mage-hind-sel').forEach(s=>{
+    s.addEventListener('change',ev=>{
+      const i=parseInt(ev.target.dataset.i);
+      if(!ch.exps[i].hindrances)ch.exps[i].hindrances=[];
+      ch.exps[i].hindrances[0]=ev.target.value;refreshAll();
+    });
+  });
+  tbody.querySelectorAll('.del-e').forEach(b=>{
+    b.addEventListener('click',()=>{ch.exps.splice(parseInt(b.dataset.i),1);refreshAll();});
+  });
+  updateMageOpts(ch);
+}
+
+function updateMageOpts(ch){
+  const tier=getMageTier(ch);
+  for(let t=1;t<=4;t++){
+    const opt=document.getElementById('opt-mage'+t);if(!opt)continue;
+    const prereqMet=t===1||tier>=t-1,has=ch.exps.some(e=>e.type==='mage'+t);
+    opt.disabled=!prereqMet||has;
+    const base=LABELS['mage'+t]||'Mage '+t;
+    opt.textContent=base+(has?' (added)':!prereqMet?` (requires Mage ${t-1})`:'');
+  }
+}
+
+function refreshXP(){
+  const ch=getChar();if(!ch)return;
+  const tot=parseInt(document.getElementById('xp-total').value)||0;ch.xpTotal=tot;
+  const used=xpUsed(ch),rem=tot-used;
+  document.getElementById('xp-used').textContent=used;
+  const remEl=document.getElementById('xp-rem');
+  remEl.textContent=rem;
+  remEl.className='xp-big'+(rem<0?' danger':' remain');
+}
+
+function refreshTraits(){
+  const ch=getChar();if(!ch)return;
+  document.getElementById('is-vampire').checked=ch.isVampire||false;
+  document.getElementById('vamp-box').classList.toggle('active-vampire',ch.isVampire||false);
+  const mut=isMutant(ch);
+  document.getElementById('mutant-box').classList.toggle('active-mutant',mut);
+  document.getElementById('mutant-label').textContent=mut?'Mutant (auto-detected)':'Mutant';
+}
+
+function buildWeapons(){
+  const ch=getChar();if(!ch)return;
+  const tbl=document.getElementById('wtbl');
+  tbl.innerHTML=`<thead><tr><th>Weapon</th><th>Requirement</th><th style="text-align:center">Can use?</th><th style="text-align:center">To hit</th><th style="text-align:center">Hands</th><th style="text-align:center">Dmg</th><th style="text-align:center">Acts</th><th style="text-align:center">Dmg/turn</th><th>Notes</th></tr></thead>`;
+  const tb=document.createElement('tbody');let lastCat='';
+  WEAPONS.forEach(w=>{
+    if(w.cat!==lastCat){const cr=document.createElement('tr');cr.className='wtbl-cat';cr.innerHTML=`<td colspan="9">${w.cat}</td>`;tb.appendChild(cr);lastCat=w.cat;}
+    const can=checkW(w,ch);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${w.name}</td><td style="font-size:11px;color:var(--text-muted)">${w.req}</td><td style="text-align:center"><span class="${can?'can-use':'no-use'}">${can?'✓':'—'}</span></td><td style="text-align:center">${w.hit!==null?w.hit:'—'}</td><td style="text-align:center">${w.hands!==null?w.hands:'—'}</td><td style="text-align:center">${w.dmg!==null?w.dmg:'—'}</td><td style="text-align:center">${w.acts!==null?w.acts:'—'}</td><td style="text-align:center">${w.dpt!==null?w.dpt:'—'}</td><td style="font-size:11px;color:var(--text-muted)">${w.notes}</td>`;
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+}
+function checkW(w,ch){
+  return w.req.split(',').map(s=>s.trim()).every(p=>{
+    const m=p.match(/^(.+?)\s*([+-]?\d+)\s*$/);if(!m)return false;
+    const need=parseInt(m[2]),sn=m[1].trim().toLowerCase();
+    let val=0;
+    STATS.forEach(g=>{
+      if(g.group.toLowerCase()===sn)val=statTot(ch,g.key);
+      g.subs.forEach(s=>{if((g.group+': '+s.name).toLowerCase()===sn)val=fullTot(ch,s.key,g.key);});
+    });
+    return val>=need;
+  });
+}
+
+function buildDC(){
+  const sel=document.getElementById('dc-stat');sel.innerHTML='';
+  STATS.forEach(g=>g.subs.forEach(s=>{
+    const o=document.createElement('option');o.value=s.key+'|'+g.key;o.textContent=g.group+': '+s.name;sel.appendChild(o);
+  }));
+  [sel,document.getElementById('dc-val'),document.getElementById('dc-mod')].forEach(el=>el.addEventListener('input',refreshDC));
+}
+function refreshDC(){
+  const ch=getChar();if(!ch)return;
+  const pts=document.getElementById('dc-stat').value.split('|');
+  const eff=fullTot(ch,pts[0],pts[1])+(parseInt(document.getElementById('dc-mod').value)||0);
+  const dc=parseInt(document.getElementById('dc-val').value)||10;
+  let pass=0;for(let d1=1;d1<=10;d1++)for(let d2=1;d2<=10;d2++){if(d1+d2+eff>=dc)pass++;}
+  const pct=Math.round(pass);
+  document.getElementById('prob-pct').textContent=pct+'%';
+  document.getElementById('prob-desc').textContent=`chance of passing DC ${dc} (effective: ${eff>=0?'+':''}${eff})`;
+  const box=document.getElementById('prob-box'),pp=document.getElementById('prob-pct'),pd=document.getElementById('prob-desc');
+  const [bg,bc,tc]=pct>=70?['var(--success-dim)','var(--success-border)','var(--success)']:pct>=40?['var(--warning-dim)','var(--warning-border)','var(--warning)']:['var(--danger-dim)','var(--danger-border)','var(--danger)'];
+  box.style.background=bg;box.style.borderColor=bc;pp.style.color=tc;pd.style.color=tc;
+}
+
+function buildCharSel(){
+  const el=document.getElementById('char-sel');el.innerHTML='';
+  chars.forEach(c=>{
+    const btn=document.createElement('div');btn.className='char-slot'+(c.id===activeId?' active':'');
+    btn.innerHTML=`<i class="ti ti-user"></i><span>${c.name||'Unnamed'}</span><span class="del" title="Delete character">×</span>`;
+    btn.addEventListener('click',e=>{if(e.target.classList.contains('del'))return;activeId=c.id;setAct(c.id);renderSheet();});
+    btn.querySelector('.del').addEventListener('click',e=>{e.stopPropagation();showDel(c.id,c.name);});
+    el.appendChild(btn);
+  });
+  const nb=document.createElement('button');nb.className='new-slot';nb.innerHTML='<i class="ti ti-plus"></i> New character';
+  nb.addEventListener('click',()=>{const c=blank('New character '+(chars.length+1));chars.push(c);saveAll(chars);activeId=c.id;setAct(c.id);renderSheet();});
+  el.appendChild(nb);
+}
+
+function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refreshDC();refreshTraits();}
+
+function renderSheet(){
+  buildCharSel();
+  const ch=getChar();if(!ch)return;
+  document.getElementById('char-name').value=ch.name||'';
+  document.getElementById('xp-total').value=ch.xpTotal||200;
+  document.getElementById('is-vampire').checked=ch.isVampire||false;
+  refreshAll();
+}
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  EVENT LISTENERS                                         ║
+// ╚══════════════════════════════════════════════════════════╝
+document.getElementById('add-btn').addEventListener('click',()=>{
+  const sel=document.getElementById('new-type');const type=sel.value;if(!type)return;
+  const ch=getChar();if(!ch)return;
+  const errEl=document.getElementById('add-err');errEl.style.display='none';
+  if(type.startsWith('mage')){
+    const t=parseInt(type.slice(-1));
+    if(t>1&&!ch.exps.some(e=>e.type==='mage'+(t-1))){errEl.textContent=`Requires ${LABELS['mage'+(t-1)]||'Mage '+(t-1)} first.`;errEl.style.display='';sel.value='';return;}
+    if(ch.exps.some(e=>e.type===type)){errEl.textContent=`${LABELS[type]||'Mage '+t} already added.`;errEl.style.display='';sel.value='';return;}
+    ch.exps.push({type,target:'',trade:'',hindrances:[]});
+  }else{
+    ch.exps.push({type,target:'',trade:'',hindrance:'',hindrances:[]});
+  }
+  sel.value='';refreshAll();
+});
+
+document.getElementById('char-name').addEventListener('input',e=>{const ch=getChar();if(ch){ch.name=e.target.value;buildCharSel();}});
+document.getElementById('xp-total').addEventListener('input',refreshXP);
+document.getElementById('is-vampire').addEventListener('change',e=>{const ch=getChar();if(!ch)return;ch.isVampire=e.target.checked;refreshAll();});
+
+document.getElementById('save-btn').addEventListener('click',()=>{
+  const ch=getChar();if(!ch)return;
+  ch.name=document.getElementById('char-name').value||ch.name;saveAll(chars);
+  const btn=document.getElementById('save-btn');const orig=btn.innerHTML;
+  btn.innerHTML='<i class="ti ti-check"></i> Saved!';
+  setTimeout(()=>{btn.innerHTML=orig;},1500);
+});
+
+document.getElementById('exp-btn').addEventListener('click',()=>{
+  const ch=getChar();if(!ch)return;
+  const blob=new Blob([JSON.stringify(ch,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=(ch.name||'character').replace(/[^a-z0-9]/gi,'_').toLowerCase()+'.json';a.click();
+});
+
+let pendingImp=null;
+document.getElementById('imp-file').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);if(!d.name)throw new Error('Missing name field');
+      pendingImp=d;
+      document.getElementById('imp-preview').innerHTML=`<b>${d.name}</b><br><span style="color:var(--text-muted);font-size:12px">Total XP: ${d.xpTotal||200} · ${(d.exps||[]).length} expenditures</span>`;
+      document.getElementById('imp-modal').classList.remove('hidden');
+    }catch{alert('This doesn\'t look like a valid Avalore character file.');}
+  };
+  r.readAsText(f);e.target.value='';
+});
+document.getElementById('imp-confirm').addEventListener('click',()=>{
+  if(!pendingImp)return;
+  const nc={...pendingImp,id:Date.now()+'_'+Math.random().toString(36).slice(2)};
+  chars.push(nc);saveAll(chars);activeId=nc.id;setAct(activeId);
+  document.getElementById('imp-modal').classList.add('hidden');pendingImp=null;renderSheet();
+});
+document.getElementById('imp-cancel').addEventListener('click',()=>{
+  document.getElementById('imp-modal').classList.add('hidden');pendingImp=null;
+});
+
+let delId=null;
+function showDel(id,name){
+  delId=id;
+  document.getElementById('del-msg').textContent=`"${name||'Unnamed'}" will be permanently removed from your saves. This cannot be undone.`;
+  document.getElementById('del-modal').classList.remove('hidden');
+}
+document.getElementById('del-confirm').addEventListener('click',()=>{
+  chars=chars.filter(c=>c.id!==delId);saveAll(chars);
+  if(activeId===delId){activeId=chars[0]?.id||'';setAct(activeId);}
+  document.getElementById('del-modal').classList.add('hidden');delId=null;renderSheet();
+});
+document.getElementById('del-cancel').addEventListener('click',()=>{
+  document.getElementById('del-modal').classList.add('hidden');delId=null;
+});
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  BOOT                                                    ║
+// ╚══════════════════════════════════════════════════════════╝
+(async()=>{
+  const dot=document.getElementById('data-dot');
+  const statusText=document.getElementById('data-status-text');
+  try{
+    await loadSheetData();
+    chars=loadAll();activeId=getAct();
+    if(chars.length===0){const c=blank('My character');chars.push(c);saveAll(chars);activeId=c.id;setAct(c.id);}
+    if(!chars.find(c=>c.id===activeId)&&chars.length>0){activeId=chars[0].id;setAct(activeId);}
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('main-content').classList.remove('hidden');
+    buildTypeDropdown();buildDC();renderSheet();
+    dot.className='data-dot';
+    statusText.textContent='Data loaded';
+    setTimeout(()=>document.getElementById('data-status').style.opacity='0',2500);
+  }catch(err){
+    document.getElementById('loading-screen').innerHTML=`
+      <div class="err-box">
+        <h3>Couldn't load game data</h3>
+        <p>Make sure the Google Sheet is published to the web:<br><br>
+        <b>File → Share → Publish to web</b> → publish each tab as CSV.<br><br>
+        <small style="color:var(--text-muted)">${err.message}</small></p>
+      </div>`;
+    dot.className='data-dot err';
+    statusText.textContent='Sheet load failed';
+  }
+})();
+</script>
+</body>
+</html>
