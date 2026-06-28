@@ -1317,59 +1317,74 @@ function buildFeatures() {
 // ╔══════════════════════════════════════════════════════════╗
 // ║  URL SHARING                                             ║
 // ╚══════════════════════════════════════════════════════════╝
-// Key mapping for compact encoding
-// Full key -> short key
-const KEY_MAP = { type:'y', target:'t', trade:'d', hindrance:'h', hindrances:'hs', id:'i', name:'n', xpTotal:'x', isVampire:'v', exps:'e' };
-const KEY_UNMAP = Object.fromEntries(Object.entries(KEY_MAP).map(([k,v])=>[v,k]));
+// ── Encoding helpers ─────────────────────────────────────────
+// Stat/skill keys are short already so we use them directly.
+// For feats, hindrances — we use the index in the live sheet arrays.
+// Type codes: single chars to replace type strings
+const TYPE_CODE = {
+  feat:'f', skill_up:'su', skill_tr:'st', stat_up:'pu', stat_tr:'pt',
+  mage1:'m1', mage2:'m2', mage3:'m3', mage4:'m4'
+};
+const TYPE_DECODE = Object.fromEntries(Object.entries(TYPE_CODE).map(([k,v])=>[v,k]));
+
+function featIdx(name)    { const i=FEATS.findIndex(f=>f.name===name);             return i>=0?i:name; }
+function featByIdx(i)     { return (typeof i==='number'&&FEATS[i]) ? FEATS[i].name : i; }
+function aHindIdx(name)   { const i=ARCANE_HINDRANCES.findIndex(h=>h.name===name); return i>=0?i:name; }
+function aHindByIdx(i)    { return (typeof i==='number'&&ARCANE_HINDRANCES[i]) ? ARCANE_HINDRANCES[i].name : i; }
+function mHindIdx(name)   { const i=MUTANT_HINDRANCES.findIndex(h=>h.name===name); return i>=0?i:name; }
+function mHindByIdx(i)    { return (typeof i==='number'&&MUTANT_HINDRANCES[i]) ? MUTANT_HINDRANCES[i].name : i; }
 
 function compactExp(exp) {
-  const out = {};
-  // Shorten keys, drop empty/falsy values
-  for (const [k, v] of Object.entries(exp)) {
-    if (v === '' || v === false || (Array.isArray(v) && v.length === 0)) continue;
-    const shortKey = KEY_MAP[k] || k;
-    out[shortKey] = v;
+  const out = { y: TYPE_CODE[exp.type] || exp.type };
+  // target: feat index for feat rows, raw key for stat/skill rows
+  if (exp.target) {
+    if (exp.type === 'feat') out.t = featIdx(exp.target);
+    else out.t = exp.target;
+  }
+  // trade: always a raw stat/skill key
+  if (exp.trade) out.d = exp.trade;
+  // mutant hindrance: index
+  if (exp.hindrance) out.h = mHindIdx(exp.hindrance);
+  // arcane hindrances array: indices
+  if (exp.hindrances && exp.hindrances.length > 0) {
+    const hs = exp.hindrances.filter(Boolean).map(aHindIdx);
+    if (hs.length > 0) out.hs = hs;
   }
   return out;
 }
 
 function expandExp(exp) {
-  const out = { type:'', target:'', trade:'', hindrance:'', hindrances:[] };
-  for (const [k, v] of Object.entries(exp)) {
-    const fullKey = KEY_UNMAP[k] || k;
-    out[fullKey] = v;
+  const type = TYPE_DECODE[exp.y] || exp.y || '';
+  const out = { type, target:'', trade:'', hindrance:'', hindrances:[] };
+  if (exp.t !== undefined) {
+    out.target = (type === 'feat') ? featByIdx(exp.t) : exp.t;
   }
+  if (exp.d !== undefined) out.trade = exp.d;
+  if (exp.h !== undefined) out.hindrance = mHindByIdx(exp.h);
+  if (exp.hs)              out.hindrances = exp.hs.map(aHindByIdx);
   return out;
 }
 
 function encodeCharForURL(ch) {
-  // Strip portrait, compact keys, drop empty fields
-  const compact = {
-    [KEY_MAP.id]:       ch.id,
-    [KEY_MAP.name]:     ch.name,
-    [KEY_MAP.xpTotal]:  ch.xpTotal,
-  };
-  if (ch.isVampire) compact[KEY_MAP.isVampire] = true;
-  compact[KEY_MAP.exps] = (ch.exps || []).map(compactExp);
-  const json = JSON.stringify(compact);
-  return LZString.compressToEncodedURIComponent(json);
+  const compact = { i:ch.id, n:ch.name, x:ch.xpTotal };
+  if (ch.isVampire) compact.v = 1;
+  compact.e = (ch.exps||[]).map(compactExp);
+  return LZString.compressToEncodedURIComponent(JSON.stringify(compact));
 }
 
 function decodeCharFromURL(str) {
   try {
     const json = LZString.decompressFromEncodedURIComponent(str);
     if (!json) return null;
-    const compact = JSON.parse(json);
-    // Expand back to full keys
-    const ch = {
-      id:        compact[KEY_MAP.id] || 'shared',
-      name:      compact[KEY_MAP.name] || '',
-      xpTotal:   compact[KEY_MAP.xpTotal] || 200,
-      isVampire: compact[KEY_MAP.isVampire] || false,
-      exps:      (compact[KEY_MAP.exps] || []).map(expandExp),
+    const c = JSON.parse(json);
+    return {
+      id:        c.i || 'shared',
+      name:      c.n || '',
+      xpTotal:   c.x || 200,
+      isVampire: !!c.v,
+      exps:      (c.e||[]).map(expandExp),
     };
-    return ch;
-  } catch { return null; }
+  } catch(err) { console.error('Decode error:', err); return null; }
 }
 
 function generateShareURL(ch) {
