@@ -612,7 +612,7 @@ body { min-height: 100vh; }
 <div id="share-modal" class="modal-back hidden">
   <div class="modal">
     <h3>Share Character</h3>
-    <p>Anyone with this link can view this character in read-only mode. The URL includes all character data — portrait included, so it may be long.</p>
+    <p>Anyone with this link can view this character in read-only mode. The URL includes all character data except the portrait image, keeping it as short as possible.</p>
     <textarea class="share-url-box" id="share-url-box" rows="4" readonly></textarea>
     <div class="modal-btns">
       <button class="btn" id="share-close">Close</button>
@@ -1318,7 +1318,9 @@ function buildFeatures() {
 // ║  URL SHARING                                             ║
 // ╚══════════════════════════════════════════════════════════╝
 function encodeCharForURL(ch) {
-  const json = JSON.stringify(ch);
+  // Strip portrait before encoding — keeps URLs short
+  const { portrait, ...rest } = ch;
+  const json = JSON.stringify(rest);
   return LZString.compressToEncodedURIComponent(json);
 }
 
