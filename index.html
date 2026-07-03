@@ -822,12 +822,27 @@ function splitLine(line) {
 }
 
 async function loadSheetData() {
+  // Fetch each sheet with a 10s timeout; non-critical sheets (weapons, spells)
+  // fail gracefully so a missing/unpublished tab doesn't block the whole load.
+  function fetchSheet(url, name, required = true) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10000);
+    return fetch(url, { signal: ctrl.signal })
+      .then(r => { clearTimeout(timer); if (!r.ok) throw new Error(name + ' returned ' + r.status); return r.text(); })
+      .catch(err => {
+        clearTimeout(timer);
+        if (required) throw new Error(name + ' failed to load: ' + err.message);
+        console.warn(name + ' failed to load (non-critical):', err.message);
+        return ''; // return empty string for non-critical sheets
+      });
+  }
+
   const [fCSV, hCSV, cCSV, wCSV, sCSV] = await Promise.all([
-    fetch(SHEET_URLS.feats).then(r => { if(!r.ok) throw new Error('Feats sheet returned '+r.status); return r.text(); }),
-    fetch(SHEET_URLS.hindrances).then(r => { if(!r.ok) throw new Error('Hindrances sheet returned '+r.status); return r.text(); }),
-    fetch(SHEET_URLS.costs).then(r => { if(!r.ok) throw new Error('Costs sheet returned '+r.status); return r.text(); }),
-    fetch(SHEET_URLS.weapons).then(r => { if(!r.ok) throw new Error('Weapons sheet returned '+r.status); return r.text(); }),
-    fetch(SHEET_URLS.spells).then(r => { if(!r.ok) throw new Error('Spells sheet returned '+r.status); return r.text(); }),
+    fetchSheet(SHEET_URLS.feats,      'Feats',      true),
+    fetchSheet(SHEET_URLS.hindrances, 'Hindrances', true),
+    fetchSheet(SHEET_URLS.costs,      'Costs',      true),
+    fetchSheet(SHEET_URLS.weapons,    'Weapons',    false),
+    fetchSheet(SHEET_URLS.spells,     'Spells',     false),
   ]);
   FEATS = parseCSV(fCSV).map(r => ({
     name: r['Name']||'', cat: r['Category']||'',
