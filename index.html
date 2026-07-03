@@ -672,7 +672,7 @@ option[data-locked="true"] {
 <div id="share-modal" class="modal-back hidden">
   <div class="modal">
     <h3>Share Character</h3>
-    <p>Anyone with this link can view this character in read-only mode. The URL includes all character data except the portrait image, keeping it as short as possible.</p>
+    <p id="share-modal-note">Anyone with this link can view this character in read-only mode. The URL includes all character data except the portrait image, keeping it as short as possible.</p>
     <textarea class="share-url-box" id="share-url-box" rows="4" readonly></textarea>
     <div class="modal-btns">
       <button class="btn" id="share-close">Close</button>
@@ -1511,6 +1511,17 @@ function checkShareMode() {
 
   return true;
 }
+
+document.getElementById('cloud-load-btn').addEventListener('click', () => {
+  document.getElementById('load-uuid-input').value = '';
+  document.getElementById('load-uuid-err').style.display = 'none';
+  document.getElementById('cloud-load-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('load-uuid-input').focus(), 50);
+});
+
+document.getElementById('cloud-load-cancel').addEventListener('click', () => {
+  document.getElementById('cloud-load-modal').classList.add('hidden');
+});
 
 document.getElementById('share-btn').addEventListener('click', () => {
   const ch = getChar(); if (!ch) return;
