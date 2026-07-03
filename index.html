@@ -786,17 +786,9 @@ option[data-locked="true"] {
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznL9u4S4plZl2IkWB84Fzu-aCt_BWSH7fU4NklTKvmlLPSk7JFHZznYWNXOXc0OJg/exec';
 
 // ╔══════════════════════════════════════════════════════════╗
-// ║  GOOGLE SHEETS CONFIG                                    ║
-// ║  To update: change the gid values to match your sheet   ║
+// ║  GOOGLE SHEETS CONFIG (data sheets removed — see data/)  ║
+// ║  Apps Script URL for character cloud save/load is above  ║
 // ╚══════════════════════════════════════════════════════════╝
-const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSumrsps-seGalo9a4-k_c8ki78AbtYmg8oQ-kYE9TqA3Jk3s8nR8XBpibB76yfb6NMQ77y5mIatpy2/pub';
-const SHEET_URLS = {
-  feats:      SHEET_BASE + '?gid=315087813&single=true&output=csv',
-  hindrances: SHEET_BASE + '?gid=1409015949&single=true&output=csv',
-  costs:      SHEET_BASE + '?gid=1918420385&single=true&output=csv',
-  weapons:    SHEET_BASE + '?gid=493022931&single=true&output=csv',
-  spells:     SHEET_BASE + '?gid=97339655&single=true&output=csv',
-};
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  GAME DATA (loaded from sheets)                          ║
@@ -831,74 +823,9 @@ function splitLine(line) {
 }
 
 async function loadSheetData() {
-  // Fetch each sheet with a 10s timeout; non-critical sheets (weapons, spells)
-  // fail gracefully so a missing/unpublished tab doesn't block the whole load.
-  function fetchSheet(url, name, required = true) {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 10000);
-    return fetch(url, { signal: ctrl.signal })
-      .then(r => { clearTimeout(timer); if (!r.ok) throw new Error(name + ' returned ' + r.status); return r.text(); })
-      .catch(err => {
-        clearTimeout(timer);
-        if (required) throw new Error(name + ' failed to load: ' + err.message);
-        console.warn(name + ' failed to load (non-critical):', err.message);
-        return ''; // return empty string for non-critical sheets
-      });
-  }
-
-  const [fCSV, hCSV, cCSV, wCSV, sCSV] = await Promise.all([
-    fetchSheet(SHEET_URLS.feats,      'Feats',      true),
-    fetchSheet(SHEET_URLS.hindrances, 'Hindrances', true),
-    fetchSheet(SHEET_URLS.costs,      'Costs',      true),
-    fetchSheet(SHEET_URLS.weapons,    'Weapons',    false),
-    fetchSheet(SHEET_URLS.spells,     'Spells',     false),
-  ]);
-  FEATS = parseCSV(fCSV).map(r => ({
-    name: r['Name']||'', cat: r['Category']||'',
-    req: r['Requirement']||'None', desc: r['Description']||'',
-    limited: (r['Limited']||'').toLowerCase()==='true',
-  })).filter(f => f.name);
-  const hRows = parseCSV(hCSV);
-  ARCANE_HINDRANCES = hRows.filter(r=>(r['Type']||'').toLowerCase()==='arcane').map(r=>({name:r['Name'],desc:r['Description']}));
-  MUTANT_HINDRANCES = hRows.filter(r=>(r['Type']||'').toLowerCase()==='mutant').map(r=>({name:r['Name'],desc:r['Description']}));
-  parseCSV(cCSV).forEach(r => {
-    const t = r['Type']||''; if(!t) return;
-    COSTS[t] = parseInt(r['XP Cost'])||0;
-    LABELS[t] = r['Label']||t;
-  });
-
-  // Parse spells
-  const sRows = parseCSV(sCSV);
-  if (sRows.length > 0) {
-    SPELLS = sRows.filter(r => r['Name']).map(r => ({
-      branch:   r['Branch'] || '',
-      name:     r['Name'] || '',
-      anima:    r['Anima Cost'] !== '' ? parseInt(r['Anima Cost']) : 0,
-      actions:  r['Actions'] || '',
-      cmd:      r['Cast Command'] || '',
-      req:      r['Requirement'] || 'None',
-      patron:   r['Patron'] || '',
-      capstone: (r['Capstone'] || '').toLowerCase() === 'capstone',
-      targeted: (r['Targeted'] || '').toLowerCase() === 'true',
-      desc:     r['Description'] || '',
-    }));
-  }
-
-  // Parse weapons — overwrite the static fallback
-  const wRows = parseCSV(wCSV);
-  if (wRows.length > 0) {
-    WEAPONS = wRows.filter(r => r['Name']).map(r => ({
-      cat:   r['Category'] || '',
-      name:  r['Name'] || '',
-      req:   r['Requirement'] || '',
-      hit:   r['To Hit'] !== '' ? parseInt(r['To Hit']) : null,
-      hands: r['Hands'] !== '' ? parseInt(r['Hands']) : null,
-      dmg:   r['Damage'] !== '' ? parseInt(r['Damage']) : null,
-      acts:  r['Actions'] !== '' ? parseInt(r['Actions']) : null,
-      dpt:   r['Damage Per Turn'] !== '' ? parseInt(r['Damage Per Turn']) : null,
-      notes: r['Notes'] || '',
-    }));
-  }
+  // Data is loaded from local JS files in data/ — no sheet fetch needed.
+  // This function is kept as a no-op so cloud save/load still works via Apps Script.
+  return Promise.resolve();
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -2157,24 +2084,10 @@ function buildSpellsTab() {
   if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
   refreshTypeDropdown();refreshStatusBar();
 
-  // ── Step 2: fetch sheets in background; refresh if data changes ──
-  dot.className='data-dot loading';
-  statusText.textContent='Syncing data…';
-  try {
-    await loadSheetData();
-    dot.className='data-dot';
-    statusText.textContent='Data synced';
-    // Rebuild everything with updated sheet data
-    buildTypeDropdown();
-    if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
-    refreshTypeDropdown();refreshStatusBar();
-    setTimeout(()=>document.getElementById('data-status').style.opacity='0',2500);
-  } catch(err) {
-    dot.className='data-dot err';
-    statusText.textContent='Using cached data';
-    console.warn('Sheet sync failed:', err.message);
-    setTimeout(()=>document.getElementById('data-status').style.opacity='0',4000);
-  }
+  // Data is loaded from local JS files — no sheet sync needed
+  dot.className='data-dot';
+  statusText.textContent='Ready';
+  setTimeout(()=>document.getElementById('data-status').style.opacity='0',1500);
 })();
 </script>
 </body>
