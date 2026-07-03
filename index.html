@@ -492,6 +492,56 @@ option[data-locked="true"] {
 .autosave-status.dirty  { color: var(--warning); }
 .autosave-status.saved  { color: var(--success); }
 
+
+/* ── Spells tab ── */
+.spell-branch-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 0; border-bottom: 1px solid var(--border);
+  margin-top: 14px; margin-bottom: 4px;
+}
+.spell-branch-header:first-of-type { margin-top: 0; }
+.spell-branch-name {
+  font-size: 13px; font-weight: 600; font-family: var(--font-display);
+  color: var(--gold-text); letter-spacing: 0.03em;
+}
+.spell-row {
+  display: grid;
+  grid-template-columns: 1fr 52px 52px auto;
+  gap: 0 10px; align-items: start;
+  padding: 6px 0 6px 10px; border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.spell-row:last-child { border-bottom: none; }
+.spell-name { font-weight: 500; color: var(--text-secondary); }
+.spell-name.capstone { color: var(--accent-text); }
+.spell-anima { font-size: 11px; color: var(--text-muted); text-align: center; }
+.spell-actions { font-size: 11px; color: var(--text-muted); text-align: center; }
+.spell-fav {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-size: 14px; padding: 0 4px;
+  transition: color 0.15s;
+}
+.spell-fav:hover { color: var(--gold); }
+.spell-fav.active { color: var(--gold); }
+.spell-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; grid-column: 1/-1; line-height: 1.5; }
+.spell-req { font-size: 10px; color: var(--text-muted); margin-top: 1px; font-style: italic; }
+.spell-cmd { font-family: monospace; font-size: 10px; color: var(--accent-text); }
+.spell-targeted { font-size: 10px; color: var(--warning); margin-left: 5px; }
+.no-mage-notice { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 1rem 0; }
+.cantrip-slots { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+.cantrip-slot {
+  flex: 1; min-width: 160px; background: var(--surface-1);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 8px 10px; font-size: 12px;
+}
+.cantrip-slot-title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; font-family: var(--font-display); }
+.cantrip-slot select { width: 100%; font-size: 12px; padding: 3px 5px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); font-family: var(--font-body); }
+.mage-config { background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 1rem; font-size: 12px; }
+.mage-config-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.mage-config-row:last-child { margin-bottom: 0; }
+.mage-config-lbl { font-size: 11px; color: var(--text-muted); min-width: 120px; }
+.mage-config select { font-size: 12px; padding: 3px 6px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); flex: 1; font-family: var(--font-body); }
+
 </style>
 </head>
 <body>
@@ -535,7 +585,10 @@ option[data-locked="true"] {
           <div style="display:flex;flex-direction:column;gap:8px">
             <div>
               <div class="char-name-lbl">Character name</div>
-              <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px">
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px;flex:1">
+                <span id="char-uuid-display" style="font-family:monospace;font-size:11px;color:var(--text-muted);white-space:nowrap;padding-bottom:3px;cursor:pointer" title="Click to copy code"></span>
+              </div>
             </div>
             <div class="trait-boxes">
               <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
@@ -607,6 +660,7 @@ option[data-locked="true"] {
       <div class="tab-bar">
         <button class="tab-btn active" id="tab-exp-btn" onclick="switchTab('exp')"><i class="ti ti-coins"></i> Expenditure</button>
         <button class="tab-btn" id="tab-wpn-btn" onclick="switchTab('wpn')"><i class="ti ti-sword"></i> Weapons & Equipment</button>
+        <button class="tab-btn" id="tab-spl-btn" onclick="switchTab('spl')"><i class="ti ti-sparkles"></i> Spells</button>
       </div>
 
       <!-- Expenditure tab -->
@@ -641,6 +695,11 @@ option[data-locked="true"] {
             <span class="exp-status-val exp-status-ok" id="sb-feats">0 / 12</span>
           </div>
         </div>
+      </div>
+
+      <!-- Spells tab -->
+      <div class="tab-panel hidden" id="tab-spl">
+        <div id="spells-panel"></div>
       </div>
 
       <!-- Weapons tab -->
@@ -724,6 +783,7 @@ const SHEET_URLS = {
   hindrances: SHEET_BASE + '?gid=1409015949&single=true&output=csv',
   costs:      SHEET_BASE + '?gid=1918420385&single=true&output=csv',
   weapons:    SHEET_BASE + '?gid=493022931&single=true&output=csv',
+  spells:     SHEET_BASE + '?gid=97339655&single=true&output=csv',
 };
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -755,11 +815,12 @@ function splitLine(line) {
 }
 
 async function loadSheetData() {
-  const [fCSV, hCSV, cCSV, wCSV] = await Promise.all([
+  const [fCSV, hCSV, cCSV, wCSV, sCSV] = await Promise.all([
     fetch(SHEET_URLS.feats).then(r => { if(!r.ok) throw new Error('Feats sheet returned '+r.status); return r.text(); }),
     fetch(SHEET_URLS.hindrances).then(r => { if(!r.ok) throw new Error('Hindrances sheet returned '+r.status); return r.text(); }),
     fetch(SHEET_URLS.costs).then(r => { if(!r.ok) throw new Error('Costs sheet returned '+r.status); return r.text(); }),
     fetch(SHEET_URLS.weapons).then(r => { if(!r.ok) throw new Error('Weapons sheet returned '+r.status); return r.text(); }),
+    fetch(SHEET_URLS.spells).then(r => { if(!r.ok) throw new Error('Spells sheet returned '+r.status); return r.text(); }),
   ]);
   FEATS = parseCSV(fCSV).map(r => ({
     name: r['Name']||'', cat: r['Category']||'',
@@ -774,6 +835,23 @@ async function loadSheetData() {
     COSTS[t] = parseInt(r['XP Cost'])||0;
     LABELS[t] = r['Label']||t;
   });
+
+  // Parse spells
+  const sRows = parseCSV(sCSV);
+  if (sRows.length > 0) {
+    SPELLS = sRows.filter(r => r['Name']).map(r => ({
+      branch:   r['Branch'] || '',
+      name:     r['Name'] || '',
+      anima:    r['Anima Cost'] !== '' ? parseInt(r['Anima Cost']) : 0,
+      actions:  r['Actions'] || '',
+      cmd:      r['Cast Command'] || '',
+      req:      r['Requirement'] || 'None',
+      patron:   r['Patron'] || '',
+      capstone: (r['Capstone'] || '').toLowerCase() === 'capstone',
+      targeted: (r['Targeted'] || '').toLowerCase() === 'true',
+      desc:     r['Description'] || '',
+    }));
+  }
 
   // Parse weapons — overwrite the static fallback
   const wRows = parseCSV(wCSV);
@@ -842,6 +920,12 @@ let WEAPONS=[
   {cat:'Magic',name:'Arcane wand',req:'Har: Arcana +2',hit:2,hands:1,dmg:2,acts:1,dpt:4,notes:'-1 to evasion rolls'},
   {cat:'Magic',name:'Spellbook',req:'Har: Arcana +2',hit:3,hands:2,dmg:4,acts:2,dpt:4,notes:'Armour piercing'},
 ];
+
+let SPELLS = [];
+
+const DISCIPLINES = ['Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+const PATRONS     = ['Myo','The Fey Coterie','The Dreaming One','Facet',"Ciren'na"];
+const OPPOSITES   = { Ichor:'Artifice', Artifice:'Ichor', Tellurgy:'Ether', Ether:'Tellurgy', Force:'Cursesmithy', Cursesmithy:'Force' };
 
 const BADGES={skill_up:'b-ku',skill_tr:'b-kt',stat_up:'b-su',stat_tr:'b-st',feat:'b-ft',mage1:'b-mg',mage2:'b-mg',mage3:'b-mg',mage4:'b-mg'};
 
@@ -1185,6 +1269,7 @@ function renderSheet(){
   const ch=getChar();if(!ch)return;
   resetAutosaveBaseline();
   document.getElementById('char-name').value=ch.name||'';
+  refreshUUIDDisplay();
   document.getElementById('xp-total').value=ch.xpTotal||200;
   document.getElementById('is-vampire').checked=ch.isVampire||false;
 
@@ -1256,10 +1341,12 @@ document.getElementById('del-cancel').addEventListener('click',()=>{
 // ║  TAB SWITCHING                                           ║
 // ╚══════════════════════════════════════════════════════════╝
 function switchTab(tab) {
-  document.getElementById('tab-exp').classList.toggle('hidden', tab !== 'exp');
-  document.getElementById('tab-wpn').classList.toggle('hidden', tab !== 'wpn');
-  document.getElementById('tab-exp-btn').classList.toggle('active', tab === 'exp');
-  document.getElementById('tab-wpn-btn').classList.toggle('active', tab === 'wpn');
+  ['exp','wpn','spl'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('hidden', tab !== t);
+    const btn = document.getElementById('tab-'+t+'-btn');
+    if (btn) btn.classList.toggle('active', tab === t);
+  });
+  if (tab === 'spl') buildSpellsTab();
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -1325,6 +1412,23 @@ function buildFeatures() {
       }
       html += '</div>';
       chip.innerHTML = html;
+      el.appendChild(chip);
+    });
+  }
+
+  // ── Favorited spells ──
+  const ch2 = getChar();
+  const favSpells = (ch2 && ch2.spellFavorites) ? SPELLS.filter(s => ch2.spellFavorites.includes(s.name)) : [];
+  if (favSpells.length > 0) {
+    el.appendChild(secHeader('Favorite Spells'));
+    favSpells.sort((a,b) => a.anima - b.anima).forEach(spell => {
+      const chip = document.createElement('div');
+      chip.className = 'feat-chip';
+      chip.innerHTML = `<div>
+        <span class="feat-chip-name">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}
+        <div class="feat-chip-desc">${spell.desc}</div>
+        <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · ${spell.anima>0?spell.anima+' anima':'cantrip'} · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
+      </div>`;
       el.appendChild(chip);
     });
   }
@@ -1698,6 +1802,7 @@ document.getElementById('cloud-save-btn').addEventListener('click', async () => 
     const uuid = await cloudSaveChar(ch);
     ch.cloudUUID = uuid;
     saveAll(chars);
+    refreshUUIDDisplay();
     // Flash success on button
     btn.innerHTML = '<i class="ti ti-check"></i> Saved!';
     setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2000);
@@ -1781,6 +1886,234 @@ function resetAutosaveBaseline() {
   _autosavePending = false;
   if (_autosaveTimer) { clearTimeout(_autosaveTimer); _autosaveTimer = null; }
   setAutosaveStatus('', '');
+}
+
+
+function refreshUUIDDisplay() {
+  const ch = getChar();
+  const el = document.getElementById('char-uuid-display');
+  if (!el) return;
+  if (ch && ch.cloudUUID) {
+    el.textContent = ch.cloudUUID;
+    el.title = 'Click to copy code';
+    el.onclick = () => {
+      navigator.clipboard.writeText(ch.cloudUUID).then(() => {
+        el.textContent = 'copied!';
+        setTimeout(() => { el.textContent = ch.cloudUUID; }, 1500);
+      });
+    };
+  } else {
+    el.textContent = '';
+    el.title = '';
+    el.onclick = null;
+  }
+}
+
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  SPELLS TAB                                              ║
+// ╚══════════════════════════════════════════════════════════╝
+
+function getMageConfig(ch) {
+  const mage1 = ch.exps.find(e => e.type === 'mage1');
+  return {
+    tier:       getMageTier(ch),
+    discipline: mage1 ? (mage1.discipline || '') : '',
+    patron:     mage1 ? (mage1.patron || '') : '',
+  };
+}
+
+function spellAccessible(spell, ch, cfg) {
+  if (cfg.tier === 0) return false;
+
+  const branch = spell.branch;
+
+  // General cantrips always accessible to any mage
+  if (branch === 'General Cantrip') return true;
+
+  // Patron cantrips — only if patron matches
+  if (branch === 'Patron Cantrip') {
+    return cfg.patron && spell.patron === cfg.patron;
+  }
+
+  // Arcane Bloodline cantrip — handled separately
+
+  // Inherent cantrips for each discipline always accessible
+  const disciplineCantripMap = {
+    'Ichor Cantrip': 'Ichor', 'Cursesmithy Cantrip': 'Cursesmithy',
+    'Ether Cantrip': 'Ether', 'Artifice Cantrip': 'Artifice',
+    'Force Cantrip': 'Force', 'Tellurgy Cantrip': 'Tellurgy',
+  };
+  if (disciplineCantripMap[branch]) {
+    // Branch cantrip accessible if you have that branch at all
+    const requiredDiscipline = disciplineCantripMap[branch];
+    if (OPPOSITES[cfg.discipline] === requiredDiscipline) return false;
+    return true;
+  }
+
+  // Main discipline spells
+  const disciplines = ['Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+  if (disciplines.includes(branch)) {
+    // Can't access opposite branch
+    if (cfg.discipline && OPPOSITES[cfg.discipline] === branch) return false;
+    // Capstones only for primary discipline
+    if (spell.capstone && branch !== cfg.discipline) return false;
+    return true;
+  }
+
+  return false;
+}
+
+function checkSpellReq(spell, ch) {
+  if (!spell.req || spell.req === 'None') return true;
+  // Parse requirement like "HAR: Arcana +2" or "INT: Healing +1"
+  const m = spell.req.match(/^(.+?)\s*([+-]?\d+)$/);
+  if (!m) return true;
+  const sn = m[1].trim().toLowerCase(), need = parseInt(m[2]);
+  let val = 0;
+  STATS.forEach(g => {
+    if (g.group.toLowerCase() === sn) val = statTot(ch, g.key);
+    g.subs.forEach(s => {
+      if ((g.group + ': ' + s.name).toLowerCase() === sn) val = fullTot(ch, s.key, g.key);
+    });
+  });
+  return val >= need;
+}
+
+function buildSpellsTab() {
+  const ch = getChar(); if (!ch) return;
+  const el = document.getElementById('spells-panel'); if (!el) return;
+  el.innerHTML = '';
+  const cfg = getMageConfig(ch);
+
+  if (cfg.tier === 0) {
+    el.innerHTML = '<div class="no-mage-notice">Add a Mage tier in the Expenditure tab to access spells.</div>';
+    return;
+  }
+
+  // ── Mage config row (discipline + patron) ──
+  const configDiv = document.createElement('div');
+  configDiv.className = 'mage-config';
+
+  // Discipline picker
+  const discRow = document.createElement('div');
+  discRow.className = 'mage-config-row';
+  discRow.innerHTML = `<span class="mage-config-lbl">Primary discipline</span>`;
+  const discSel = document.createElement('select');
+  discSel.innerHTML = '<option value="" disabled selected>— pick discipline —</option>' +
+    DISCIPLINES.map(d => `<option value="${d}"${cfg.discipline===d?' selected':''}>${d}</option>`).join('');
+  discSel.addEventListener('change', e => {
+    const mage1 = ch.exps.find(x => x.type === 'mage1');
+    if (mage1) { mage1.discipline = e.target.value; saveAll(chars); buildSpellsTab(); }
+  });
+  discRow.appendChild(discSel);
+  configDiv.appendChild(discRow);
+
+  // Patron picker
+  const patRow = document.createElement('div');
+  patRow.className = 'mage-config-row';
+  patRow.innerHTML = `<span class="mage-config-lbl">Patron</span>`;
+  const patSel = document.createElement('select');
+  patSel.innerHTML = '<option value="" disabled selected>— pick patron —</option>' +
+    PATRONS.map(p => `<option value="${p}"${cfg.patron===p?' selected':''}>${p}</option>`).join('');
+  patSel.addEventListener('change', e => {
+    const mage1 = ch.exps.find(x => x.type === 'mage1');
+    if (mage1) { mage1.patron = e.target.value; saveAll(chars); buildSpellsTab(); }
+  });
+  patRow.appendChild(patSel);
+  configDiv.appendChild(patRow);
+
+  el.appendChild(configDiv);
+
+  // ── Cantrip slots ──
+  const cantripDiv = document.createElement('div');
+  cantripDiv.className = 'cantrip-slots';
+
+  const generalCantrips = SPELLS.filter(s => s.branch === 'General Cantrip');
+  const patronCantrips  = cfg.patron ? SPELLS.filter(s => s.branch === 'Patron Cantrip' && s.patron === cfg.patron) : [];
+
+  function cantripSlot(title, opts, savedKey) {
+    const slot = document.createElement('div');
+    slot.className = 'cantrip-slot';
+    const mage1 = ch.exps.find(x => x.type === 'mage1') || {};
+    const current = mage1[savedKey] || '';
+    slot.innerHTML = `<div class="cantrip-slot-title">${title}</div>`;
+    const sel = document.createElement('select');
+    sel.innerHTML = '<option value="" disabled selected>— pick cantrip —</option>' +
+      opts.map(s => `<option value="${s.name}"${current===s.name?' selected':''}>${s.name}</option>`).join('');
+    sel.addEventListener('change', e => {
+      const m1 = ch.exps.find(x => x.type === 'mage1');
+      if (m1) { m1[savedKey] = e.target.value; saveAll(chars); buildFeatures(); }
+    });
+    slot.appendChild(sel);
+    return slot;
+  }
+
+  cantripDiv.appendChild(cantripSlot('General Cantrip', generalCantrips, 'generalCantrip'));
+  cantripDiv.appendChild(cantripSlot(`Patron Cantrip (${cfg.patron||'pick patron first'})`, patronCantrips, 'patronCantrip'));
+
+  // Arcane bloodline cantrip (if feat exists)
+  const hasBloodline = ch.exps.some(e => e.type === 'feat' && e.target === 'Arcane Bloodline');
+  if (hasBloodline) {
+    cantripDiv.appendChild(cantripSlot('Arcane Bloodline Cantrip', generalCantrips, 'bloodlineCantrip'));
+  }
+  el.appendChild(cantripDiv);
+
+  // ── Spell list grouped by branch, sorted by anima ──
+  const branchOrder = ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip','Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+
+  const accessible = SPELLS.filter(s => spellAccessible(s, ch, cfg));
+  const byBranch = {};
+  accessible.forEach(s => {
+    if (!byBranch[s.branch]) byBranch[s.branch] = [];
+    byBranch[s.branch].push(s);
+  });
+  // Sort within branch by anima cost
+  Object.values(byBranch).forEach(arr => arr.sort((a,b) => a.anima-b.anima));
+
+  const favs = ch.spellFavorites || [];
+
+  branchOrder.forEach(branch => {
+    if (!byBranch[branch] || byBranch[branch].length === 0) return;
+    // Branch header
+    const hdr = document.createElement('div');
+    hdr.className = 'spell-branch-header';
+    hdr.innerHTML = `<span class="spell-branch-name">${branch.replace(' Cantrip', ' — Cantrip')}</span>`;
+    el.appendChild(hdr);
+
+    byBranch[branch].forEach(spell => {
+      const reqMet = checkSpellReq(spell, ch);
+      const isFav = favs.includes(spell.name);
+      const row = document.createElement('div');
+      row.className = 'spell-row';
+      row.style.opacity = reqMet ? '' : '0.5';
+      row.innerHTML = `
+        <div>
+          <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
+          ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
+          <div class="spell-desc">${spell.desc}</div>
+          <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
+        </div>
+        <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
+        <div class="spell-actions">${spell.actions} act${spell.actions!=='1'?'s':''}</div>
+        <button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Unfavorite':'Favorite'}">★</button>`;
+      el.appendChild(row);
+    });
+  });
+
+  // Wire up fav buttons
+  el.querySelectorAll('.spell-fav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!ch.spellFavorites) ch.spellFavorites = [];
+      const name = btn.dataset.spell;
+      const idx = ch.spellFavorites.indexOf(name);
+      if (idx === -1) ch.spellFavorites.push(name);
+      else ch.spellFavorites.splice(idx, 1);
+      saveAll(chars);
+      buildSpellsTab();
+      buildFeatures(); // update features panel
+    });
+  });
 }
 
 // ╔══════════════════════════════════════════════════════════╗
