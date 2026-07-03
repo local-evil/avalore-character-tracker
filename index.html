@@ -458,6 +458,30 @@ option[data-locked="true"] {
   color: var(--text-muted);
 }
 
+
+/* ── Cloud save/load ── */
+.cloud-status {
+  font-size: 11px; color: var(--text-muted); margin-left: 6px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.cloud-status.saving { color: var(--warning); }
+.cloud-status.saved  { color: var(--success); }
+.cloud-status.err    { color: var(--danger); }
+.uuid-display {
+  font-family: monospace; font-size: 12px; letter-spacing: 0.05em;
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2px 8px;
+  color: var(--accent-text); cursor: pointer; user-select: all;
+}
+.uuid-display:hover { border-color: var(--accent-border); }
+.load-uuid-input {
+  font-family: monospace; font-size: 13px; padding: 6px 10px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--surface-1); color: var(--text-primary); width: 100%;
+  letter-spacing: 0.05em; margin-top: 8px;
+}
+.load-uuid-input:focus { outline: none; border-color: var(--accent-border); }
+
 </style>
 </head>
 <body>
@@ -477,6 +501,8 @@ option[data-locked="true"] {
         <i class="ti ti-upload"></i> Import
         <input type="file" accept=".json" id="imp-file" style="display:none">
       </label>
+      <button class="btn" id="cloud-save-btn" title="Save character to cloud"><i class="ti ti-cloud-upload"></i> Cloud save</button>
+      <button class="btn" id="cloud-load-btn" title="Load character from cloud UUID"><i class="ti ti-cloud-download"></i> Load</button>
       <button class="btn" id="share-btn" title="Share character via URL"><i class="ti ti-link"></i> Share</button>
       <button class="btn" id="exp-btn" title="Export current character as JSON"><i class="ti ti-download"></i> Export</button>
       <button class="btn btn-accent" id="save-btn"><i class="ti ti-device-floppy"></i> Save</button>
@@ -623,6 +649,37 @@ option[data-locked="true"] {
 
 </div><!-- /.page -->
 
+<!-- Cloud save modal -->
+<div id="cloud-save-modal" class="modal-back hidden">
+  <div class="modal">
+    <h3>Saved to cloud</h3>
+    <p>Your character is saved. Share this code with others, or use it to restore your character on any device.</p>
+    <div style="text-align:center;margin:1rem 0">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em">Your character code</div>
+      <div class="uuid-display" id="saved-uuid" title="Click to copy">— — — —</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Click the code to copy it</div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn" id="cloud-save-close">Done</button>
+      <button class="btn btn-accent" id="cloud-save-copy"><i class="ti ti-copy"></i> Copy code</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cloud load modal -->
+<div id="cloud-load-modal" class="modal-back hidden">
+  <div class="modal">
+    <h3>Load from cloud</h3>
+    <p>Enter your 8-character character code to restore a character. It will be added as a new slot.</p>
+    <input class="load-uuid-input" id="load-uuid-input" placeholder="e.g. ab3x9k2m" maxlength="8" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div id="load-uuid-err" style="font-size:12px;color:var(--danger);margin-top:6px;display:none"></div>
+    <div class="modal-btns" style="margin-top:1rem">
+      <button class="btn" id="cloud-load-cancel">Cancel</button>
+      <button class="btn btn-accent" id="cloud-load-confirm"><i class="ti ti-cloud-download"></i> Load character</button>
+    </div>
+  </div>
+</div>
+
 <!-- Share modal -->
 <div id="share-modal" class="modal-back hidden">
   <div class="modal">
@@ -663,6 +720,12 @@ option[data-locked="true"] {
 
 <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <script>
+// ╔══════════════════════════════════════════════════════════╗
+// ║  APPS SCRIPT CONFIG                                      ║
+// ║  Character cloud save / load / share                     ║
+// ╚══════════════════════════════════════════════════════════╝
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzN8XvC1vS3dEdIH2vuT4HxNQ_Z3BPzZAyU4rN62TdpsSxNKDVdpiytxikPkXoCKjA/exec';
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  GOOGLE SHEETS CONFIG                                    ║
 // ║  To update: change the gid values to match your sheet   ║
@@ -1117,7 +1180,7 @@ function buildCharSel(){
   const el=document.getElementById('char-sel');el.innerHTML='';
   chars.forEach(c=>{
     const btn=document.createElement('div');btn.className='char-slot'+(c.id===activeId?' active':'');
-    btn.innerHTML=`<i class="ti ti-user"></i><span>${c.name||'Unnamed'}</span><span class="del" title="Delete character">×</span>`;
+    const uuidBadge=c.cloudUUID?`<span style="font-size:10px;color:var(--text-muted);margin-left:4px;font-family:monospace">${c.cloudUUID}</span>`:''; btn.innerHTML=`<i class="ti ti-user"></i><span>${c.name||'Unnamed'}</span>${uuidBadge}<span class="del" title="Delete character">×</span>`;
     btn.addEventListener('click',e=>{if(e.target.classList.contains('del'))return;activeId=c.id;setAct(c.id);renderSheet();});
     btn.querySelector('.del').addEventListener('click',e=>{e.stopPropagation();showDel(c.id,c.name);});
     el.appendChild(btn);
@@ -1494,6 +1557,134 @@ function refreshStatusBar(){
     ftEl.className='exp-status-val '+(featCount>maxFeats?'exp-status-over':featCount===maxFeats?'exp-status-warn':'exp-status-ok');
   }
 }
+
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  CLOUD SAVE / LOAD                                       ║
+// ╚══════════════════════════════════════════════════════════╝
+
+async function cloudSaveChar(ch) {
+  const payload = {
+    charId:   ch.id,
+    charName: ch.name || 'Unnamed',
+    data:     JSON.stringify(ch),
+  };
+  const resp = await fetch(APPS_SCRIPT_URL, {
+    method:  'POST',
+    body:    JSON.stringify(payload),
+  });
+  const json = await resp.json();
+  if (!json.ok) throw new Error(json.error || 'Save failed');
+  return json.uuid;
+}
+
+async function cloudLoadChar(uuid) {
+  const url  = `${APPS_SCRIPT_URL}?uuid=${encodeURIComponent(uuid.trim().toLowerCase())}`;
+  const resp = await fetch(url);
+  const json = await resp.json();
+  if (!json.ok) throw new Error(json.error || 'Not found');
+  return JSON.parse(json.data);
+}
+
+// ── Cloud save button ────────────────────────────────────────
+document.getElementById('cloud-save-btn').addEventListener('click', async () => {
+  const ch = getChar(); if (!ch) return;
+  const btn = document.getElementById('cloud-save-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Saving…';
+  btn.disabled = true;
+  try {
+    const uuid = await cloudSaveChar(ch);
+    ch.cloudUUID = uuid;
+    saveAll(chars);
+    document.getElementById('saved-uuid').textContent = uuid;
+    document.getElementById('cloud-save-modal').classList.remove('hidden');
+  } catch (err) {
+    alert('Cloud save failed: ' + err.message);
+  } finally {
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('cloud-save-close').addEventListener('click', () => {
+  document.getElementById('cloud-save-modal').classList.add('hidden');
+});
+
+document.getElementById('cloud-save-copy').addEventListener('click', () => {
+  const uuid = document.getElementById('saved-uuid').textContent;
+  navigator.clipboard.writeText(uuid).then(() => {
+    const btn = document.getElementById('cloud-save-copy');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="ti ti-check"></i> Copied!';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  });
+});
+
+document.getElementById('saved-uuid').addEventListener('click', () => {
+  const uuid = document.getElementById('saved-uuid').textContent;
+  navigator.clipboard.writeText(uuid).then(() => {
+    document.getElementById('saved-uuid').textContent = 'Copied!';
+    setTimeout(() => {
+      document.getElementById('saved-uuid').textContent = uuid;
+    }, 1500);
+  });
+});
+
+// ── Cloud load button ────────────────────────────────────────
+document.getElementById('cloud-load-btn').addEventListener('click', () => {
+  document.getElementById('load-uuid-input').value = '';
+  document.getElementById('load-uuid-err').style.display = 'none';
+  document.getElementById('cloud-load-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('load-uuid-input').focus(), 50);
+});
+
+document.getElementById('cloud-load-cancel').addEventListener('click', () => {
+  document.getElementById('cloud-load-modal').classList.add('hidden');
+});
+
+document.getElementById('cloud-load-confirm').addEventListener('click', async () => {
+  const uuid = document.getElementById('load-uuid-input').value.trim().toLowerCase();
+  const errEl = document.getElementById('load-uuid-err');
+  errEl.style.display = 'none';
+
+  if (uuid.length !== 8) {
+    errEl.textContent = 'Character codes are 8 characters long.';
+    errEl.style.display = '';
+    return;
+  }
+
+  const btn = document.getElementById('cloud-load-confirm');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Loading…';
+  btn.disabled = true;
+
+  try {
+    const ch = await cloudLoadChar(uuid);
+    // Add as new slot with a fresh local ID so it doesn't collide
+    const nc = { ...ch, id: Date.now() + '_' + Math.random().toString(36).slice(2), cloudUUID: uuid };
+    chars.push(nc);
+    saveAll(chars);
+    activeId = nc.id;
+    setAct(activeId);
+    document.getElementById('cloud-load-modal').classList.add('hidden');
+    renderSheet();
+  } catch (err) {
+    errEl.textContent = 'Could not find that character code. Double-check and try again.';
+    errEl.style.display = '';
+  } finally {
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
+});
+
+// Allow pressing Enter in the UUID input
+document.getElementById('load-uuid-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('cloud-load-confirm').click();
+});
+
+// Show UUID on char slots if they have one
+function getCharUUID(ch) { return ch.cloudUUID || null; }
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  BOOT                                                    ║
