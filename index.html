@@ -1477,6 +1477,45 @@ function generateShareURL(ch) {
 
 function checkShareMode() {
   const hash = window.location.hash;
+
+  // Cloud UUID share link: #c/xxxxxxxx
+  if (hash.startsWith('#c/')) {
+    const uuid = hash.slice(3);
+    if (uuid.length === 8) {
+      // Show loading state then fetch
+      document.getElementById('loading-screen').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('hidden');
+      document.getElementById('loading-screen').innerHTML =
+        '<div class="spinner"></div><div class="loading-title">Loading shared character…</div>';
+      cloudLoadChar(uuid).then(ch => {
+        chars = [ch];
+        activeId = ch.id || 'shared';
+        if (!ch.id) ch.id = 'shared';
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+        renderSheet();
+        // Show view-only banner
+        const banner = document.createElement('div');
+        banner.className = 'share-mode-banner';
+        banner.innerHTML = `<i class="ti ti-eye"></i> Viewing <b>${ch.name || 'a character'}</b> in read-only mode &nbsp;·&nbsp; <a onclick="window.location.hash='';window.location.reload()">Exit to your own sheet</a>`;
+        document.body.prepend(banner);
+        document.body.style.paddingTop = '40px';
+        setTimeout(() => {
+          document.querySelectorAll('input, select, button, textarea, label').forEach(el => {
+            if (['share-close','share-copy','tab-exp-btn','tab-wpn-btn'].includes(el.id)) return;
+            el.disabled = true;
+          });
+          document.querySelectorAll('.tab-btn').forEach(btn => { btn.disabled = false; });
+        }, 200);
+      }).catch(err => {
+        document.getElementById('loading-screen').innerHTML =
+          `<div class="err-box"><h3>Could not load character</h3><p>${err.message}</p></div>`;
+      });
+      return true;
+    }
+  }
+
+  // URL-encoded share link: #share/...
   if (!hash.startsWith('#share/')) return false;
   const encoded = hash.slice(7);
   const ch = decodeCharFromURL(encoded);
@@ -1507,11 +1546,24 @@ function checkShareMode() {
   return true;
 }
 
-document.getElementById('share-btn').addEventListener('click', () => {
+document.getElementById('share-btn').addEventListener('click', async () => {
   const ch = getChar(); if (!ch) return;
-  const url = generateShareURL(ch);
-  document.getElementById('share-url-box').value = url;
-  document.getElementById('share-modal').classList.remove('hidden');
+  const modal = document.getElementById('share-modal');
+  const box   = document.getElementById('share-url-box');
+
+  if (ch.cloudUUID) {
+    // Use short cloud UUID link
+    const base = window.location.origin + window.location.pathname;
+    box.value = `${base}#c/${ch.cloudUUID}`;
+    document.getElementById('share-modal-note').textContent =
+      'This link loads your character from the cloud. Anyone with it can view your character.';
+  } else {
+    // Fall back to URL encoding
+    box.value = generateShareURL(ch);
+    document.getElementById('share-modal-note').textContent =
+      'Tip: Cloud save first to get a much shorter link.';
+  }
+  modal.classList.remove('hidden');
 });
 
 document.getElementById('share-close').addEventListener('click', () => {
@@ -1569,19 +1621,46 @@ async function cloudSaveChar(ch) {
     charName: ch.name || 'Unnamed',
     data:     JSON.stringify(ch),
   };
-  const resp = await fetch(APPS_SCRIPT_URL, {
-    method:  'POST',
-    body:    JSON.stringify(payload),
-  });
-  const json = await resp.json();
-  if (!json.ok) throw new Error(json.error || 'Save failed');
-  return json.uuid;
+
+  // Apps Script can be slow on cold start — use a generous timeout
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000); // 90s
+
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL, {
+      method:     'POST',
+      body:       JSON.stringify(payload),
+      signal:     controller.signal,
+      redirect:   'follow',
+    });
+    clearTimeout(timer);
+    const text = await resp.text();
+    // Apps Script sometimes returns HTML on error — catch that
+    if (text.trim().startsWith('<')) {
+      throw new Error('Apps Script returned an unexpected response. Check deployment settings.');
+    }
+    const json = JSON.parse(text);
+    if (!json.ok) throw new Error(json.error || 'Save failed');
+    return json.uuid;
+  } catch (err) {
+    clearTimeout(timer);
+    if (err.name === 'AbortError') {
+      // Timed out — but the save may have still worked on the server side.
+      // Try to fetch the UUID back by charId as a recovery.
+      throw new Error('Save timed out. Your character may have saved — try clicking Cloud save again to confirm.');
+    }
+    throw err;
+  }
 }
 
 async function cloudLoadChar(uuid) {
   const url  = `${APPS_SCRIPT_URL}?uuid=${encodeURIComponent(uuid.trim().toLowerCase())}`;
-  const resp = await fetch(url);
-  const json = await resp.json();
+  const resp = await fetch(url, { redirect: 'follow' });
+  const text = await resp.text();
+  if (text.trim().startsWith('<')) {
+    throw new Error('Unexpected response from server.');
+  }
+  const json = JSON.parse(text);
   if (!json.ok) throw new Error(json.error || 'Not found');
   return JSON.parse(json.data);
 }
