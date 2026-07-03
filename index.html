@@ -772,6 +772,11 @@ option[data-locked="true"] {
   </div>
 </div>
 
+<script src="data/feats.js"></script>
+<script src="data/hindrances.js"></script>
+<script src="data/costs.js"></script>
+<script src="data/weapons.js"></script>
+<script src="data/spells.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <script>
 // ╔══════════════════════════════════════════════════════════╗
@@ -796,8 +801,12 @@ const SHEET_URLS = {
 // ╔══════════════════════════════════════════════════════════╗
 // ║  GAME DATA (loaded from sheets)                          ║
 // ╚══════════════════════════════════════════════════════════╝
-let FEATS = [], ARCANE_HINDRANCES = [], MUTANT_HINDRANCES = [];
-let COSTS = {}, LABELS = {};
+// Initialized from fallback data files; overwritten by sheet fetch if available
+let FEATS               = (window.FEATS_DEFAULT             || []).slice();
+let ARCANE_HINDRANCES   = (window.ARCANE_HINDRANCES_DEFAULT || []).slice();
+let MUTANT_HINDRANCES   = (window.MUTANT_HINDRANCES_DEFAULT || []).slice();
+let COSTS               = Object.assign({}, window.COSTS_DEFAULT   || {});
+let LABELS              = Object.assign({}, window.LABELS_DEFAULT  || {});
 
 // ── CSV parser ──────────────────────────────────────────────
 function parseCSV(text) {
@@ -917,33 +926,8 @@ STATS.forEach(g=>{
   });
 });
 
-let WEAPONS=[
-  {cat:'Melee (0–2)',name:'Staff',req:'Dex: Acrobatics +2',hit:2,hands:1,dmg:5,acts:2,dpt:5,notes:'Bypasses grazing hits'},
-  {cat:'Melee (0–2)',name:'Small weapon',req:'Dex: Acrobatics -1',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:''},
-  {cat:'Melee (0–2)',name:'Arming sword',req:'Str: Athletics 0',hit:1,hands:1,dmg:4,acts:1,dpt:8,notes:''},
-  {cat:'Melee (0–2)',name:'Greatsword',req:'Str: Athletics +2',hit:1,hands:2,dmg:8,acts:2,dpt:8,notes:''},
-  {cat:'Melee (0–2)',name:'Polearm',req:'Str: Athletics +2, Dex: Acrobatics +2',hit:2,hands:2,dmg:6,acts:2,dpt:6,notes:''},
-  {cat:'Melee (0–2)',name:'Finesse blade',req:'Dex: Finesse +2',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:'+1 dmg vs unarmored'},
-  {cat:'Melee (0–2)',name:'Mace',req:'Dex: Acrobatics -1',hit:1,hands:1,dmg:3,acts:1,dpt:6,notes:'+2 dmg vs unarmored'},
-  {cat:'Melee (0–2)',name:'Small shield',req:'Str: Athletics 0, Str: Fortitude +1',hit:1,hands:1,dmg:2,acts:1,dpt:4,notes:'Armour does not mitigate damage'},
-  {cat:'Melee (0–2)',name:'Large shield',req:'Str: Athletics +2, Str: Fortitude +2',hit:0,hands:1,dmg:3,acts:1,dpt:6,notes:'Armour does not mitigate damage'},
-  {cat:'Skirmishing (2–6)',name:'Javelin',req:'Dex: Acrobatics +1, Str: Athletics +1',hit:1,hands:1,dmg:5,acts:2,dpt:5,notes:''},
-  {cat:'Skirmishing (2–6)',name:'Meteor hammer',req:'Dex: Acrobatics +1',hit:2,hands:1,dmg:3,acts:1,dpt:6,notes:''},
-  {cat:'Skirmishing (2–6)',name:'Sling',req:'Dex: Acrobatics +1',hit:1,hands:2,dmg:6,acts:2,dpt:6,notes:''},
-  {cat:'Skirmishing (2–6)',name:'Whip',req:'Dex: Finesse +1',hit:3,hands:1,dmg:3,acts:1,dpt:6,notes:'Cannot penetrate heavy armour, +1 dmg vs unarmored'},
-  {cat:'Skirmishing (2–6)',name:'Throwing knife',req:'Dex: Acrobatics 0',hit:1,hands:1,dmg:4,acts:1,dpt:8,notes:''},
-  {cat:'Ranged (3–30)',name:'Recurve bow',req:'Dex: Finesse +1',hit:2,hands:2,dmg:3,acts:1,dpt:6,notes:'+1 dmg vs unarmored'},
-  {cat:'Ranged (3–30)',name:'Longbow',req:'Dex: Acrobatics +1, Str: Athletics +1',hit:3,hands:2,dmg:6,acts:2,dpt:6,notes:''},
-  {cat:'Ranged (3–30)',name:'Crossbow',req:'Str: Athletics +1',hit:3,hands:2,dmg:5,acts:2,dpt:5,notes:'Penetrates armour'},
-  {cat:'Armour',name:'Light armour',req:'Dex: Acrobatics -1',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:''},
-  {cat:'Armour',name:'Medium armour',req:'Str: Athletics +1',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:'-1 to evasion rolls'},
-  {cat:'Armour',name:'Heavy armour',req:'Str: Athletics +3',hit:null,hands:null,dmg:null,acts:null,dpt:null,notes:'-1 movement, -2 evasion, -3 stealth when moving'},
-  {cat:'Magic',name:'Spellblade',req:'Har: Arcana +2, Str: Athletics 0',hit:3,hands:2,dmg:5,acts:2,dpt:5,notes:''},
-  {cat:'Magic',name:'Arcane wand',req:'Har: Arcana +2',hit:2,hands:1,dmg:2,acts:1,dpt:4,notes:'-1 to evasion rolls'},
-  {cat:'Magic',name:'Spellbook',req:'Har: Arcana +2',hit:3,hands:2,dmg:4,acts:2,dpt:4,notes:'Armour piercing'},
-];
-
-let SPELLS = [];
+let WEAPONS = (window.WEAPONS_DEFAULT || []).slice();
+let SPELLS = (window.SPELLS_DEFAULT || []).slice();
 
 const DISCIPLINES = ['Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
 const PATRONS     = ['Myo','The Fey Coterie','The Dreaming One','Facet',"Ciren'na"];
@@ -2163,29 +2147,33 @@ function buildSpellsTab() {
 (async()=>{
   const dot=document.getElementById('data-dot');
   const statusText=document.getElementById('data-status-text');
-  try{
+  // ── Step 1: boot instantly from fallback data ──────────────
+  chars=loadAll();activeId=getAct();
+  if(chars.length===0){const c=blank('My character');chars.push(c);saveAll(chars);activeId=c.id;setAct(c.id);}
+  if(!chars.find(c=>c.id===activeId)&&chars.length>0){activeId=chars[0].id;setAct(activeId);}
+  document.getElementById('loading-screen').classList.add('hidden');
+  document.getElementById('main-content').classList.remove('hidden');
+  buildTypeDropdown();buildDC();
+  if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
+  refreshTypeDropdown();refreshStatusBar();
+
+  // ── Step 2: fetch sheets in background; refresh if data changes ──
+  dot.className='data-dot loading';
+  statusText.textContent='Syncing data…';
+  try {
     await loadSheetData();
-    chars=loadAll();activeId=getAct();
-    if(chars.length===0){const c=blank('My character');chars.push(c);saveAll(chars);activeId=c.id;setAct(c.id);}
-    if(!chars.find(c=>c.id===activeId)&&chars.length>0){activeId=chars[0].id;setAct(activeId);}
-    document.getElementById('loading-screen').classList.add('hidden');
-    document.getElementById('main-content').classList.remove('hidden');
-    buildTypeDropdown();buildDC();
+    dot.className='data-dot';
+    statusText.textContent='Data synced';
+    // Rebuild everything with updated sheet data
+    buildTypeDropdown();
     if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
     refreshTypeDropdown();refreshStatusBar();
-    dot.className='data-dot';
-    statusText.textContent='Data loaded';
     setTimeout(()=>document.getElementById('data-status').style.opacity='0',2500);
-  }catch(err){
-    document.getElementById('loading-screen').innerHTML=`
-      <div class="err-box">
-        <h3>Couldn't load game data</h3>
-        <p>Make sure the Google Sheet is published to the web:<br><br>
-        <b>File → Share → Publish to web</b> → publish each tab as CSV.<br><br>
-        <small style="color:var(--text-muted)">${err.message}</small></p>
-      </div>`;
+  } catch(err) {
     dot.className='data-dot err';
-    statusText.textContent='Sheet load failed';
+    statusText.textContent='Using cached data';
+    console.warn('Sheet sync failed:', err.message);
+    setTimeout(()=>document.getElementById('data-status').style.opacity='0',4000);
   }
 })();
 </script>

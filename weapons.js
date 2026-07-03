@@ -1,0 +1,267 @@
+// Avalore weapons — fallback data
+window.WEAPONS_DEFAULT = [
+  {
+    "cat": "Melee (0-2)",
+    "name": "Unarmed",
+    "req": "None",
+    "hit": 2,
+    "hands": 1,
+    "dmg": 1,
+    "acts": 1,
+    "dpt": 2,
+    "notes": "+1 dmg at STR: Athletics +1/+2; +2 dmg at STR: Athletics +3/+4; +3 dmg at STR: Athletics +5/+6. Requires a free hand."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Arming Sword",
+    "req": "Str: Athletics 0",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 4,
+    "acts": 1,
+    "dpt": 8,
+    "notes": "Free carry weapon."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Polearm",
+    "req": "Str: Athletics +2, Dex: Acrobatics +2",
+    "hit": 2,
+    "hands": 2,
+    "dmg": 6,
+    "acts": 2,
+    "dpt": 6,
+    "notes": "Pierces armour."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Mace",
+    "req": "Dex: Acrobatics -1",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "+2 dmg against medium and heavy armour."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Large Shield",
+    "req": "Str: Athletics +2, Str: Fortitude +2",
+    "hit": 0,
+    "hands": 1,
+    "dmg": 2,
+    "acts": 1,
+    "dpt": 4,
+    "notes": "Pierces armour."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Staff",
+    "req": "Dex: Acrobatics +2",
+    "hit": 2,
+    "hands": 1,
+    "dmg": 5,
+    "acts": 2,
+    "dpt": 5,
+    "notes": "Bypasses grazing hits."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Small Weapon",
+    "req": "Dex: Acrobatics -1",
+    "hit": 3,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "Free carry weapon."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Greatsword",
+    "req": "Str: Athletics +2",
+    "hit": 1,
+    "hands": 2,
+    "dmg": 8,
+    "acts": 2,
+    "dpt": 8,
+    "notes": ""
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Finesse Blade",
+    "req": "Dex: Finesse +2",
+    "hit": 3,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "+1 dmg vs unarmored. Bypasses grazing hits."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Small Shield",
+    "req": "Str: Athletics +2, Dex: Finesse +2",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "Pierces armour. Bypasses grazing hits."
+  },
+  {
+    "cat": "Melee (0-2)",
+    "name": "Spellblade",
+    "req": "Har: Arcana +2",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 4,
+    "acts": 1,
+    "dpt": 8,
+    "notes": ""
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Javelin",
+    "req": "Dex: Acrobatics +1, Str: Athletics +1",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 5,
+    "acts": 2,
+    "dpt": 5,
+    "notes": "Pierces armour."
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Sling",
+    "req": "Dex: Acrobatics +1",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 6,
+    "acts": 2,
+    "dpt": 6,
+    "notes": ""
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Throwing Knife",
+    "req": "Dex: Acrobatics 0",
+    "hit": 1,
+    "hands": 1,
+    "dmg": 4,
+    "acts": 1,
+    "dpt": 8,
+    "notes": "Does not reveal a Hidden thrower on miss. Free carry weapon."
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Meteor Hammer",
+    "req": "Dex: Acrobatics +1",
+    "hit": 2,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "+1 dmg against medium and heavy armour. Free carry weapon."
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Whip",
+    "req": "Dex: Finesse +1",
+    "hit": 3,
+    "hands": 1,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "+1 dmg vs unarmored. Bypasses grazing hits. Cannot penetrate heavy armour."
+  },
+  {
+    "cat": "Skirmishing (2-8)",
+    "name": "Arcane Wand",
+    "req": "Har: Arcana +2",
+    "hit": 2,
+    "hands": 1,
+    "dmg": 2,
+    "acts": 1,
+    "dpt": 4,
+    "notes": "Pierces armour."
+  },
+  {
+    "cat": "Ranged (6-30)",
+    "name": "Recurve Bow",
+    "req": "Dex: Finesse +1",
+    "hit": 2,
+    "hands": 2,
+    "dmg": 3,
+    "acts": 1,
+    "dpt": 6,
+    "notes": "+1 dmg vs unarmored. Bypasses grazing hits."
+  },
+  {
+    "cat": "Ranged (6-30)",
+    "name": "Crossbow",
+    "req": "Str: Athletics +1",
+    "hit": 3,
+    "hands": 2,
+    "dmg": 5,
+    "acts": 2,
+    "dpt": 5,
+    "notes": "Penetrates armour."
+  },
+  {
+    "cat": "Ranged (6-30)",
+    "name": "Longbow",
+    "req": "Dex: Acrobatics +1, Str: Athletics +1",
+    "hit": 3,
+    "hands": 2,
+    "dmg": 6,
+    "acts": 2,
+    "dpt": 6,
+    "notes": ""
+  },
+  {
+    "cat": "Ranged (6-30)",
+    "name": "Spellbook",
+    "req": "Har: Arcana +2",
+    "hit": 3,
+    "hands": 2,
+    "dmg": 4,
+    "acts": 2,
+    "dpt": 4,
+    "notes": "Pierces armour."
+  },
+  {
+    "cat": "Armour",
+    "name": "Light Armour",
+    "req": "Dex: Acrobatics -1",
+    "hit": null,
+    "hands": null,
+    "dmg": null,
+    "acts": null,
+    "dpt": null,
+    "notes": ""
+  },
+  {
+    "cat": "Armour",
+    "name": "Medium Armour",
+    "req": "Str: Athletics +1",
+    "hit": null,
+    "hands": null,
+    "dmg": null,
+    "acts": null,
+    "dpt": null,
+    "notes": "-1 to evasion rolls."
+  },
+  {
+    "cat": "Armour",
+    "name": "Heavy Armour",
+    "req": "Str: Athletics +3",
+    "hit": null,
+    "hands": null,
+    "dmg": null,
+    "acts": null,
+    "dpt": null,
+    "notes": "-1 movement and -2 evasion and -3 stealth when moving."
+  }
+];
