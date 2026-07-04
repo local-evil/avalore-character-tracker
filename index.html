@@ -578,6 +578,25 @@ option[data-locked="true"] {
 .spell-method b { color: var(--text-secondary); font-style: normal; }
 .spell-desc b { color: var(--text-secondary); }
 
+
+/* ── Stat requirement pills ── */
+.req-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.req-pill {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 1px 7px; border-radius: 20px; font-size: 10px; font-weight: 500;
+  border: 1px solid; white-space: nowrap; font-family: var(--font-body);
+  transition: opacity 0.15s;
+}
+.req-pill.met-dex   { background: #0d1a2e; border-color: #1a4a8a; color: #6aabf7; }
+.req-pill.met-str   { background: #2a0e0e; border-color: #7a2222; color: #e08080; }
+.req-pill.met-har   { background: #0d2a1a; border-color: #1e6640; color: #5ccf8a; }
+.req-pill.met-int   { background: #1a1030; border-color: #4a3080; color: #b89cf0; }
+.req-pill.unmet-dex { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
+.req-pill.unmet-str { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
+.req-pill.unmet-har { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
+.req-pill.unmet-int { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
+.req-pill-val { opacity: 0.7; margin-left: 1px; }
+
 </style>
 </head>
 <body>
@@ -1105,7 +1124,7 @@ function buildExps(){
       sel=makeFeatSel(i,e.target,ch);
       if(feat){
         const chk=checkFeatReq(feat,ch);
-        sel+=`<div class="feat-preview"><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}<div class="fx">${feat.desc}</div><div class="req">Requires: ${feat.req}${!chk.met?` <span style="color:var(--danger)">— not met</span>`:''}</div></div>`;
+        sel+=`<div class="feat-preview"><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}<div class="fx">${feat.desc}</div>${renderReqPills(feat.req, ch)}</div>`;
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
@@ -1905,6 +1924,73 @@ function refreshUUIDDisplay() {
 }
 
 
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  REQUIREMENT PILLS                                       ║
+// ╚══════════════════════════════════════════════════════════╝
+const STAT_COLOR = {
+  dex: 'dex', dex_acro: 'dex', dex_stlth: 'dex', dex_fin: 'dex',
+  str: 'str', str_fort: 'str', str_ath: 'str', str_forg: 'str',
+  har: 'har', har_arc: 'har', har_nat: 'har', har_bel: 'har',
+  int: 'int', int_heal: 'int', int_perc: 'int', int_res: 'int',
+};
+
+// Parse a requirement string into an array of { label, stat, min } objects
+function parseReqParts(reqStr) {
+  if (!reqStr || reqStr === 'None') return [];
+  const parts = [];
+  reqStr.split(/,|\band\b/i).forEach(part => {
+    part = part.trim();
+    const m = part.match(/^(.+?)\s*([+-]?\d+)$/);
+    if (!m) return;
+    const statLabel = m[1].trim();
+    const min = parseInt(m[2]);
+    // Find the stat key
+    const sn = statLabel.toLowerCase();
+    const ab = { dex:'dex', int:'int', har:'har', str:'str' };
+    let statKey = null;
+    // Try direct sub-skill match
+    STATS.forEach(g => {
+      if (g.group.toLowerCase() === sn) statKey = g.key;
+      g.subs.forEach(s => {
+        if ((g.group + ': ' + s.name).toLowerCase() === sn) statKey = s.key;
+        // Short form e.g. "Har: Arcana"
+        const short = (ab[g.group.toLowerCase()] || g.group.toLowerCase()) + ': ' + s.name.toLowerCase();
+        if (short === sn) statKey = s.key;
+      });
+    });
+    // Fallback: match first word as stat group
+    if (!statKey) {
+      const firstWord = sn.split(':')[0].trim();
+      if (ab[firstWord]) statKey = ab[firstWord];
+    }
+    const color = statKey ? (STAT_COLOR[statKey] || 'int') : 'int';
+    parts.push({ label: statLabel, min, statKey, color });
+  });
+  return parts;
+}
+
+function renderReqPills(reqStr, ch) {
+  if (!reqStr || reqStr === 'None') return '';
+  const parts = parseReqParts(reqStr);
+  if (parts.length === 0) return `<div class="req-pills"><span class="req-pill met-int">${reqStr}</span></div>`;
+  const pills = parts.map(({ label, min, statKey, color }) => {
+    let current = 0;
+    if (statKey) {
+      // Check if it's a parent stat or sub-skill
+      const parentStat = STATS.find(g => g.key === statKey);
+      const subStat = !parentStat ? STATS.flatMap(g => g.subs.map(s => ({...s, par: g.key}))).find(s => s.key === statKey) : null;
+      if (parentStat) current = statTot(ch, statKey);
+      else if (subStat) current = fullTot(ch, subStat.key, subStat.par);
+    }
+    const met = !statKey || current >= min;
+    const cls = (met ? 'met-' : 'unmet-') + color;
+    const sign = min >= 0 ? '+' : '';
+    return `<span class="req-pill ${cls}" title="${met ? '✓ Met ('+( current>=0?'+':'')+current+')' : '✗ Need '+(min>=0?'+':'')+min+', have '+(current>=0?'+':'')+current}">${label} <span class="req-pill-val">${sign}${min}</span></span>`;
+  });
+  return `<div class="req-pills">${pills.join('')}</div>`;
+}
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  SPELLS TAB                                              ║
 // ╚══════════════════════════════════════════════════════════╝
@@ -2134,7 +2220,7 @@ function buildSpellsTab() {
     row.innerHTML = `
       <div>
         <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
-        ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
+        ${renderReqPills(spell.req, ch)}
         <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
         ${methodLine}
         ${cantripReqLine}
