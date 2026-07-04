@@ -1,13 +1,12 @@
 // Avalore spells — loader
-// This file merges all spell branch files into SPELLS_DEFAULT.
-// It must be loaded AFTER all the individual spell files.
+// Merges all spell branch files and cantrips into SPELLS_DEFAULT.
+// Must be loaded AFTER all individual spell files and cantrips.js.
 window.SPELLS_DEFAULT = [
-  ...(window.SPELLS_GENERAL_CANTRIPS || []),
-  ...(window.SPELLS_PATRON_CANTRIPS  || []),
-  ...(window.SPELLS_ICHOR            || []),
-  ...(window.SPELLS_CURSESMITHY      || []),
-  ...(window.SPELLS_ETHER            || []),
-  ...(window.SPELLS_ARTIFICE         || []),
-  ...(window.SPELLS_FORCE            || []),
-  ...(window.SPELLS_TELLURGY         || []),
+  ...(window.CANTRIPS_DEFAULT    || []),
+  ...(window.SPELLS_ICHOR        || []),
+  ...(window.SPELLS_CURSESMITHY  || []),
+  ...(window.SPELLS_ETHER        || []),
+  ...(window.SPELLS_ARTIFICE     || []),
+  ...(window.SPELLS_FORCE        || []),
+  ...(window.SPELLS_TELLURGY     || []),
 ];
