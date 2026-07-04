@@ -1509,9 +1509,12 @@ function buildFeatures() {
     favSpells.sort((a,b) => a.anima - b.anima).forEach(spell => {
       const chip = document.createElement('div');
       chip.className = 'feat-chip';
+      const trackedReqMet = checkSpellReq(spell, ch2);
+      chip.style.opacity = trackedReqMet ? '' : '0.6';
       chip.innerHTML = `<div>
         <span class="feat-chip-name">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}${branchTag(spell.branch)}
         <div class="feat-chip-desc">${spell.desc}</div>
+        ${spell.req && spell.req !== 'None' ? renderReqPills(spell.req, ch2) : ''}
         <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · ${spell.anima>0?spell.anima+' anima':'cantrip'} · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
       </div>`;
       el.appendChild(chip);

@@ -253,23 +253,22 @@ function parseCantrips(text, mode) {
     return results;
   }
 
-  if (mode === 'cantrips-inherent') {
-    // Only parse the Inherent Cantrip block — stop at the first non-cantrip section
-    const inherentIdx = text.search(/inherent cantrip/i);
-    const startIdx    = inherentIdx >= 0 ? inherentIdx : 0;
-    // The inherent block ends at the next major section header (anima cost, etc.)
-    const endMatch = text.slice(startIdx).search(/
-\d+\s+anima|
-capstone/i);
-    const chunk = endMatch >= 0 ? text.slice(startIdx, startIdx + endMatch) : text.slice(startIdx);
-    // Detect which discipline this inherent cantrip belongs to
-    const disciplineMatch = text.match(/(ichor|cursesmithy|ether|artifice|force|tellurgy)/i);
-    const disciplineBranch = disciplineMatch
-      ? (INHERENT_BRANCH_MAP[disciplineMatch[1].toLowerCase()] || 'Ichor Cantrip')
-      : 'Ichor Cantrip';
+    if (mode === 'cantrips-inherent') {
+    const linesArr = text.split('\n');
+    let startLine = 0, endLine = linesArr.length;
+    for (let i = 0; i < linesArr.length; i++) {
+      if (/inherent cantrip/i.test(linesArr[i])) { startLine = i; break; }
+    }
+    for (let i = startLine + 1; i < linesArr.length; i++) {
+      const t = linesArr[i].trim();
+      if (/^\d+\s+anima$/i.test(t) || /^capstone$/i.test(t)) { endLine = i; break; }
+    }
+    const chunk = linesArr.slice(startLine, endLine).join('\n');
+    const discMatch = text.match(/ichor|cursesmithy|ether|artifice|force|tellurgy/i);
+    const disc = discMatch ? discMatch[0].toLowerCase() : 'ichor';
+    const disciplineBranch = INHERENT_BRANCH_MAP[disc] || 'Ichor Cantrip';
     return parseCantripsBlock(chunk, 'inherent', disciplineBranch, '');
   }
-
   const cantripType  = mode === 'cantrips-patron' ? 'patron' : 'general';
   const cantripBranch = mode === 'cantrips-patron' ? 'Patron Cantrip' : 'General Cantrip';
   return parseCantripsBlock(text, cantripType, cantripBranch, '');
@@ -277,8 +276,7 @@ capstone/i);
 
 function parseCantripsBlock(text, type, branch, forcedPatron) {
   const results = [];
-  const lines = text.split(/?
-/).map(l => l.trim());
+  const lines = text.split(/\r?\n/).map(l => l.trim());
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
@@ -340,16 +338,13 @@ function parseSpells(text, branch) {
   if (CANTRIP_MODES.has(branch)) return parseCantrips(text, branch);
 
   // Discipline branch: skip the Inherent Cantrip block at the top
-  const inherentIdx = text.search(/inherent cantrip/i);
-  if (inherentIdx >= 0) {
-    // Find where the inherent block ends (first anima cost section)
-    const afterInherent = text.slice(inherentIdx);
-    const sectionEnd = afterInherent.search(/
-\d+\s+anima/i);
-    if (sectionEnd >= 0) text = text.slice(inherentIdx + sectionEnd);
-    else text = ''; // Only had an inherent cantrip block, nothing else
+  const spellLineArr = text.split('\n');
+  let skipTo = 0, foundInherent = false;
+  for (let si = 0; si < spellLineArr.length; si++) {
+    if (/inherent cantrip/i.test(spellLineArr[si])) { foundInherent = true; }
+    if (foundInherent && /^\d+\s+anima$/i.test(spellLineArr[si].trim())) { skipTo = si; break; }
   }
-
+  if (foundInherent && skipTo > 0) text = spellLineArr.slice(skipTo).join('\n');
   const spells = [];
 
   // Normalise line endings and split into non-empty lines
