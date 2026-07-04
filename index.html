@@ -517,7 +517,7 @@ option[data-locked="true"] {
   font-size: 12px;
 }
 .spell-row:last-child { border-bottom: none; }
-.spell-name { font-weight: 500; color: var(--text-secondary); }
+.spell-name { font-weight: 600; color: var(--text-primary); font-family: var(--font-display); letter-spacing: 0.02em; }
 .spell-name.capstone { color: var(--accent-text); }
 .spell-anima { font-size: 11px; color: var(--text-muted); text-align: center; }
 .spell-actions { font-size: 11px; color: var(--text-muted); text-align: center; }
@@ -565,12 +565,14 @@ option[data-locked="true"] {
 .spell-tab-btn.active { color: var(--accent-text); border-bottom-color: var(--accent); }
 /* ── Anima tier sub-heading ── */
 .spell-tier-header {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-muted); font-family: var(--font-display);
-  padding: 10px 0 4px 10px; margin-top: 4px;
-  border-bottom: 1px solid var(--border); margin-bottom: 2px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0 5px 0; border-bottom: 1px solid var(--border);
+  margin-top: 12px; margin-bottom: 2px;
+  font-size: 13px; font-weight: 600; font-family: var(--font-display);
+  color: var(--gold-text); letter-spacing: 0.03em;
 }
-.spell-tier-header:first-child { margin-top: 0; padding-top: 4px; }
+.spell-tier-header:first-child { margin-top: 4px; }
+.spell-cantrip-req { font-size: 10px; color: var(--text-muted); margin-top: 2px; font-style: italic; grid-column: 1/-1; }
 /* ── Spell method line ── */
 .spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; }
 .spell-method b { color: var(--text-secondary); font-style: normal; }
@@ -2122,12 +2124,20 @@ function buildSpellsTab() {
     const methodLine = spell.method
       ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
       : '';
+    const cantripReqLine = (spell.anima === 0)
+      ? (spell.branch === 'General Cantrip'
+          ? '<div class="spell-cantrip-req">Requirement: None</div>'
+          : spell.branch === 'Patron Cantrip'
+            ? `<div class="spell-cantrip-req">Requirement: ${spell.patron || 'Patron'} patron</div>`
+            : `<div class="spell-cantrip-req">Requirement: ${spell.branch.replace(' Cantrip','')} primary branch</div>`)
+      : '';
     row.innerHTML = `
       <div>
         <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
         ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
         <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
         ${methodLine}
+        ${cantripReqLine}
         <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
       </div>
       <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
