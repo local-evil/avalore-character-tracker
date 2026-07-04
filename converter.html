@@ -90,10 +90,7 @@ textarea{resize:vertical;min-height:360px;line-height:1.6}
           <select id="branch-sel">
             <option value="">— select branch —</option>
             <optgroup label="— Cantrips (outputs cantrips.js) —">
-              <option value="cantrips-all">All cantrips (paste everything at once)</option>
-              <option value="cantrips-general">General cantrips only</option>
-              <option value="cantrips-patron">Patron cantrips only</option>
-              <option value="cantrips-inherent">Inherent cantrip (single discipline page)</option>
+              <option value="cantrips-all">All cantrips</option>
             </optgroup>
             <optgroup label="— Discipline spells (outputs branch file) —">
               <option value="Ichor">Ichor</option>
@@ -165,9 +162,8 @@ const INHERENT_BRANCH_MAP = {
 };
 
 const FORMAT_GUIDES = {
-  spells: `<b>Spells:</b> Select the branch/mode, then paste the text.<br>
-<b>All cantrips:</b> Paste the General Cantrips page followed by the Patron Cantrips page. Each inherent cantrip should be added separately using "Inherent cantrip (single discipline page)".<br>
-<b>Inherent cantrip:</b> Paste a single discipline page — only the "Inherent Cantrip" block at the top is used; the rest is ignored.<br>
+  spells: `<b>Spells:</b> Select the branch, then paste the text.<br>
+<b>All cantrips:</b> Paste all cantrip pages together — general, patron, and discipline pages. The parser detects each type automatically from "Inherent Cantrip" markers and patron labels in the Effect text.<br>
 <b>Discipline spells:</b> Paste a discipline page — the Inherent Cantrip block at the top is skipped automatically.<br>
 Each spell needs: name, Effect:, Method:, and a footer line like <code>Ichor 4 anima 2 actions /cast exorcise</code>.`,
   feats:  `<b>Feats:</b> Paste feat entries. Each feat needs a name, description, a footer line containing the category (e.g. <code>Combat feat</code> or <code>Utility feat · Limited</code>), and optionally a <code>Requires:</code> line.`,
@@ -246,10 +242,8 @@ function parseCantrips(text, mode) {
       const patronEnd = inherentIdx > patronIdx ? inherentIdx : text.length;
       results.push(...parseCantrips(text.slice(patronIdx, patronEnd), 'cantrips-patron'));
     }
-    // Inherent section (rare to have it here, but handle it)
-    if (inherentIdx >= 0) {
-      results.push(...parseCantrips(text.slice(inherentIdx), 'cantrips-inherent'));
-    }
+    // Inherent section — included in the general pass since
+    // parseCantripsBlock detects "Inherent Cantrip" marker lines automatically
     return results;
   }
 
@@ -294,6 +288,11 @@ function parseCantripsBlock(text, type, branch, forcedPatron) {
     const block = lines.slice(i, footerIdx + 2);
     const footer = lines[footerIdx];
     const afterFooter = lines[footerIdx + 1] || '';
+    // If the line before this block was "Inherent Cantrip", mark it as inherent
+    // and detect which discipline branch from earlier context
+    const prevLine = i > 0 ? lines[i - 1] : '';
+    const isInherentMarker = /^inherent cantrip$/i.test(prevLine);
+
     const name = block[0];
     if (!name || name.length > 100 || /^(effect|method|targeted|requires)/i.test(name)) {
       i = footerIdx + 1; continue;
@@ -306,7 +305,6 @@ function parseCantripsBlock(text, type, branch, forcedPatron) {
     if (effectStart >= 0) {
       const end = methodStart > effectStart ? methodStart : footerIdx - i;
       desc = block.slice(effectStart, end).map(l => l.replace(/^effect:\s*/i,'').trim()).filter(Boolean).join(' ');
-      desc = desc.replace(/^(Myo|The Fey Coterie|The Dreaming One|Facet|Ciren'na)\s+Cantrip\s*/i,'').trim();
     } else {
       const end = methodStart > 0 ? methodStart : footerIdx - i;
       desc = block.slice(1, end).filter(l => !/^(method:|targeted$)/i.test(l)).join(' ').trim();
@@ -320,13 +318,37 @@ function parseCantripsBlock(text, type, branch, forcedPatron) {
     const cmd = cmdMatch ? `/${cmdMatch[1].toLowerCase()} ${cmdMatch[2].toLowerCase()}` : '';
     const actions = actionsMatch ? actionsMatch[1] : '1';
 
-    const patron = forcedPatron || (type === 'patron' ? detectPatron(block) : '');
+    // Detect patron label embedded in effect text e.g. "Dreaming One Cantrip ..."
+    // This overrides the passed-in type/branch/patron when detected
+    const PATRON_LABELS = [
+      { pattern: /^The Dreaming One Cantrip\s*/i, patron: 'The Dreaming One' },
+      { pattern: /^The Fey Coterie Cantrip\s*/i,  patron: 'The Fey Coterie'  },
+      { pattern: /^Ciren'na Cantrip\s*/i,          patron: "Ciren'na"         },
+      { pattern: /^Facet Cantrip\s*/i,             patron: 'Facet'            },
+      { pattern: /^Myo Cantrip\s*/i,               patron: 'Myo'              },
+    ];
+    let resolvedType   = isInherentMarker ? 'inherent' : type;
+    let resolvedBranch = isInherentMarker
+      ? (branch.endsWith('Cantrip') ? branch : branch + ' Cantrip')
+      : branch;
+    let resolvedPatron = forcedPatron || (type === 'patron' ? detectPatron(block) : '');
+
+    for (const { pattern, patron: pName } of PATRON_LABELS) {
+      if (pattern.test(desc)) {
+        desc = desc.replace(pattern, '').trim();
+        resolvedType   = 'patron';
+        resolvedBranch = 'Patron Cantrip';
+        resolvedPatron = pName;
+        break;
+      }
+    }
+
     let req = 'None';
     if (/^no requirement/i.test(afterFooter)) req = 'None';
     else if (/^requires?\s*/i.test(afterFooter)) req = afterFooter.replace(/^requires?\s*/i,'').replace(/\.$/,'').trim();
 
     if (name && (desc || method)) {
-      results.push({ branch, name, type, anima: 0, actions, cmd, req, patron, capstone: false, targeted, desc, method });
+      results.push({ branch: resolvedBranch, name, type: resolvedType, anima: 0, actions, cmd, req, patron: resolvedPatron, capstone: false, targeted, desc, method });
     }
     i = footerIdx + 2;
   }
