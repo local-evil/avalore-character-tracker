@@ -591,10 +591,10 @@ option[data-locked="true"] {
 .req-pill.met-str   { background: #2a0e0e; border-color: #7a2222; color: #e08080; }
 .req-pill.met-har   { background: #0d2a1a; border-color: #1e6640; color: #5ccf8a; }
 .req-pill.met-int   { background: #1a1030; border-color: #4a3080; color: #b89cf0; }
-.req-pill.unmet-dex { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
-.req-pill.unmet-str { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
-.req-pill.unmet-har { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
-.req-pill.unmet-int { background: var(--surface-1); border-color: var(--border); color: var(--text-muted); }
+.req-pill.unmet-dex { background: #0d1a2e; border-color: #1a4a8a; color: #6aabf7; opacity: 0.4; }
+.req-pill.unmet-str { background: #2a0e0e; border-color: #7a2222; color: #e08080; opacity: 0.4; }
+.req-pill.unmet-har { background: #0d2a1a; border-color: #1e6640; color: #5ccf8a; opacity: 0.4; }
+.req-pill.unmet-int { background: #1a1030; border-color: #4a3080; color: #b89cf0; opacity: 0.4; }
 .req-pill-val { opacity: 0.7; margin-left: 1px; }
 
 </style>
@@ -2046,19 +2046,21 @@ function spellAccessible(spell, ch, cfg) {
 }
 
 function checkSpellReq(spell, ch) {
+  // Reuse parseReqParts so this always agrees with the pill display
   if (!spell.req || spell.req === 'None') return true;
-  // Parse requirement like "HAR: Arcana +2" or "INT: Healing +1"
-  const m = spell.req.match(/^(.+?)\s*([+-]?\d+)$/);
-  if (!m) return true;
-  const sn = m[1].trim().toLowerCase(), need = parseInt(m[2]);
-  let val = 0;
-  STATS.forEach(g => {
-    if (g.group.toLowerCase() === sn) val = statTot(ch, g.key);
-    g.subs.forEach(s => {
-      if ((g.group + ': ' + s.name).toLowerCase() === sn) val = fullTot(ch, s.key, g.key);
-    });
+  const parts = parseReqParts(spell.req);
+  if (parts.length === 0) return true;
+  return parts.every(({ min, statKey }) => {
+    if (!statKey) return true;
+    const parentStat = STATS.find(g => g.key === statKey);
+    const subStat = !parentStat
+      ? STATS.flatMap(g => g.subs.map(s => ({...s, par: g.key}))).find(s => s.key === statKey)
+      : null;
+    const current = parentStat
+      ? statTot(ch, statKey)
+      : subStat ? fullTot(ch, subStat.key, subStat.par) : 0;
+    return current >= min;
   });
-  return val >= need;
 }
 
 function buildSpellsTab() {
