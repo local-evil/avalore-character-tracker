@@ -572,7 +572,6 @@ option[data-locked="true"] {
   color: var(--gold-text); letter-spacing: 0.03em;
 }
 .spell-tier-header:first-child { margin-top: 4px; }
-.spell-cantrip-req { font-size: 10px; color: var(--text-muted); margin-top: 2px; font-style: italic; grid-column: 1/-1; }
 /* ── Spell method line ── */
 .spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; }
 .spell-method b { color: var(--text-secondary); font-style: normal; }
@@ -596,6 +595,46 @@ option[data-locked="true"] {
 .req-pill.unmet-har { background: #0d2a1a; border-color: #1e6640; color: #5ccf8a; opacity: 0.4; }
 .req-pill.unmet-int { background: #1a1030; border-color: #4a3080; color: #b89cf0; opacity: 0.4; }
 .req-pill-val { opacity: 0.7; margin-left: 1px; }
+
+
+/* ── Branch colors ── */
+:root {
+  --ichor:       #4caf7d; --ichor-dim:       #0d2a1a; --ichor-border:       #1e6640;
+  --force:       #c95555; --force-dim:       #2a0e0e; --force-border:       #7a2222;
+  --tellurgy:    #c9943a; --tellurgy-dim:    #2a1e08; --tellurgy-border:    #7a5410;
+  --artifice:    #5bb8d4; --artifice-dim:    #0a1e28; --artifice-border:    #1a6080;
+  --ether:       #8b6fd4; --ether-dim:       #1a1030; --ether-border:       #4a3080;
+  --cursesmithy: #2e5fa3; --cursesmithy-dim: #0a1428; --cursesmithy-border: #1a3a70;
+}
+/* Branch tag pills */
+.branch-tag {
+  display: inline-flex; align-items: center;
+  padding: 1px 7px; border-radius: 20px; font-size: 10px; font-weight: 500;
+  border: 1px solid; white-space: nowrap; font-family: var(--font-body);
+  vertical-align: middle; margin-left: 4px;
+}
+.branch-ichor       { background: var(--ichor-dim);       border-color: var(--ichor-border);       color: var(--ichor);       }
+.branch-force       { background: var(--force-dim);       border-color: var(--force-border);       color: var(--force);       }
+.branch-tellurgy    { background: var(--tellurgy-dim);    border-color: var(--tellurgy-border);    color: var(--tellurgy);    }
+.branch-artifice    { background: var(--artifice-dim);    border-color: var(--artifice-border);    color: var(--artifice);    }
+.branch-ether       { background: var(--ether-dim);       border-color: var(--ether-border);       color: var(--ether);       }
+.branch-cursesmithy { background: var(--cursesmithy-dim); border-color: var(--cursesmithy-border); color: var(--cursesmithy); }
+/* Patron tags share branch colors */
+.branch-facet    { background: var(--force-dim);       border-color: var(--force-border);       color: var(--force);       }
+.branch-myo      { background: var(--artifice-dim);    border-color: var(--artifice-border);    color: var(--artifice);    }
+.branch-dreaming { background: var(--cursesmithy-dim); border-color: var(--cursesmithy-border); color: var(--cursesmithy); }
+.branch-cirenna  { background: var(--ether-dim);       border-color: var(--ether-border);       color: var(--ether);       }
+.branch-fey      { background: var(--ichor-dim);       border-color: var(--ichor-border);       color: var(--ichor);       }
+/* Colored spell tabs */
+.spell-tab-btn[data-branch="ichor"]:hover,       .spell-tab-btn[data-branch="ichor"].active       { color: var(--ichor);       border-bottom-color: var(--ichor);       }
+.spell-tab-btn[data-branch="force"]:hover,       .spell-tab-btn[data-branch="force"].active       { color: var(--force);       border-bottom-color: var(--force);       }
+.spell-tab-btn[data-branch="tellurgy"]:hover,    .spell-tab-btn[data-branch="tellurgy"].active    { color: var(--tellurgy);    border-bottom-color: var(--tellurgy);    }
+.spell-tab-btn[data-branch="artifice"]:hover,    .spell-tab-btn[data-branch="artifice"].active    { color: var(--artifice);    border-bottom-color: var(--artifice);    }
+.spell-tab-btn[data-branch="ether"]:hover,       .spell-tab-btn[data-branch="ether"].active       { color: var(--ether);       border-bottom-color: var(--ether);       }
+.spell-tab-btn[data-branch="cursesmithy"]:hover, .spell-tab-btn[data-branch="cursesmithy"].active { color: var(--cursesmithy); border-bottom-color: var(--cursesmithy); }
+/* Cantrip req line matches Effect: style */
+.spell-cantrip-req { font-size: 11px; color: var(--text-secondary); margin-top: 2px; grid-column: 1/-1; }
+.spell-cantrip-req b { color: var(--text-secondary); }
 
 </style>
 </head>
@@ -1086,7 +1125,10 @@ function makeFeatSel(idx,currentVal,ch){
       const chk=checkFeatReq(f,ch);
       const tip=!chk.met?chk.reason:(f.req!=='None'&&f.req!=='Mutant'?'Requires: '+f.req:'');
       const locked=!chk.met?' data-locked="true"':'';
-      html+=`<option value="${f.name}"${currentVal===f.name?' selected':''}${locked} title="${tip}">${!chk.met?'○ ':''}${f.name}${f.limited?' ✦':''}${!chk.met?' ('+chk.reason+')':''}</option>`;
+      // Build a clean stat summary for unmet reqs e.g. "Str: Athletics +2"
+      const reqSummary = !chk.met && f.req && f.req!=='None'
+        ? ' [' + f.req + ']' : '';
+      html+=`<option value="${f.name}"${currentVal===f.name?' selected':''}${locked} title="${tip}">${!chk.met?'○ ':''}${f.name}${f.limited?' ✦':''}${reqSummary}</option>`;
     });
     html+=`</optgroup>`;
   });
@@ -1470,7 +1512,7 @@ function buildFeatures() {
       const chip = document.createElement('div');
       chip.className = 'feat-chip';
       chip.innerHTML = `<div>
-        <span class="feat-chip-name">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}
+        <span class="feat-chip-name">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}${branchTag(spell.branch)}
         <div class="feat-chip-desc">${spell.desc}</div>
         <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · ${spell.anima>0?spell.anima+' anima':'cantrip'} · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
       </div>`;
@@ -1956,6 +1998,32 @@ function refreshUUIDDisplay() {
 
 
 
+
+// ── Branch/Patron tag helpers ──────────────────────────────────
+const BRANCH_CLASS = {
+  'Ichor':'ichor','Force':'force','Tellurgy':'tellurgy',
+  'Artifice':'artifice','Ether':'ether','Cursesmithy':'cursesmithy',
+  'Ichor Cantrip':'ichor','Force Cantrip':'force','Tellurgy Cantrip':'tellurgy',
+  'Artifice Cantrip':'artifice','Ether Cantrip':'ether','Cursesmithy Cantrip':'cursesmithy',
+};
+const PATRON_CLASS = {
+  'Facet':'facet','Myo':'myo',
+  'The Dreaming One':'dreaming',"Ciren'na":'cirenna',
+  'The Fey Coterie':'fey',
+};
+function branchTag(branch) {
+  const cls = BRANCH_CLASS[branch];
+  if (!cls) return '';
+  // Short display name
+  const label = branch.replace(' Cantrip','');
+  return `<span class="branch-tag branch-${cls}">${label}</span>`;
+}
+function patronTag(patron) {
+  const cls = PATRON_CLASS[patron];
+  if (!cls || !patron) return '';
+  return `<span class="branch-tag branch-${cls}">${patron}</span>`;
+}
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  REQUIREMENT PILLS                                       ║
 // ╚══════════════════════════════════════════════════════════╝
@@ -2225,6 +2293,7 @@ function buildSpellsTab() {
     const btn = document.createElement('button');
     btn.className = 'spell-tab-btn' + (tab.id === activeSpellTab ? ' active' : '');
     btn.textContent = tab.label;
+    btn.dataset.branch = tab.id;
     btn.addEventListener('click', () => {
       ch._activeSpellTab = tab.id;
       buildSpellsTab();
@@ -2245,10 +2314,10 @@ function buildSpellsTab() {
       : '';
     const cantripReqLine = (spell.anima === 0)
       ? (spell.branch === 'General Cantrip'
-          ? '<div class="spell-cantrip-req">Requirement: None</div>'
+          ? '<div class="spell-cantrip-req"><b>Requirement:</b> None</div>'
           : spell.branch === 'Patron Cantrip'
-            ? `<div class="spell-cantrip-req">Requirement: ${spell.patron || 'Patron'} patron</div>`
-            : `<div class="spell-cantrip-req">Requirement: ${spell.branch.replace(' Cantrip','')} primary branch</div>`)
+            ? `<div class="spell-cantrip-req"><b>Requirement:</b> ${patronTag(spell.patron)}${spell.patron || 'Patron'} patron</div>`
+            : `<div class="spell-cantrip-req"><b>Requirement:</b> ${branchTag(spell.branch)} ${spell.branch.replace(' Cantrip','')} primary branch</div>`)
       : '';
     row.innerHTML = `
       <div>
