@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avalore Data Converter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0e13;--s1:#19181f;--s2:#201f28;--s3:#2a2934;
+  --border:#2e2d3a;--border-strong:#3e3d4e;
+  --text:#e8e6f0;--muted:#a09eb8;--dim:#5e5c78;
+  --accent:#8b6fd4;--accent-dim:#2d2248;--accent-border:#5c4499;--accent-text:#c4aff8;
+  --gold:#c9a84c;--gold-dim:#2a2210;--gold-border:#7a601e;--gold-text:#e8cc88;
+  --success:#4caf7d;--success-dim:#0d2a1a;--success-border:#1e6640;
+  --danger:#c95555;--danger-dim:#2a0e0e;--danger-border:#7a2222;
+  --warning:#c9943a;--warning-dim:#2a1e08;--warning-border:#7a5410;
+  --radius:6px;--radius-lg:10px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
+.page{max-width:1100px;margin:0 auto;padding:2rem 1.25rem}
+.top-bar{display:flex;align-items:center;gap:12px;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.game-title{font-family:'Cinzel',serif;font-size:22px;font-weight:500;letter-spacing:.08em;background:linear-gradient(135deg,var(--gold-text),var(--accent-text));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-sub{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.card{background:var(--s2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem}
+.card-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:.75rem;font-family:'Cinzel',serif}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:768px){.layout{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}
+select,textarea{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .15s}
+select:focus,textarea:focus{border-color:var(--accent-border)}
+textarea{resize:vertical;min-height:340px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:var(--radius);border:1px solid var(--border-strong);background:transparent;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--s3);border-color:var(--accent-border)}
+.btn-accent{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-accent:hover{background:#7a5fc4;border-color:#7a5fc4}
+.btn-success{background:var(--success-dim);border-color:var(--success-border);color:var(--success)}
+.btn-success:hover{background:#0f3a22}
+.btn-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.preview-table{width:100%;border-collapse:collapse;font-size:12px}
+.preview-table th{text-align:left;font-size:10px;color:var(--dim);font-weight:600;padding:5px 8px;border-bottom:1px solid var(--border);font-family:'Cinzel',serif;letter-spacing:.06em;text-transform:uppercase}
+.preview-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-table td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+.preview-table tr:last-child td{border-bottom:none}
+.preview-table tr:hover td{background:var(--s3)}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:500}
+.b-ok{background:var(--success-dim);color:var(--success);border:1px solid var(--success-border)}
+.b-warn{background:var(--warning-dim);color:var(--warning);border:1px solid var(--warning-border)}
+.status{font-size:12px;color:var(--muted);margin-top:.5rem}
+.status.ok{color:var(--success)}
+.status.err{color:var(--danger)}
+.preview-wrap{overflow-x:auto;max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius)}
+.output-area{margin-top:0}
+.output-area textarea{min-height:200px;font-family:monospace;font-size:11px;color:var(--accent-text)}
+.tip{font-size:11px;color:var(--dim);margin-top:6px;line-height:1.6}
+.format-guide{background:var(--s1);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;margin-bottom:1rem;font-size:12px;color:var(--muted);line-height:1.7}
+.format-guide b{color:var(--text);font-weight:500}
+.section-sep{height:1px;background:var(--border);margin:1rem 0}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar">
+    <div>
+      <div class="game-title">Avalore</div>
+    </div>
+    <div class="page-sub">Data File Converter</div>
+  </div>
+
+  <div class="layout">
+
+    <!-- Input -->
+    <div class="card">
+      <div class="card-title">Input</div>
+      <label for="format-sel">Data type</label>
+      <select id="format-sel" onchange="onFormatChange()">
+        <option value="">— select format —</option>
+        <option value="spells">Spells</option>
+        <option value="feats">Feats</option>
+        <option value="weapons">Weapons</option>
+        <option value="hindrances">Hindrances</option>
+        <option value="costs">Costs</option>
+      </select>
+
+      <div class="section-sep"></div>
+
+      <div id="format-guide" class="format-guide" style="display:none"></div>
+
+      <label for="raw-input" style="margin-top:.5rem">Paste raw forum text</label>
+      <textarea id="raw-input" placeholder="Paste the raw text from the Avalore forum here…" spellcheck="false"></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-accent" onclick="convert()">Convert →</button>
+        <button class="btn" onclick="document.getElementById('raw-input').value='';clearOutput()">Clear</button>
+        <span class="status" id="parse-status"></span>
+      </div>
+    </div>
+
+    <!-- Preview + Output -->
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="card">
+        <div class="card-title">Preview</div>
+        <div id="preview-area"><p style="color:var(--dim);font-size:12px">Parsed results will appear here.</p></div>
+      </div>
+
+      <div class="card output-area">
+        <div class="card-title">Output JS file</div>
+        <textarea id="js-output" readonly placeholder="Generated JS will appear here after conversion…" spellcheck="false"></textarea>
+        <div class="btn-row">
+          <button class="btn btn-success" onclick="downloadJS()" id="dl-btn" disabled>↓ Download .js file</button>
+          <button class="btn" onclick="copyJS()" id="copy-btn" disabled>Copy</button>
+        </div>
+        <p class="tip">Download and place in your repo's <code>data/</code> folder, then commit.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Format guides ──────────────────────────────────────────────────────────
+const FORMAT_GUIDES = {
+  spells: `<b>Spells format:</b> Paste directly from the Avalore forum spell pages. Each spell should have a name, Effect, Method, and a footer line like <code>Ichor 4 anima 2 actions /cast exorcise</code> followed by a requirement line. The parser handles all branches automatically.`,
+  feats:  `<b>Feats format:</b> Paste feat entries from the forum. Each feat needs a name line, description text, and a footer like <code>Combat feat · Limited</code> or <code>Utility feat</code>. Include a "Requires:" line if present.`,
+  weapons:`<b>Weapons format:</b> Paste weapon entries. Each weapon needs a name, description, a stats line like <code>One-handed 4 damage 1 action /roll arming</code>, and a requirement line.`,
+  hindrances:`<b>Hindrances format:</b> Paste hindrance entries. Each needs a name, a type line (Arcane or Mutant), and a description.`,
+  costs:  `<b>Costs format:</b> Paste as two columns: type key and XP cost, one per line. E.g. <code>skill_up, Skill upgrade, 6</code>`,
+};
+
+const FILENAMES = {
+  spells:'spells.js', feats:'feats.js', weapons:'weapons.js',
+  hindrances:'hindrances.js', costs:'costs.js',
+};
+
+function onFormatChange() {
+  const fmt = document.getElementById('format-sel').value;
+  const guide = document.getElementById('format-guide');
+  if (fmt && FORMAT_GUIDES[fmt]) {
+    guide.innerHTML = FORMAT_GUIDES[fmt];
+    guide.style.display = '';
+  } else {
+    guide.style.display = 'none';
+  }
+  clearOutput();
+}
+
+function clearOutput() {
+  document.getElementById('preview-area').innerHTML = '<p style="color:var(--dim);font-size:12px">Parsed results will appear here.</p>';
+  document.getElementById('js-output').value = '';
+  document.getElementById('dl-btn').disabled = true;
+  document.getElementById('copy-btn').disabled = true;
+  document.getElementById('parse-status').textContent = '';
+  document.getElementById('parse-status').className = 'status';
+}
+
+// ── PARSERS ────────────────────────────────────────────────────────────────
+
+function parseSpells(text) {
+  const spells = [];
+  const errors = [];
+
+  // Split on separator lines (---, lines of dashes, or blank lines before a new capitalized name)
+  // Each spell block: name line, possibly "Targeted", Effect:, Method:, footer line, requirement line
+  const blocks = splitIntoBlocks(text);
+
+  // Detect current branch from section headers
+  let currentBranch = '';
+  const branchHeaders = {
+    'general cantrips': 'General Cantrip',
+    'patron cantrips': 'Patron Cantrip',
+    'inherent cantrip': '',  // handled per-branch
+    'ichor cantrip': 'Ichor Cantrip',
+    'cursesmithy cantrip': 'Cursesmithy Cantrip',
+    'ether cantrip': 'Ether Cantrip',
+    'artifice cantrip': 'Artifice Cantrip',
+    'force cantrip': 'Force Cantrip',
+    'tellurgy cantrip': 'Tellurgy Cantrip',
+    '2 anima': null, '4 anima': null, '6 anima': null, '10 anima': null,
+    'capstone': null,
+  };
+
+  // Process the full text looking for branch markers and spell blocks
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+  let i = 0;
+  let inherentBranch = '';  // set when we see "Inherent Cantrip" under a branch header
+
+  // Try to detect branch from surrounding context before "Inherent Cantrip"
+  function detectInherentBranch(lines, idx) {
+    // Look backwards for a branch name
+    const branchNames = ['Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+    for (let j = Math.max(0, idx-10); j < idx; j++) {
+      for (const b of branchNames) {
+        if (lines[j].toLowerCase().includes(b.toLowerCase()) && !lines[j].includes('anima')) {
+          return b + ' Cantrip';
+        }
+      }
+    }
+    return '';
+  }
+
+  while (i < lines.length) {
+    const line = lines[i].toLowerCase();
+
+    // Check for branch/section headers
+    let foundHeader = false;
+    for (const [hdr, branch] of Object.entries(branchHeaders)) {
+      if (line.includes(hdr) && line.length < 60) {
+        if (branch !== null) {
+          currentBranch = branch;
+        } else if (line.includes('inherent cantrip')) {
+          // detect from context
+          inherentBranch = detectInherentBranch(lines, i);
+          currentBranch = inherentBranch || currentBranch;
+        }
+        // For "Ichor", "Cursesmithy" etc section headers with anima levels
+        const disciplineBranches = ['ichor','cursesmithy','ether','artifice','force','tellurgy'];
+        for (const d of disciplineBranches) {
+          if (line.startsWith(d) && (line.includes('anima') || line.includes('capstone'))) {
+            currentBranch = d.charAt(0).toUpperCase() + d.slice(1);
+            break;
+          }
+        }
+        foundHeader = true;
+        break;
+      }
+    }
+    // Also handle "Ichor\n2 Anima" style where branch name alone is on a line
+    const disciplineNames = ['Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+    if (!foundHeader) {
+      for (const d of disciplineNames) {
+        if (lines[i] === d) {
+          currentBranch = d;
+          foundHeader = true;
+          break;
+        }
+      }
+    }
+
+    if (foundHeader) { i++; continue; }
+
+    // Try to parse a spell starting at this line
+    // A spell starts with its name (not a label like "Effect:", "Method:", "Requires")
+    // and is NOT a number-only line or a section count like "(9 spells)"
+    const nameLine = lines[i];
+    if (!nameLine || /^\d/.test(nameLine) || nameLine.startsWith('(') ||
+        /^(effect|method|requires|targeted|—|-{2,})/i.test(nameLine)) {
+      i++; continue;
+    }
+
+    // Collect the block until we hit the footer line (/cast or /roll)
+    let j = i + 1;
+    const blockLines = [nameLine];
+    let footerIdx = -1;
+    while (j < lines.length && j < i + 30) {
+      if (/\/cast\s+\S+|\/roll\s+\S+/.test(lines[j])) {
+        footerIdx = j;
+        break;
+      }
+      blockLines.push(lines[j]);
+      j++;
+    }
+
+    if (footerIdx === -1) { i++; continue; }
+
+    const footer = lines[footerIdx];
+    const reqLine = lines[footerIdx + 1] || '';
+
+    // Parse footer: e.g. " Ichor 4 anima 2 actions /cast bloodhound"
+    // or " Cantrip (0 anima) 1 action /cast trick"
+    // or " Cursesmithy 10 anima 7 actions /cast haunt"
+    const footerBranchMatch = footer.match(/^\s*(Ichor|Cursesmithy|Ether|Artifice|Force|Tellurgy|General Cantrip|Patron Cantrip|Cantrip)/i);
+    const animaMatch  = footer.match(/(\d+)\s*anima|cantrip\s*\(0\s*anima\)|0\s*anima/i);
+    const actionsMatch= footer.match(/(\d+)\s*action/i);
+    const cmdMatch    = footer.match(/\/(cast|roll)\s+(\S+)/i);
+
+    if (!cmdMatch) { i = footerIdx + 1; continue; }
+
+    // Determine branch
+    let branch = currentBranch;
+    if (footerBranchMatch) {
+      const fb = footerBranchMatch[1].toLowerCase();
+      const map = {ichor:'Ichor',cursesmithy:'Cursesmithy',ether:'Ether',artifice:'Artifice',force:'Force',tellurgy:'Tellurgy'};
+      if (map[fb]) branch = map[fb];
+    }
+
+    const anima = animaMatch ? (animaMatch[0].toLowerCase().includes('cantrip') ? 0 : parseInt(animaMatch[1])) : 0;
+    const actions = actionsMatch ? actionsMatch[1] : '1';
+    const cmd = '/' + cmdMatch[1].toLowerCase() + ' ' + cmdMatch[2].toLowerCase();
+
+    // Parse name (first line of block)
+    let name = blockLines[0];
+    let targeted = false;
+    if (blockLines[1] && blockLines[1].toLowerCase() === 'targeted') {
+      targeted = true;
+      blockLines.splice(1, 1);
+    }
+
+    // Detect capstone
+    const capstone = blockLines.some(l => /capstone/i.test(l));
+
+    // Extract patron for patron cantrips
+    let patron = '';
+    if (branch === 'Patron Cantrip') {
+      const patronMap = {'myo':'Myo','fey coterie':'The Fey Coterie','dreaming one':'The Dreaming One','facet':'Facet',"ciren'na":"Ciren'na",'cirenna':"Ciren'na"};
+      const allText = blockLines.join(' ').toLowerCase();
+      for (const [k,v] of Object.entries(patronMap)) {
+        if (allText.includes(k)) { patron = v; break; }
+      }
+      // Also check the "Effect: Myo Cantrip" style
+      for (const l of blockLines) {
+        const m = l.match(/^(.+?)\s+Cantrip$/i);
+        if (m) {
+          const pn = m[1].trim().toLowerCase();
+          for (const [k,v] of Object.entries(patronMap)) {
+            if (pn.includes(k)) { patron = v; break; }
+          }
+        }
+      }
+    }
+
+    // Build description from Effect section
+    let desc = '';
+    const effectStart = blockLines.findIndex(l => /^effect:/i.test(l));
+    const methodStart = blockLines.findIndex(l => /^method:/i.test(l));
+    if (effectStart >= 0) {
+      const endIdx = methodStart > effectStart ? methodStart : blockLines.length;
+      const effectLines = blockLines.slice(effectStart, endIdx);
+      desc = effectLines.map(l => l.replace(/^effect:\s*/i, '').replace(/^\[.+\]\s*/,'').trim()).filter(Boolean).join(' ');
+    } else {
+      // No Effect: label — join non-name, non-Method lines
+      const descLines = blockLines.slice(1).filter(l => !/^method:|^targeted/i.test(l));
+      desc = descLines.join(' ').trim();
+    }
+    // Clean up patron cantrip label from desc
+    desc = desc.replace(/^(Myo|Fey Coterie|The Fey Coterie|Dreaming One|The Dreaming One|Facet|Ciren'na)\s+Cantrip\s*/i, '').trim();
+
+    // Requirement
+    let req = 'None';
+    if (/^no requirement/i.test(reqLine)) {
+      req = 'None';
+    } else if (/^requires?\s+/i.test(reqLine)) {
+      req = reqLine.replace(/^requires?\s*/i, '').replace(/\.$/, '').trim();
+    }
+
+    spells.push({ branch, name, anima, actions, cmd, req, patron, capstone, targeted, desc });
+    i = footerIdx + 2;
+  }
+
+  return { data: spells, errors };
+}
+
+function parseFeats(text) {
+  const feats = [];
+  const errors = [];
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+  // Feats are separated by --- or blank groupings
+  // Each feat: Name, description text, footer "X feat [· Limited]", Requires: line
+  const catKeywords = ['combat','utility','magic','mutation','vampiric','social'];
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // Skip section headers, separators
+    if (/^-{2,}$/.test(line) || /^\d+\s+feat/i.test(line) || /^#/.test(line)) { i++; continue; }
+
+    // Look for a footer line that identifies a feat
+    // Footer looks like: "Combat feat", "Utility feat · Limited", etc
+    let footerIdx = -1;
+    let j = i;
+    while (j < lines.length && j < i + 20) {
+      if (catKeywords.some(k => lines[j].toLowerCase().includes(k + ' feat'))) {
+        footerIdx = j;
+        break;
+      }
+      j++;
+    }
+
+    if (footerIdx === -1) { i++; continue; }
+
+    const name = lines[i];
+    if (!name || name.length > 80 || /^(effect|method|requires)/i.test(name)) { i++; continue; }
+
+    const footer = lines[footerIdx];
+    const reqLine = lines[footerIdx + 1] || '';
+
+    // Category
+    let cat = 'Utility';
+    for (const k of catKeywords) {
+      if (footer.toLowerCase().includes(k)) {
+        cat = k.charAt(0).toUpperCase() + k.slice(1);
+        break;
+      }
+    }
+
+    // Limited
+    const limited = /limited/i.test(footer);
+
+    // Description: lines between name+1 and footer
+    const descLines = lines.slice(i + 1, footerIdx).filter(l =>
+      !/^(effect|method|note|additionally)/i.test(l)
+    );
+    const desc = descLines.join(' ').trim();
+
+    // Requirement
+    let req = 'None';
+    if (/^no requirement/i.test(reqLine)) req = 'None';
+    else if (/^requires?:/i.test(reqLine)) req = reqLine.replace(/^requires?:\s*/i,'').replace(/\.$/,'').trim();
+    else if (/^requires?\s+/i.test(reqLine)) req = reqLine.replace(/^requires?\s*/i,'').replace(/\.$/,'').trim();
+
+    feats.push({ name, cat, req, desc, limited });
+    i = footerIdx + 2;
+  }
+
+  return { data: feats, errors };
+}
+
+function parseWeapons(text) {
+  const weapons = [];
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+  // Category detection
+  const catPatterns = [
+    { pat: /melee.*0.*2|melee.*2.*0/i, cat: 'Melee (0-2)' },
+    { pat: /skirmish.*2.*8|skirmish.*8.*2/i, cat: 'Skirmishing (2-8)' },
+    { pat: /ranged.*6.*30|ranged.*30.*6/i, cat: 'Ranged (6-30)' },
+    { pat: /armou?r/i, cat: 'Armour' },
+    { pat: /magic/i, cat: 'Magic' },
+  ];
+  let currentCat = 'Melee (0-2)';
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Check for category header
+    for (const { pat, cat } of catPatterns) {
+      if (pat.test(line) && line.length < 60) { currentCat = cat; }
+    }
+
+    // Look for a stats footer line: "One-handed 4 damage 1 action /roll arming"
+    // or "Two-handed 8 damage 2 actions /roll great"
+    const statsMatch = line.match(/^(One|Two)-handed\s+(\d+)\s+damage\s+(\d+)\s+action[s]?\s+(\/\w+)/i);
+    if (!statsMatch && !/^(Armour|Light armou?r|Medium armou?r|Heavy armou?r)/i.test(line)) {
+      i++; continue;
+    }
+
+    // Find name — look backwards for a line that's a weapon name
+    let nameIdx = i - 1;
+    while (nameIdx >= 0 && (lines[nameIdx].length > 60 || /^(note|effect|requires|—|-{2})/i.test(lines[nameIdx]))) {
+      nameIdx--;
+    }
+    const name = nameIdx >= 0 ? lines[nameIdx] : '';
+    const reqLine = lines[i + 1] || '';
+
+    let hit = null, hands = null, dmg = null, acts = null, dpt = null;
+    const notes = [];
+
+    if (statsMatch) {
+      hands = statsMatch[1].toLowerCase() === 'one' ? 1 : 2;
+      dmg   = parseInt(statsMatch[2]);
+      acts  = parseInt(statsMatch[3]);
+      dpt   = acts > 0 ? Math.round(dmg / acts * 10) / 10 : null;
+    }
+
+    // Look for "To hit" in surrounding lines
+    for (let k = Math.max(0, i-5); k <= Math.min(lines.length-1, i+2); k++) {
+      const m = lines[k].match(/\+(\d+)\s+when rolling to hit/i);
+      if (m) hit = parseInt(m[1]);
+      if (/pierces|penetrates|bypasses/i.test(lines[k])) notes.push(lines[k].replace(/^[+·•]\s*/,'').trim());
+      if (/\+\d+ damage/i.test(lines[k]) && !/to hit/i.test(lines[k])) notes.push(lines[k].replace(/^[+·•]\s*/,'').trim());
+      if (/cannot penetrate|no requirement|-\d+/i.test(lines[k])) notes.push(lines[k].replace(/^[+·•]\s*/,'').trim());
+    }
+
+    let req = 'None';
+    if (/^no requirement/i.test(reqLine)) req = 'None';
+    else if (/^requires?\s*/i.test(reqLine)) req = reqLine.replace(/^requires?\s*/i,'').replace(/\.$/,'').trim();
+
+    if (name) {
+      weapons.push({ cat: currentCat, name, req, hit, hands, dmg, acts, dpt, notes: notes.join('. ') });
+    }
+    i++;
+  }
+
+  return { data: weapons, errors: [] };
+}
+
+function parseHindrances(text) {
+  const hindrances = [];
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  let currentType = 'Arcane';
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    if (/arcane\s+hindrance/i.test(line)) { currentType = 'Arcane'; i++; continue; }
+    if (/mutant\s+hindrance/i.test(line)) { currentType = 'Mutant'; i++; continue; }
+    if (/^-{2,}$/.test(line) || line.length > 80) { i++; continue; }
+
+    // A hindrance entry: name line, then description until next name or separator
+    const name = line;
+    if (!name || /^(requires|effect|method)/i.test(name)) { i++; continue; }
+
+    const descLines = [];
+    let j = i + 1;
+    while (j < lines.length && j < i + 8) {
+      if (/^-{2,}$/.test(lines[j])) break;
+      // Stop if next line looks like a new hindrance name (short, no punctuation in middle)
+      if (lines[j].length < 50 && !/[,;]/.test(lines[j]) && j > i + 1 && descLines.length > 0) break;
+      descLines.push(lines[j]);
+      j++;
+    }
+
+    hindrances.push({ name, type: currentType, desc: descLines.join(' ').trim() });
+    i = j;
+  }
+
+  return { data: hindrances, errors: [] };
+}
+
+function parseCosts(text) {
+  const costs = {}, labels = {};
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  for (const line of lines) {
+    // Format: type_key, Label Name, XP cost
+    const parts = line.split(',').map(p => p.trim());
+    if (parts.length >= 3) {
+      const type = parts[0], label = parts[1], xp = parseInt(parts[2]);
+      if (type && !isNaN(xp)) { costs[type] = xp; labels[type] = label; }
+    }
+  }
+  return { data: { costs, labels }, errors: [] };
+}
+
+// ── Block splitter helper ──────────────────────────────────────────────────
+function splitIntoBlocks(text) {
+  return text.split(/\n{2,}|^-{3,}$/m).map(b => b.trim()).filter(b => b.length > 10);
+}
+
+// ── JS file generators ─────────────────────────────────────────────────────
+function toJS(fmt, data) {
+  const j = d => JSON.stringify(d, null, 2);
+  switch(fmt) {
+    case 'spells':
+      return `// Avalore spells — generated by converter\nwindow.SPELLS_DEFAULT = ${j(data)};\n`;
+    case 'feats':
+      return `// Avalore feats — generated by converter\nwindow.FEATS_DEFAULT = ${j(data)};\n`;
+    case 'weapons':
+      return `// Avalore weapons — generated by converter\nwindow.WEAPONS_DEFAULT = ${j(data)};\n`;
+    case 'hindrances': {
+      const arc = data.filter(h => h.type === 'Arcane').map(({name,desc}) => ({name,desc}));
+      const mut = data.filter(h => h.type === 'Mutant').map(({name,desc}) => ({name,desc}));
+      return `// Avalore hindrances — generated by converter\nwindow.ARCANE_HINDRANCES_DEFAULT = ${j(arc)};\nwindow.MUTANT_HINDRANCES_DEFAULT = ${j(mut)};\n`;
+    }
+    case 'costs':
+      return `// Avalore costs — generated by converter\nwindow.COSTS_DEFAULT = ${j(data.costs)};\nwindow.LABELS_DEFAULT = ${j(data.labels)};\n`;
+    default: return '';
+  }
+}
+
+// ── Preview renderers ──────────────────────────────────────────────────────
+function renderPreview(fmt, data) {
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    return '<p style="color:var(--dim);font-size:12px">No items parsed. Check your input format.</p>';
+  }
+
+  let html = '<div class="preview-wrap"><table class="preview-table">';
+  const trunc = s => s && s.length > 80 ? s.slice(0,80)+'…' : (s||'');
+
+  switch(fmt) {
+    case 'spells':
+      html += '<thead><tr><th>Name</th><th>Branch</th><th>Anima</th><th>Actions</th><th>Req</th><th>Description</th></tr></thead><tbody>';
+      for (const s of data) {
+        html += `<tr><td>${s.name}</td><td>${s.branch}</td><td>${s.anima}</td><td>${s.actions}</td><td>${s.req}</td><td title="${s.desc}">${trunc(s.desc)}</td></tr>`;
+      }
+      break;
+    case 'feats':
+      html += '<thead><tr><th>Name</th><th>Category</th><th>Limited</th><th>Req</th><th>Description</th></tr></thead><tbody>';
+      for (const f of data) {
+        html += `<tr><td>${f.name}</td><td>${f.cat}</td><td>${f.limited?'<span class="badge b-warn">Yes</span>':'No'}</td><td>${f.req}</td><td title="${f.desc}">${trunc(f.desc)}</td></tr>`;
+      }
+      break;
+    case 'weapons':
+      html += '<thead><tr><th>Name</th><th>Cat</th><th>Hit</th><th>Hands</th><th>Dmg</th><th>Acts</th><th>Req</th></tr></thead><tbody>';
+      for (const w of data) {
+        html += `<tr><td>${w.name}</td><td>${w.cat}</td><td>${w.hit??'—'}</td><td>${w.hands??'—'}</td><td>${w.dmg??'—'}</td><td>${w.acts??'—'}</td><td>${w.req}</td></tr>`;
+      }
+      break;
+    case 'hindrances':
+      html += '<thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody>';
+      for (const h of data) {
+        html += `<tr><td>${h.name}</td><td>${h.type}</td><td title="${h.desc}">${trunc(h.desc)}</td></tr>`;
+      }
+      break;
+    case 'costs':
+      html += '<thead><tr><th>Type key</th><th>Label</th><th>XP cost</th></tr></thead><tbody>';
+      for (const [k,v] of Object.entries(data.costs)) {
+        html += `<tr><td>${k}</td><td>${data.labels[k]||''}</td><td>${v}</td></tr>`;
+      }
+      break;
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+// ── Main convert function ──────────────────────────────────────────────────
+let lastData = null, lastFmt = '';
+
+function convert() {
+  const fmt    = document.getElementById('format-sel').value;
+  const raw    = document.getElementById('raw-input').value.trim();
+  const status = document.getElementById('parse-status');
+
+  if (!fmt)  { status.textContent = 'Select a data type first.'; status.className='status err'; return; }
+  if (!raw)  { status.textContent = 'Paste some text first.'; status.className='status err'; return; }
+
+  let result;
+  try {
+    switch(fmt) {
+      case 'spells':     result = parseSpells(raw); break;
+      case 'feats':      result = parseFeats(raw); break;
+      case 'weapons':    result = parseWeapons(raw); break;
+      case 'hindrances': result = parseHindrances(raw); break;
+      case 'costs':      result = parseCosts(raw); break;
+      default: return;
+    }
+  } catch(e) {
+    status.textContent = 'Parse error: ' + e.message;
+    status.className='status err';
+    return;
+  }
+
+  const count = Array.isArray(result.data) ? result.data.length : Object.keys(result.data.costs||result.data).length;
+  status.textContent = `Parsed ${count} items.`;
+  status.className = 'status ok';
+
+  document.getElementById('preview-area').innerHTML = renderPreview(fmt, result.data);
+
+  const js = toJS(fmt, result.data);
+  document.getElementById('js-output').value = js;
+  document.getElementById('dl-btn').disabled = false;
+  document.getElementById('copy-btn').disabled = false;
+
+  lastData = js;
+  lastFmt  = fmt;
+}
+
+function downloadJS() {
+  if (!lastData) return;
+  const blob = new Blob([lastData], {type:'text/javascript'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = FILENAMES[lastFmt] || 'data.js';
+  a.click();
+}
+
+function copyJS() {
+  const out = document.getElementById('js-output');
+  navigator.clipboard.writeText(out.value).then(() => {
+    const btn = document.getElementById('copy-btn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+</script>
+</body>
+</html>
