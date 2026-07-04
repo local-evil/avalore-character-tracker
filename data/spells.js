@@ -10,9 +10,7 @@ window.SPELLS_DEFAULT = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Effect: The caster's keen eye for astronomy briefly shares its secret with others looking to the heavens. After selecting a constellation or specific celestial body the caster knows by name, the chosen target becomes highlighted at the caster's discretion (changing color, increasing perceived brightness, showing through clouds, etc). If an entire constellation is illuminated, the symbol it represents (e.g. a Griffon) can be colored in with simple illusory details overlaying the stars that comprise it. The effect is visible to all within Yell range of the caster, and lasts up to a single night.
-
-Method: Looking up to the night sky and tracing the index finger around a celestial body."
+    "desc": "Effect: The caster's keen eye for astronomy briefly shares its secret with others looking to the heavens. After selecting a constellation or specific celestial body the caster knows by name, the chosen target becomes highlighted at the caster's discretion (changing color, increasing perceived brightness, showing through clouds, etc). If an entire constellation is illuminated, the symbol it represents (e.g. a Griffon) can be colored in with simple illusory details overlaying the stars that comprise it. The effect is visible to all within Yell range of the caster, and lasts up to a single night. Method: Looking up to the night sky and tracing the index finger around a celestial body."
   },
   {
     "branch": "General Cantrip",
