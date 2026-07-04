@@ -548,6 +548,26 @@ option[data-locked="true"] {
 .mage-config-lbl { font-size: 11px; color: var(--text-muted); min-width: 120px; }
 .mage-config select { font-size: 12px; padding: 3px 6px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); flex: 1; font-family: var(--font-body); }
 
+
+/* ── Spell branch tabs ── */
+.spell-tab-bar {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  margin-bottom: 1rem; padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.spell-tab-btn {
+  padding: 5px 12px; font-size: 12px; font-family: var(--font-body);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: transparent; color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+}
+.spell-tab-btn:hover { color: var(--text-primary); border-color: var(--border-strong); }
+.spell-tab-btn.active { color: var(--accent-text); border-color: var(--accent-border); background: var(--accent-dim); }
+/* ── Spell method line ── */
+.spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; }
+.spell-method b { color: var(--text-secondary); font-style: normal; }
+.spell-desc b { color: var(--text-secondary); }
+
 </style>
 </head>
 <body>
@@ -2042,7 +2062,16 @@ function buildSpellsTab() {
   el.appendChild(cantripDiv);
 
   // ── Spell list grouped by branch, sorted by anima ──
-  const branchOrder = ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip','Ichor','Cursesmithy','Ether','Artifice','Force','Tellurgy'];
+  // ── Group accessible spells into tabs ──
+  const SPELL_TABS = [
+    { id: 'cantrip', label: 'Cantrip', branches: ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip'] },
+    { id: 'ichor',       label: 'Ichor',       branches: ['Ichor'] },
+    { id: 'cursesmithy', label: 'Cursesmithy', branches: ['Cursesmithy'] },
+    { id: 'ether',       label: 'Ether',       branches: ['Ether'] },
+    { id: 'artifice',    label: 'Artifice',    branches: ['Artifice'] },
+    { id: 'force',       label: 'Force',       branches: ['Force'] },
+    { id: 'tellurgy',    label: 'Tellurgy',    branches: ['Tellurgy'] },
+  ];
 
   const accessible = SPELLS.filter(s => spellAccessible(s, ch, cfg));
   const byBranch = {};
@@ -2050,17 +2079,45 @@ function buildSpellsTab() {
     if (!byBranch[s.branch]) byBranch[s.branch] = [];
     byBranch[s.branch].push(s);
   });
-  // Sort within branch by anima cost
   Object.values(byBranch).forEach(arr => arr.sort((a,b) => a.anima-b.anima));
 
   const favs = ch.spellFavorites || [];
 
-  branchOrder.forEach(branch => {
+  // Get active spell tab from character or default to cantrip
+  const activeSpellTab = ch._activeSpellTab || 'cantrip';
+
+  // Build tab bar
+  const tabBar = document.createElement('div');
+  tabBar.className = 'spell-tab-bar';
+  SPELL_TABS.forEach(tab => {
+    // Only show tabs that have accessible spells
+    const hasSpells = tab.branches.some(b => byBranch[b] && byBranch[b].length > 0);
+    if (!hasSpells) return;
+    const btn = document.createElement('button');
+    btn.className = 'spell-tab-btn' + (tab.id === activeSpellTab ? ' active' : '');
+    btn.textContent = tab.label;
+    btn.addEventListener('click', () => {
+      ch._activeSpellTab = tab.id;
+      buildSpellsTab();
+    });
+    tabBar.appendChild(btn);
+  });
+  el.appendChild(tabBar);
+
+  // Show spells for active tab
+  const activeTab = SPELL_TABS.find(t => t.id === activeSpellTab) || SPELL_TABS[0];
+  let anyShown = false;
+
+  activeTab.branches.forEach(branch => {
     if (!byBranch[branch] || byBranch[branch].length === 0) return;
-    // Branch header
+    anyShown = true;
+
     const hdr = document.createElement('div');
     hdr.className = 'spell-branch-header';
-    hdr.innerHTML = `<span class="spell-branch-name">${branch.replace(' Cantrip', ' — Cantrip')}</span>`;
+    // Clean up label: just show "General", "Patron", or branch name for cantrips
+    let branchLabel = branch;
+    if (branch.endsWith(' Cantrip')) branchLabel = branch.replace(' Cantrip','') + ' cantrips';
+    hdr.innerHTML = `<span class="spell-branch-name">${branchLabel}</span>`;
     el.appendChild(hdr);
 
     byBranch[branch].forEach(spell => {
@@ -2069,11 +2126,15 @@ function buildSpellsTab() {
       const row = document.createElement('div');
       row.className = 'spell-row';
       row.style.opacity = reqMet ? '' : '0.5';
+      const methodLine = spell.method
+        ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
+        : '';
       row.innerHTML = `
         <div>
           <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
           ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
-          <div class="spell-desc">${spell.desc}</div>
+          <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
+          ${methodLine}
           <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
         </div>
         <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
@@ -2082,6 +2143,13 @@ function buildSpellsTab() {
       el.appendChild(row);
     });
   });
+
+  if (!anyShown) {
+    const empty = document.createElement('div');
+    empty.className = 'no-mage-notice';
+    empty.textContent = 'No spells available in this branch with your current stats and discipline.';
+    el.appendChild(empty);
+  }
 
   // Wire up fav buttons
   el.querySelectorAll('.spell-fav').forEach(btn => {

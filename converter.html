@@ -346,7 +346,14 @@ function parseSpells(text) {
       req = reqLine.replace(/^requires?\s*/i, '').replace(/\.$/, '').trim();
     }
 
-    spells.push({ branch, name, anima, actions, cmd, req, patron, capstone, targeted, desc });
+    // Extract method from Method: section
+    let method = '';
+    const methodStart2 = blockLines.findIndex(l => /^method:/i.test(l));
+    if (methodStart2 >= 0) {
+      method = blockLines.slice(methodStart2).map(l => l.replace(/^method:\s*/i,'').trim()).filter(Boolean).join(' ');
+    }
+
+    spells.push({ branch, name, anima, actions, cmd, req, patron, capstone, targeted, desc, method });
     i = footerIdx + 2;
   }
 
@@ -573,9 +580,9 @@ function renderPreview(fmt, data) {
 
   switch(fmt) {
     case 'spells':
-      html += '<thead><tr><th>Name</th><th>Branch</th><th>Anima</th><th>Actions</th><th>Req</th><th>Description</th></tr></thead><tbody>';
+      html += '<thead><tr><th>Name</th><th>Branch</th><th>Anima</th><th>Acts</th><th>Req</th><th>Effect</th><th>Method</th></tr></thead><tbody>';
       for (const s of data) {
-        html += `<tr><td>${s.name}</td><td>${s.branch}</td><td>${s.anima}</td><td>${s.actions}</td><td>${s.req}</td><td title="${s.desc}">${trunc(s.desc)}</td></tr>`;
+        html += `<tr><td>${s.name}</td><td>${s.branch}</td><td>${s.anima}</td><td>${s.actions}</td><td>${s.req}</td><td title="${s.desc}">${trunc(s.desc)}</td><td title="${s.method||''}">${trunc(s.method||'')}</td></tr>`;
       }
       break;
     case 'feats':
