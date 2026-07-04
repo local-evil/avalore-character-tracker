@@ -551,18 +551,26 @@ option[data-locked="true"] {
 
 /* ── Spell branch tabs ── */
 .spell-tab-bar {
-  display: flex; gap: 4px; flex-wrap: wrap;
-  margin-bottom: 1rem; padding-bottom: 0.75rem;
+  display: flex; gap: 0; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
 .spell-tab-btn {
-  padding: 5px 12px; font-size: 12px; font-family: var(--font-body);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  background: transparent; color: var(--text-muted);
-  cursor: pointer; transition: all 0.15s;
+  padding: 8px 18px; font-size: 13px; font-family: var(--font-body);
+  border: none; background: transparent; color: var(--text-muted);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
 }
-.spell-tab-btn:hover { color: var(--text-primary); border-color: var(--border-strong); }
-.spell-tab-btn.active { color: var(--accent-text); border-color: var(--accent-border); background: var(--accent-dim); }
+.spell-tab-btn:hover { color: var(--text-primary); }
+.spell-tab-btn.active { color: var(--accent-text); border-bottom-color: var(--accent); }
+/* ── Anima tier sub-heading ── */
+.spell-tier-header {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); font-family: var(--font-display);
+  padding: 10px 0 4px 10px; margin-top: 4px;
+  border-bottom: 1px solid var(--border); margin-bottom: 2px;
+}
+.spell-tier-header:first-child { margin-top: 0; padding-top: 4px; }
 /* ── Spell method line ── */
 .spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; }
 .spell-method b { color: var(--text-secondary); font-style: normal; }
@@ -2104,45 +2112,99 @@ function buildSpellsTab() {
   });
   el.appendChild(tabBar);
 
-  // Show spells for active tab
+  // ── Helper to render a spell row ──
+  function renderSpellRow(spell) {
+    const reqMet = checkSpellReq(spell, ch);
+    const isFav = favs.includes(spell.name);
+    const row = document.createElement('div');
+    row.className = 'spell-row';
+    row.style.opacity = reqMet ? '' : '0.5';
+    const methodLine = spell.method
+      ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
+      : '';
+    row.innerHTML = `
+      <div>
+        <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
+        ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
+        <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
+        ${methodLine}
+        <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
+      </div>
+      <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
+      <div class="spell-actions">${spell.actions} act${spell.actions!=='1'?'s':''}</div>
+      <button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`;
+    return row;
+  }
+
+  // ── Show spells for active tab ──
   const activeTab = SPELL_TABS.find(t => t.id === activeSpellTab) || SPELL_TABS[0];
   let anyShown = false;
 
-  activeTab.branches.forEach(branch => {
-    if (!byBranch[branch] || byBranch[branch].length === 0) return;
-    anyShown = true;
+  if (activeTab.id === 'cantrip') {
+    // ── Cantrip tab: group by Requirement label, no branch headers ──
+    // Collect all cantrip spells
+    const allCantrips = activeTab.branches.flatMap(b => byBranch[b] || []);
+    if (allCantrips.length > 0) {
+      anyShown = true;
 
-    const hdr = document.createElement('div');
-    hdr.className = 'spell-branch-header';
-    // Clean up label: just show "General", "Patron", or branch name for cantrips
-    let branchLabel = branch;
-    if (branch.endsWith(' Cantrip')) branchLabel = branch.replace(' Cantrip','') + ' cantrips';
-    hdr.innerHTML = `<span class="spell-branch-name">${branchLabel}</span>`;
-    el.appendChild(hdr);
+      // Group by their requirement label
+      function cantripReqLabel(spell) {
+        if (spell.branch === 'General Cantrip') return 'Requirement: None';
+        if (spell.branch === 'Patron Cantrip') return `Requirement: ${spell.patron || 'Patron'}`;
+        // Branch cantrips e.g. "Ichor Cantrip"
+        const b = spell.branch.replace(' Cantrip', '');
+        return `Requirement: ${b} Primary Branch`;
+      }
 
-    byBranch[branch].forEach(spell => {
-      const reqMet = checkSpellReq(spell, ch);
-      const isFav = favs.includes(spell.name);
-      const row = document.createElement('div');
-      row.className = 'spell-row';
-      row.style.opacity = reqMet ? '' : '0.5';
-      const methodLine = spell.method
-        ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
-        : '';
-      row.innerHTML = `
-        <div>
-          <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
-          ${!reqMet?`<div class="spell-req">Requires: ${spell.req}</div>`:''}
-          <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
-          ${methodLine}
-          <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
-        </div>
-        <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
-        <div class="spell-actions">${spell.actions} act${spell.actions!=='1'?'s':''}</div>
-        <button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`;
-      el.appendChild(row);
+      // Preserve order: General first, then Patron, then branch cantrips
+      const branchOrder = ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip'];
+      const grouped = {};
+      const groupOrder = [];
+      branchOrder.forEach(b => {
+        const spellsInBranch = byBranch[b] || [];
+        if (spellsInBranch.length === 0) return;
+        const label = cantripReqLabel(spellsInBranch[0]);
+        if (!grouped[label]) { grouped[label] = []; groupOrder.push(label); }
+        grouped[label].push(...spellsInBranch);
+      });
+
+      groupOrder.forEach(label => {
+        const tierHdr = document.createElement('div');
+        tierHdr.className = 'spell-tier-header';
+        tierHdr.textContent = label;
+        el.appendChild(tierHdr);
+        grouped[label].forEach(spell => el.appendChild(renderSpellRow(spell)));
+      });
+    }
+  } else {
+    // ── Discipline tabs: group by anima tier with sub-headings ──
+    activeTab.branches.forEach(branch => {
+      if (!byBranch[branch] || byBranch[branch].length === 0) return;
+      anyShown = true;
+
+      const spells = byBranch[branch];
+      // Group by anima cost
+      const tierMap = {};
+      const tierOrder = [];
+      spells.forEach(spell => {
+        const key = spell.anima;
+        if (!tierMap[key]) { tierMap[key] = []; tierOrder.push(key); }
+        tierMap[key].push(spell);
+      });
+      // Sort tiers numerically
+      tierOrder.sort((a,b) => a - b);
+
+      const TIER_LABELS = { 0:'Cantrip', 2:'2 Anima', 4:'4 Anima', 6:'6 Anima', 10:'10 Anima — Capstone' };
+
+      tierOrder.forEach(tier => {
+        const tierHdr = document.createElement('div');
+        tierHdr.className = 'spell-tier-header';
+        tierHdr.textContent = TIER_LABELS[tier] || tier + ' Anima';
+        el.appendChild(tierHdr);
+        tierMap[tier].forEach(spell => el.appendChild(renderSpellRow(spell)));
+      });
     });
-  });
+  }
 
   if (!anyShown) {
     const empty = document.createElement('div');
