@@ -354,9 +354,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Resting peacefully and closing eyes."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Ichor Cantrip",
     "name": "Bloodrush",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast bloodrush",
@@ -368,9 +368,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Laying a hand near the target's heart."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Cursesmithy Cantrip",
     "name": "Dreamdiver",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "2",
     "cmd": "/cast dreamdiver",
@@ -382,9 +382,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Laying a hand on the target's forehead."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Ether Cantrip",
     "name": "Starsign",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast starsign",
@@ -396,9 +396,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Tracing the focus ring upon the caster's person."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Artifice Cantrip",
     "name": "Cognitive Lithography",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "6",
     "cmd": "/cast cognitive",
@@ -410,9 +410,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Maintaining contact with both the target and the object, channeling the memory with eyes closed."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Force Cantrip",
     "name": "Sanctum",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast sanctum",
@@ -424,9 +424,9 @@ window.CANTRIPS_DEFAULT = [
     "method": "Passing one's hand over their head in a smooth, slow motion."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Tellurgy Cantrip",
     "name": "Conjure Element",
-    "type": "general",
+    "type": "inherent",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast conjure",
