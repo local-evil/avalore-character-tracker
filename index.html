@@ -885,15 +885,14 @@ const DATA_URLS = {
   hindrances: DATA_BASE + '/hindrances.js' + CACHE_BUST,
   costs:      DATA_BASE + '/costs.js'      + CACHE_BUST,
   weapons:    DATA_BASE + '/weapons.js'    + CACHE_BUST,
-  spells_general_cantrips: SPELLS_BASE + '/general-cantrips.js' + CACHE_BUST,
-  spells_patron_cantrips:  SPELLS_BASE + '/patron-cantrips.js'  + CACHE_BUST,
-  spells_ichor:            SPELLS_BASE + '/ichor.js'            + CACHE_BUST,
-  spells_cursesmithy:      SPELLS_BASE + '/cursesmithy.js'      + CACHE_BUST,
-  spells_ether:            SPELLS_BASE + '/ether.js'            + CACHE_BUST,
-  spells_artifice:         SPELLS_BASE + '/artifice.js'         + CACHE_BUST,
-  spells_force:            SPELLS_BASE + '/force.js'            + CACHE_BUST,
-  spells_tellurgy:         SPELLS_BASE + '/tellurgy.js'         + CACHE_BUST,
-  spells_index:            SPELLS_BASE + '/index.js'            + CACHE_BUST,
+  spells_cantrips:   SPELLS_BASE + '/cantrips.js'    + CACHE_BUST,
+  spells_ichor:      SPELLS_BASE + '/ichor.js'       + CACHE_BUST,
+  spells_cursesmithy:SPELLS_BASE + '/cursesmithy.js' + CACHE_BUST,
+  spells_ether:      SPELLS_BASE + '/ether.js'       + CACHE_BUST,
+  spells_artifice:   SPELLS_BASE + '/artifice.js'    + CACHE_BUST,
+  spells_force:      SPELLS_BASE + '/force.js'       + CACHE_BUST,
+  spells_tellurgy:   SPELLS_BASE + '/tellurgy.js'    + CACHE_BUST,
+  spells_index:      SPELLS_BASE + '/index.js'       + CACHE_BUST,
 };
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -918,21 +917,20 @@ async function loadDataFiles() {
   }
 
   const [fJS, hJS, cJS, wJS,
-    sGC, sPC, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx
+    sCantrips, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx
   ] = await Promise.all([
-    fetchDataFile(DATA_URLS.feats,      'Feats'),
-    fetchDataFile(DATA_URLS.hindrances, 'Hindrances'),
-    fetchDataFile(DATA_URLS.costs,      'Costs'),
-    fetchDataFile(DATA_URLS.weapons,    'Weapons'),
-    fetchDataFile(DATA_URLS.spells_general_cantrips, 'Spells: General Cantrips'),
-    fetchDataFile(DATA_URLS.spells_patron_cantrips,  'Spells: Patron Cantrips'),
-    fetchDataFile(DATA_URLS.spells_ichor,            'Spells: Ichor'),
-    fetchDataFile(DATA_URLS.spells_cursesmithy,      'Spells: Cursesmithy'),
-    fetchDataFile(DATA_URLS.spells_ether,            'Spells: Ether'),
-    fetchDataFile(DATA_URLS.spells_artifice,         'Spells: Artifice'),
-    fetchDataFile(DATA_URLS.spells_force,            'Spells: Force'),
-    fetchDataFile(DATA_URLS.spells_tellurgy,         'Spells: Tellurgy'),
-    fetchDataFile(DATA_URLS.spells_index,            'Spells: Loader'),
+    fetchDataFile(DATA_URLS.feats,             'Feats'),
+    fetchDataFile(DATA_URLS.hindrances,        'Hindrances'),
+    fetchDataFile(DATA_URLS.costs,             'Costs'),
+    fetchDataFile(DATA_URLS.weapons,           'Weapons'),
+    fetchDataFile(DATA_URLS.spells_cantrips,   'Spells: Cantrips'),
+    fetchDataFile(DATA_URLS.spells_ichor,      'Spells: Ichor'),
+    fetchDataFile(DATA_URLS.spells_cursesmithy,'Spells: Cursesmithy'),
+    fetchDataFile(DATA_URLS.spells_ether,      'Spells: Ether'),
+    fetchDataFile(DATA_URLS.spells_artifice,   'Spells: Artifice'),
+    fetchDataFile(DATA_URLS.spells_force,      'Spells: Force'),
+    fetchDataFile(DATA_URLS.spells_tellurgy,   'Spells: Tellurgy'),
+    fetchDataFile(DATA_URLS.spells_index,      'Spells: Loader'),
   ]);
 
   // Execute each fetched JS file to set the window.*_DEFAULT variables,
@@ -960,8 +958,8 @@ async function loadDataFiles() {
     catch(e) { console.warn('Error parsing weapons data:', e); }
   }
   // Eval all spell files in order, then the loader which merges them
-  const spellFiles = { sGC, sPC, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx };
-  const spellNames = ['sGC','sPC','sIchor','sCurse','sEther','sArtifice','sForce','sTell','sIdx'];
+  const spellFiles = { sCantrips, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx };
+  const spellNames = ['sCantrips','sIchor','sCurse','sEther','sArtifice','sForce','sTell','sIdx'];
   let anySpellLoaded = false;
   spellNames.forEach(name => {
     const js = spellFiles[name];
@@ -2108,26 +2106,25 @@ function spellAccessible(spell, ch, cfg) {
 
   const branch = spell.branch;
 
-  // General cantrips always accessible to any mage
-  if (branch === 'General Cantrip') return true;
-
-  // Patron cantrips — only if patron matches
-  if (branch === 'Patron Cantrip') {
-    return cfg.patron && spell.patron === cfg.patron;
+  // Cantrip access rules (type field)
+  if (spell.type === 'general') return true;
+  if (spell.type === 'patron') return cfg.patron && spell.patron === cfg.patron;
+  if (spell.type === 'inherent') {
+    // Inherent cantrip accessible unless it belongs to the opposing branch
+    const cantripDiscipline = branch.replace(' Cantrip','');
+    if (cfg.discipline && OPPOSITES[cfg.discipline] === cantripDiscipline) return false;
+    return true;
   }
-
-  // Arcane Bloodline cantrip — handled separately
-
-  // Inherent cantrips for each discipline always accessible
-  const disciplineCantripMap = {
-    'Ichor Cantrip': 'Ichor', 'Cursesmithy Cantrip': 'Cursesmithy',
-    'Ether Cantrip': 'Ether', 'Artifice Cantrip': 'Artifice',
-    'Force Cantrip': 'Force', 'Tellurgy Cantrip': 'Tellurgy',
+  // Legacy fallback for old branch-based cantrip entries
+  if (branch === 'General Cantrip') return true;
+  if (branch === 'Patron Cantrip') return cfg.patron && spell.patron === cfg.patron;
+  const legacyCantripMap = {
+    'Ichor Cantrip':'Ichor','Cursesmithy Cantrip':'Cursesmithy',
+    'Ether Cantrip':'Ether','Artifice Cantrip':'Artifice',
+    'Force Cantrip':'Force','Tellurgy Cantrip':'Tellurgy',
   };
-  if (disciplineCantripMap[branch]) {
-    // Branch cantrip accessible if you have that branch at all
-    const requiredDiscipline = disciplineCantripMap[branch];
-    if (OPPOSITES[cfg.discipline] === requiredDiscipline) return false;
+  if (legacyCantripMap[branch]) {
+    if (OPPOSITES[cfg.discipline] === legacyCantripMap[branch]) return false;
     return true;
   }
 
@@ -2313,9 +2310,9 @@ function buildSpellsTab() {
       ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
       : '';
     const cantripReqLine = (spell.anima === 0)
-      ? (spell.branch === 'General Cantrip'
+      ? (spell.type === 'general' || spell.branch === 'General Cantrip'
           ? '<div class="spell-cantrip-req"><b>Requirement:</b> None</div>'
-          : spell.branch === 'Patron Cantrip'
+          : spell.type === 'patron' || spell.branch === 'Patron Cantrip'
             ? `<div class="spell-cantrip-req"><b>Requirement:</b> ${patronTag(spell.patron)}${spell.patron || 'Patron'} patron</div>`
             : `<div class="spell-cantrip-req"><b>Requirement:</b> ${branchTag(spell.branch)} ${spell.branch.replace(' Cantrip','')} primary branch</div>`)
       : '';
