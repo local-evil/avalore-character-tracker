@@ -2,7 +2,7 @@
 window.WEAPONS_DEFAULT = [
   {
     "cat": "Melee (0-2)",
-    "name": "Old fashioned fists.",
+    "name": "Unarmed",
     "req": "None",
     "hit": 2,
     "hands": 1,
