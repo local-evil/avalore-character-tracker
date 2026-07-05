@@ -324,8 +324,9 @@ body { min-height: 100vh; }
 .hidden { display: none !important; }
 
 /* ── Top row: 3-col grid for char card + stats ── */
-.top-row { display: grid; grid-template-columns: minmax(260px, 1fr) 1.4fr; gap: 1rem; margin-bottom: 1rem; align-items: stretch; }
+.top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: stretch; }
 @media (max-width: 900px) { .top-row { grid-template-columns: 1fr; } }
+
 @media (max-width: 600px) { .top-row { grid-template-columns: 1fr; } }
 
 /* ── Character portrait ── */
@@ -382,7 +383,7 @@ body { min-height: 100vh; }
 
 
 /* ── Left col stacks two cards ── */
-.top-left-col { display: flex; flex-direction: column; gap: 1rem; height: 100%; }
+/* top-left-col removed */
 
 /* ── XP boxes stretch full width beneath portrait ── */
 .xp-beneath { display: flex; gap: 8px; margin-top: 10px; }
@@ -636,6 +637,117 @@ option[data-locked="true"] {
 .spell-cantrip-req { font-size: 11px; color: var(--text-secondary); margin-top: 2px; grid-column: 1/-1; }
 .spell-cantrip-req b { color: var(--text-secondary); }
 
+
+/* ── Planned/Active toggle ── */
+.plan-toggle-wrap {
+  display: flex; align-items: center; gap: 6px; margin-top: 4px;
+}
+.plan-toggle {
+  position: relative; width: 32px; height: 18px; flex-shrink: 0;
+}
+.plan-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.plan-toggle-track {
+  position: absolute; inset: 0; border-radius: 9px;
+  background: var(--surface-3); border: 1px solid var(--border-strong);
+  cursor: pointer; transition: background 0.2s, border-color 0.2s;
+}
+.plan-toggle input:checked + .plan-toggle-track {
+  background: var(--accent); border-color: var(--accent-border);
+}
+.plan-toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--text-muted); transition: transform 0.2s, background 0.2s;
+  pointer-events: none;
+}
+.plan-toggle input:checked ~ .plan-toggle-knob {
+  transform: translateX(14px); background: #fff;
+}
+.plan-toggle-label {
+  font-size: 10px; color: var(--text-muted); font-style: italic;
+  user-select: none;
+}
+.plan-toggle-label.active { color: var(--accent-text); font-style: normal; font-weight: 500; }
+
+/* ── Planned row styling ── */
+.exp-row-planned td { opacity: 0.65; }
+.exp-row-planned .badge { border-style: dashed; }
+
+/* ── Drag handle ── */
+.drag-handle {
+  cursor: grab; color: var(--text-muted); padding: 0 4px;
+  font-size: 14px; line-height: 1; user-select: none;
+}
+.drag-handle:active { cursor: grabbing; }
+.exp-table tr.drag-over td { background: var(--accent-dim); }
+.exp-table tr.dragging { opacity: 0.4; }
+
+/* ── Planned annotation in stats ── */
+.stat-planned-note {
+  font-size: 10px; color: var(--accent-text); margin-left: 3px;
+  font-style: italic; opacity: 0.8;
+}
+
+/* ── Planned XP breakdown ── */
+.xp-breakdown {
+  font-size: 10px; color: var(--text-muted); margin-top: 2px;
+}
+.xp-breakdown .planned-portion { color: var(--accent-text); }
+
+
+/* ── Planned feat indicator in features pane ── */
+.feat-chip-planned {
+  display: inline-block; font-size: 10px; padding: 1px 5px;
+  border-radius: 3px; margin-left: 5px;
+  background: var(--surface-3); border: 1px dashed var(--border-strong);
+  color: var(--text-muted); vertical-align: middle; font-style: italic;
+}
+.feat-chip.is-planned { opacity: 0.6; }
+
+/* DC colors reused for stat pct */
+.stat-dc-ok  { color: var(--success); }
+.stat-dc-warn{ color: var(--warning); }
+.stat-dc-bad { color: var(--danger); }
+
+
+/* ── Two-column stats layout ── */
+.stats-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.5rem;
+}
+.stats-two-col .stat-group { break-inside: avoid; }
+@media (max-width: 600px) { .stats-two-col { grid-template-columns: 1fr; } }
+
+/* ── Stat sub row: total + pct on same line ── */
+.stat-sub {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0 8px;
+  padding: 3px 0 3px 12px;
+}
+.stat-sub-pct { font-size: 10px; font-weight: 500; text-align: right; min-width: 32px; }
+
+
+/* ── Welcome pane ── */
+.welcome-card {
+  display: flex; flex-direction: column; justify-content: center; gap: 1rem;
+}
+.welcome-text {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.7; text-align: justify;
+}
+.welcome-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--accent-text);
+  text-decoration: none; font-family: monospace;
+  border: 1px solid var(--accent-border); border-radius: var(--radius);
+  padding: 5px 10px; background: var(--accent-dim);
+  transition: background 0.15s;
+  word-break: break-all;
+}
+.welcome-link:hover { background: var(--surface-3); }
+
 </style>
 </head>
 <body>
@@ -668,40 +780,35 @@ option[data-locked="true"] {
   <div id="main-content" class="hidden">
     <div class="char-select" id="char-sel"></div>
 
-    <!-- Row 1: Left col (char + DC) | Right col (stats) -->
-    <div class="top-row">
+    <!-- Row 1: Character info left | Welcome pane right -->
+    <div class="top-row" style="margin-bottom:1rem">
 
-      <!-- Left column: character card stacked above DC calculator -->
-      <div class="top-left-col">
-
-        <!-- Character card -->
-        <div class="card">
-          <div class="card-title" style="margin-bottom:0.5rem">Character Info</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div>
-              <div class="char-name-lbl">Character name</div>
-              <div style="display:flex;align-items:baseline;gap:10px">
-                <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px;flex:1">
-                <span id="char-uuid-display" style="font-family:monospace;font-size:11px;color:var(--text-muted);white-space:nowrap;padding-bottom:3px;cursor:pointer" title="Click to copy code"></span>
-              </div>
-            </div>
-            <div>
-              <div class="char-name-lbl">Username</div>
-              <input class="char-name-input" id="char-username" placeholder="Enter username…" autocomplete="off" style="font-size:14px">
-            </div>
-            <div class="trait-boxes">
-              <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
-                <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
-                <span>Vampire</span>
-              </label>
-              <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
-                <i class="ti ti-dna" style="font-size:14px"></i>
-                <span id="mutant-label">Mutant</span>
-              </div>
+      <!-- Character Info -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:0.5rem">Character Info</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div class="char-name-lbl">Character name</div>
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <input class="char-name-input" id="char-name" placeholder="Enter name…" autocomplete="off" style="font-size:18px;flex:1">
+              <span id="char-uuid-display" style="font-family:monospace;font-size:11px;color:var(--text-muted);white-space:nowrap;padding-bottom:3px;cursor:pointer" title="Click to copy code"></span>
             </div>
           </div>
-          <!-- XP row stretches full width beneath portrait+name row -->
-          <div class="xp-beneath">
+          <div>
+            <div class="char-name-lbl">Username</div>
+            <input class="char-name-input" id="char-username" placeholder="Enter username…" autocomplete="off" style="font-size:14px">
+          </div>
+          <div class="trait-boxes">
+            <label class="trait-box" id="vamp-box" title="Check if this character is a Vampire">
+              <input type="checkbox" id="is-vampire" style="accent-color:var(--accent)">
+              <span>Vampire</span>
+            </label>
+            <div class="trait-box" id="mutant-box" title="Automatically marked when a Mutation feat is selected">
+              <i class="ti ti-dna" style="font-size:14px"></i>
+              <span id="mutant-label">Mutant</span>
+            </div>
+          </div>
+          <div class="xp-beneath" style="margin-top:4px">
             <div class="xp-box">
               <div class="xp-lbl">Total XP</div>
               <input class="xp-inp" id="xp-total" value="200" type="number" min="0">
@@ -716,36 +823,25 @@ option[data-locked="true"] {
             </div>
           </div>
         </div>
-
-        <!-- DC Calculator -->
-        <div class="card dc-card">
-          <div class="card-title">DC Probability</div>
-          <div class="dc-row">
-            <span class="dc-lbl">Stat</span>
-            <select class="dc-select" id="dc-stat"></select>
-          </div>
-          <div class="dc-row">
-            <span class="dc-lbl">DC</span>
-            <input class="dc-input" id="dc-val" value="10" type="number">
-          </div>
-          <div class="dc-row">
-            <span class="dc-lbl">Extra mod</span>
-            <input class="dc-input" id="dc-mod" value="0" type="number">
-          </div>
-          <div class="prob-box" id="prob-box">
-            <span class="prob-pct" id="prob-pct">55%</span>
-            <span class="prob-desc" id="prob-desc">chance of passing DC 10</span>
-          </div>
-        </div>
-
-      </div><!-- /.top-left-col -->
-
-      <!-- Right column: Stats -->
-      <div class="card" style="overflow-y:auto">
-        <div class="card-title">Stats</div>
-        <div id="stats-panel"></div>
       </div>
 
+      <!-- Welcome pane -->
+      <div class="card welcome-card">
+        <div class="card-title">Avalore Character Tracker</div>
+        <p class="welcome-text">Welcome to the Avalore Character Tracker! This is a community run resource to better help with planning out and tracking builds. You can check out the main GitHub page below for more information, or to submit changes to the ever-updating feats, traits, and spells of the Avalore Server.</p>
+        <p class="welcome-text" style="margin-top:0.75rem">Save to the cloud with the "Save" button on the top right hand side of the page, and share this page with others with the Share Button. Your character's UUID (listed next to your character name) can be used to import this sheet to a new device, so be sure to save that share link somewhere if you want to use the sheet long term!</p>
+        <a class="welcome-link" href="https://github.com/local-evil/avalore-character-tracker/tree/main" target="_blank" rel="noopener">
+          <i class="ti ti-brand-github"></i>
+          github.com/local-evil/avalore-character-tracker
+        </a>
+      </div>
+
+    </div><!-- /.top-row -->
+
+    <!-- Row 2: Stats in two columns (full width) -->
+    <div class="card" style="margin-bottom:1rem">
+      <div class="card-title">Stats</div>
+      <div id="stats-panel" class="stats-two-col"></div>
     </div>
 
     <!-- Row 2: Features pane (full width) -->
@@ -768,6 +864,7 @@ option[data-locked="true"] {
         <div id="notices"></div>
         <table class="exp-table">
           <colgroup>
+            <col style="width:20px">
             <col style="width:28px">
             <col style="width:130px">
             <col>
@@ -775,7 +872,7 @@ option[data-locked="true"] {
             <col style="width:36px">
           </colgroup>
           <thead>
-            <tr><th>#</th><th>Type</th><th>Selection</th><th>XP cost</th><th></th></tr>
+            <tr><th></th><th>#</th><th>Type</th><th>Selection</th><th>XP cost</th><th></th></tr>
           </thead>
           <tbody id="exp-body"></tbody>
         </table>
@@ -1022,18 +1119,31 @@ function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2
 // ╔══════════════════════════════════════════════════════════╗
 // ║  STAT HELPERS                                            ║
 // ╚══════════════════════════════════════════════════════════╝
-function statTot(ch,key){
-  let v=0;
-  ch.exps.forEach(e=>{
-    if((e.type==='stat_up'||e.type==='stat_tr')&&e.target===key)v++;
-    if(e.type==='stat_tr'&&e.trade===key)v--;
-    if((e.type==='skill_up'||e.type==='skill_tr')&&e.target===key)v++;
-    if(e.type==='skill_tr'&&e.trade===key)v--;
+function statTot(ch, key, activeOnly=false) {
+  let v = 0;
+  ch.exps.forEach(e => {
+    if (activeOnly && e.planned) return;
+    if ((e.type==='stat_up'||e.type==='stat_tr') && e.target===key) v++;
+    if (e.type==='stat_tr' && e.trade===key) v--;
+    if ((e.type==='skill_up'||e.type==='skill_tr') && e.target===key) v++;
+    if (e.type==='skill_tr' && e.trade===key) v--;
   });
   return v;
 }
-function fullTot(ch,sk,pk){return statTot(ch,sk)+statTot(ch,pk);}
-function xpUsed(ch){return ch.exps.reduce((s,e)=>s+(COSTS[e.type]||0),0);}
+function statTotActive(ch, key) { return statTot(ch, key, true); }
+function fullTot(ch, sk, pk, activeOnly=false) {
+  return statTot(ch, sk, activeOnly) + statTot(ch, pk, activeOnly);
+}
+function xpUsed(ch, activeOnly=false) {
+  return ch.exps
+    .filter(e => !activeOnly || !e.planned)
+    .reduce((s,e) => s + (COSTS[e.type]||0), 0);
+}
+function xpPlanned(ch) {
+  return ch.exps
+    .filter(e => e.planned)
+    .reduce((s,e) => s + (COSTS[e.type]||0), 0);
+}
 function getMageTier(ch){for(let t=4;t>=1;t--){if(ch.exps.some(e=>e.type==='mage'+t))return t;}return 0;}
 function getFeatMax(ch){const t=getMageTier(ch);if(t===1)return 9;if(t===2)return 6;if(t===3)return 4;if(t===4)return 2;return 12;}
 function countFeats(ch){return ch.exps.filter(e=>e.type==='feat').length;}
@@ -1138,17 +1248,42 @@ function hindPreview(name,list){
   return h?`<div class="feat-preview" style="margin-top:4px"><b>${h.name}</b><div class="fx">${h.desc}</div></div>`:'';
 }
 
+function calcDC(modifier, dc) {
+  let pass = 0;
+  for (let d1=1;d1<=10;d1++) for (let d2=1;d2<=10;d2++) if (d1+d2+modifier>=dc) pass++;
+  return pass; // out of 100
+}
+
+function dcClass(pct) {
+  return pct >= 70 ? 'stat-dc-ok' : pct >= 40 ? 'stat-dc-warn' : 'stat-dc-bad';
+}
+
 function buildStats(){
   const ch=getChar();if(!ch)return;
   const el=document.getElementById('stats-panel');el.innerHTML='';
+  const DC = 12;
   STATS.forEach(g=>{
-    const pv=statTot(ch,g.key);
+    const pvAll     = statTot(ch, g.key);
+    const pvActive  = statTot(ch, g.key, true);
+    const pvPlanned = pvAll - pvActive;
+    const plannedNote = pvPlanned > 0
+      ? `<span class="stat-planned-note">(+${pvPlanned} Planned)</span>` : '';
     const grp=document.createElement('div');grp.className='stat-group';
-    grp.innerHTML=`<div class="stat-par"><span class="stat-par-name">${g.group}</span><span class="stat-par-val">${pv>=0?'+':''}${pv}</span></div>`;
+    grp.innerHTML=`<div class="stat-par"><span class="stat-par-name">${g.group}</span><span class="stat-par-val">${pvAll>=0?'+':''}${pvAll}${plannedNote}</span></div>`;
     g.subs.forEach(s=>{
-      const sv=statTot(ch,s.key),tot=fullTot(ch,s.key,g.key);
+      const svAll     = statTot(ch, s.key);
+      const totAll    = fullTot(ch, s.key, g.key);
+      const totActive = fullTot(ch, s.key, g.key, true);
+      const subPlanned = totAll - totActive;
+      const subNote = subPlanned > 0
+        ? `<span class="stat-planned-note">(+${subPlanned})</span>` : '';
+      const pct = calcDC(totAll, DC);
+      const cls = dcClass(pct);
       const row=document.createElement('div');row.className='stat-sub';
-      row.innerHTML=`<span class="stat-sub-name">${s.name} <span class="stat-sub-mod">(${sv>=0?'+':''}${sv})</span></span><span class="stat-sub-val">${tot>=0?'+':''}${tot}</span>`;
+      row.innerHTML=`
+        <span class="stat-sub-name">${s.name} <span class="stat-sub-mod">(${svAll>=0?'+':''}${svAll})</span></span>
+        <span class="stat-sub-val">${totAll>=0?'+':''}${totAll}${subNote}</span>
+        <span class="stat-sub-pct ${cls}">${pct}%</span>`;
       grp.appendChild(row);
     });
     el.appendChild(grp);
@@ -1211,9 +1346,24 @@ function buildExps(){
       sel=`<div class="inline-block">${inner}</div>`;
     }
 
+    const isPlanned = !!e.planned;
+    tr.classList.toggle('exp-row-planned', isPlanned);
+    tr.setAttribute('draggable', 'true');
+    tr.dataset.idx = i;
     tr.innerHTML=`
+      <td style="padding-top:6px;text-align:center"><span class="drag-handle" title="Drag to reorder">⠿</span></td>
       <td style="color:var(--text-muted);font-size:12px;padding-top:7px">${i+1}</td>
-      <td style="padding-top:7px"><span class="badge ${BADGES[e.type]||''}">${LABELS[e.type]||e.type}</span></td>
+      <td style="padding-top:4px">
+        <span class="badge ${BADGES[e.type]||''}">${LABELS[e.type]||e.type}</span>
+        <div class="plan-toggle-wrap">
+          <label class="plan-toggle">
+            <input type="checkbox" class="plan-chk" data-i="${i}" ${isPlanned?'':'checked'}>
+            <span class="plan-toggle-track"></span>
+            <span class="plan-toggle-knob"></span>
+          </label>
+          <span class="plan-toggle-label ${isPlanned?'':'active'}">${isPlanned?'Planned':'Active'}</span>
+        </div>
+      </td>
       <td>${sel}</td>
       <td style="padding-top:7px;font-size:12px;font-weight:600;color:var(--text-secondary)">${cost>0?cost+' XP':'—'}</td>
       <td style="padding-top:5px"><button class="btn btn-sm btn-danger del-e" data-i="${i}" style="padding:3px 6px" title="Remove"><i class="ti ti-x"></i></button></td>`;
@@ -1250,6 +1400,45 @@ function buildExps(){
   tbody.querySelectorAll('.del-e').forEach(b=>{
     b.addEventListener('click',()=>{ch.exps.splice(parseInt(b.dataset.i),1);refreshAll();});
   });
+
+  // Plan/Active toggle
+  tbody.querySelectorAll('.plan-chk').forEach(chk=>{
+    chk.addEventListener('change', ev=>{
+      const i = parseInt(ev.target.dataset.i);
+      ch.exps[i].planned = !ev.target.checked; // checked = Active, unchecked = Planned
+      refreshAll();
+    });
+  });
+
+  // Drag to reorder
+  let dragSrcIdx = null;
+  tbody.querySelectorAll('tr[draggable]').forEach(row=>{
+    row.addEventListener('dragstart', ev=>{
+      dragSrcIdx = parseInt(row.dataset.idx);
+      row.classList.add('dragging');
+      ev.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', ()=>{
+      row.classList.remove('dragging');
+      tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', ev=>{
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = 'move';
+      tbody.querySelectorAll('tr').forEach(r=>r.classList.remove('drag-over'));
+      row.classList.add('drag-over');
+    });
+    row.addEventListener('drop', ev=>{
+      ev.preventDefault();
+      const destIdx = parseInt(row.dataset.idx);
+      if (dragSrcIdx === null || dragSrcIdx === destIdx) return;
+      const moved = ch.exps.splice(dragSrcIdx, 1)[0];
+      ch.exps.splice(destIdx, 0, moved);
+      dragSrcIdx = null;
+      refreshAll();
+    });
+  });
+
   updateMageOpts(ch);
 }
 
@@ -1267,8 +1456,14 @@ function updateMageOpts(ch){
 function refreshXP(){
   const ch=getChar();if(!ch)return;
   const tot=parseInt(document.getElementById('xp-total').value)||0;ch.xpTotal=tot;
-  const used=xpUsed(ch),rem=tot-used;
-  document.getElementById('xp-used').textContent=used;
+  const usedAll    = xpUsed(ch);
+  const usedActive = xpUsed(ch, true);
+  const usedPlan   = xpPlanned(ch);
+  const rem = tot - usedAll;
+  // Used box: show total, with breakdown below
+  const usedEl = document.getElementById('xp-used');
+  usedEl.innerHTML = usedAll +
+    (usedPlan > 0 ? `<div class="xp-breakdown"><span>${usedActive} active</span> · <span class="planned-portion">${usedPlan} planned</span></div>` : '');
   const remEl=document.getElementById('xp-rem');
   remEl.textContent=rem;
   remEl.className='xp-big'+(rem<0?' danger':' remain');
@@ -1310,26 +1505,7 @@ function checkW(w,ch){
   });
 }
 
-function buildDC(){
-  const sel=document.getElementById('dc-stat');sel.innerHTML='';
-  STATS.forEach(g=>g.subs.forEach(s=>{
-    const o=document.createElement('option');o.value=s.key+'|'+g.key;o.textContent=g.group+': '+s.name;sel.appendChild(o);
-  }));
-  [sel,document.getElementById('dc-val'),document.getElementById('dc-mod')].forEach(el=>{if(el)el.addEventListener('input',refreshDC);});
-}
-function refreshDC(){
-  const ch=getChar();if(!ch)return;
-  const pts=document.getElementById('dc-stat').value.split('|');
-  const eff=fullTot(ch,pts[0],pts[1])+(parseInt(document.getElementById('dc-mod').value)||0);
-  const dc=parseInt(document.getElementById('dc-val').value)||10;
-  let pass=0;for(let d1=1;d1<=10;d1++)for(let d2=1;d2<=10;d2++){if(d1+d2+eff>=dc)pass++;}
-  const pct=Math.round(pass);
-  document.getElementById('prob-pct').textContent=pct+'%';
-  document.getElementById('prob-desc').textContent=`chance of passing DC ${dc} (effective: ${eff>=0?'+':''}${eff})`;
-  const box=document.getElementById('prob-box'),pp=document.getElementById('prob-pct'),pd=document.getElementById('prob-desc');
-  const [bg,bc,tc]=pct>=70?['var(--success-dim)','var(--success-border)','var(--success)']:pct>=40?['var(--warning-dim)','var(--warning-border)','var(--warning)']:['var(--danger-dim)','var(--danger-border)','var(--danger)'];
-  box.style.background=bg;box.style.borderColor=bc;pp.style.color=tc;pd.style.color=tc;
-}
+
 
 function buildCharSel(){
   const el=document.getElementById('char-sel');el.innerHTML='';
@@ -1345,7 +1521,7 @@ function buildCharSel(){
   el.appendChild(nb);
 }
 
-function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refreshDC();refreshTraits();buildFeatures();refreshTypeDropdown();refreshStatusBar();scheduleAutoSave();}
+function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refreshTraits();buildFeatures();refreshTypeDropdown();refreshStatusBar();scheduleAutoSave();}
 
 function renderSheet(){
   buildCharSel();
@@ -1473,9 +1649,11 @@ function buildFeatures() {
       const feat = FEATS.find(f => f.name === e.target);
       if (!feat) return;
       const isMut = feat.cat === 'Mutation';
+      const isPlanned = !!e.planned;
       const chip = document.createElement('div');
-      chip.className = 'feat-chip';
-      let html = `<div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}<div class="feat-chip-desc">${feat.desc}</div>`;
+      chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
+      const plannedBadge = isPlanned ? '<span class="feat-chip-planned">Planned</span>' : '';
+      let html = `<div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${feat.desc}</div>`;
       if (isMut && e.hindrance) {
         const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
         if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
@@ -1487,9 +1665,11 @@ function buildFeatures() {
     // Mage tiers — listed inline under the same Feats header
     mageExps.forEach(e => {
       const tier = parseInt(e.type.slice(-1));
+      const isMagePlanned = !!e.planned;
       const chip = document.createElement('div');
-      chip.className = 'feat-chip';
-      let html = `<div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>`;
+      chip.className = 'feat-chip' + (isMagePlanned ? ' is-planned' : '');
+      const magePlanBadge = isMagePlanned ? '<span class="feat-chip-planned">Planned</span>' : '';
+      let html = `<div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${magePlanBadge}`;
       const hv = (e.hindrances || [])[0];
       if (hv) {
         const h = ARCANE_HINDRANCES.find(x => x.name === hv);
@@ -1756,10 +1936,15 @@ document.getElementById('share-copy').addEventListener('click', () => {
 function refreshStatusBar(){
   const ch=getChar(); if(!ch) return;
   const total=ch.xpTotal||200;
-  const used=xpUsed(ch);
-  const rem=total-used;
-  const featCount=countFeats(ch);
-  const maxFeats=getFeatMax(ch);
+  const usedAll    = xpUsed(ch);
+  const usedActive = xpUsed(ch, true);
+  const usedPlan   = xpPlanned(ch);
+  const rem = total - usedAll;
+
+  const featCount       = countFeats(ch);
+  const featCountActive = ch.exps.filter(e=>e.type==='feat'&&!e.planned).length;
+  const featCountPlan   = featCount - featCountActive;
+  const maxFeats        = getFeatMax(ch);
 
   // XP display
   const xpEl=document.getElementById('sb-xp');
@@ -1771,7 +1956,8 @@ function refreshStatusBar(){
   // Feat slots display
   const ftEl=document.getElementById('sb-feats');
   if(ftEl){
-    ftEl.textContent=`${featCount} / ${maxFeats}`;
+    const planNote = featCountPlan > 0 ? ` (${featCountPlan} planned)` : '';
+    ftEl.textContent=`${featCount} / ${maxFeats}${planNote}`;
     ftEl.className='exp-status-val '+(featCount>maxFeats?'exp-status-over':featCount===maxFeats?'exp-status-warn':'exp-status-ok');
   }
 }
@@ -2419,7 +2605,7 @@ function buildSpellsTab() {
     if(chars.length===0){const c=blank('My character');chars.push(c);saveAll(chars);activeId=c.id;setAct(c.id);}
     if(!chars.find(c=>c.id===activeId)&&chars.length>0){activeId=chars[0].id;setAct(activeId);}
     showApp();
-    buildTypeDropdown();buildDC();
+    buildTypeDropdown();
     if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
     refreshTypeDropdown();refreshStatusBar();
     dot.className='data-dot loading';
@@ -2442,7 +2628,7 @@ function buildSpellsTab() {
     // Even if something goes wrong, always show the app rather than hanging
     console.error('Boot error:', err);
     showApp();
-    try { buildTypeDropdown();buildDC();renderSheet(); } catch(e) { console.error('Render error:', e); }
+    try { buildTypeDropdown();renderSheet(); } catch(e) { console.error('Render error:', e); }
     dot.className='data-dot err';
     statusText.textContent='Error — check console';
   }
