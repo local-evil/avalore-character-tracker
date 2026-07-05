@@ -1,19 +1,6 @@
-// Avalore spells — cursesmithy
-// Edit this file to update spells for this branch
+// Avalore spells — Cursesmithy
+// Place in: data/spells/cursesmithy.js
 window.SPELLS_CURSESMITHY = [
-  {
-    "branch": "Cursesmithy Cantrip",
-    "name": "Dreamdiver",
-    "anima": 0,
-    "actions": "2",
-    "cmd": "/cast dreamdiver",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Delve into the dreams of a willing target. Surface impressions from resistant targets; deep details from willing ones. Diving too deep too quickly may ensnare the caster in visions of dreams past.",
-    "method": ""
-  },
   {
     "branch": "Cursesmithy",
     "name": "Allure",
@@ -24,21 +11,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Select two targets: one Allured (receives -2 to actions against anyone other than the Lure) and one Lure. An unwilling Lure may resist with HAR: Arcana. Lasts until line of sight is broken for a full round or Allured succeeds INT: Perception at end of turn.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Borrowed Knowledge",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast borrowed",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Replicate a skill you've seen in action in the last ten minutes, using the same modifier the target used. Can replicate a language, allowing you to fluently repeat it — but not understand it.",
-    "method": ""
+    "desc": "The caster selects two targets: one to become Allured, and another the Lure. Allured: Any actions taken against targets other than the Lure receive a -2 roll penalty. Lure: An unwilling Lure may make a HAR: Arcana check to resist becoming the focus; upon rolling a success, the caster becomes the Lure instead. This effect persists until line of sight between the caster and Lure is broken for a complete round, or until a successful INT: Perception check by the Allured at the end of their turn. The caster may also dismiss the effect at any time.",
+    "method": "Making eye-contact, identifying someone aloud, or making the briefest physical contact."
   },
   {
     "branch": "Cursesmithy",
@@ -50,21 +24,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Learn one of three things: the target's emotional state, whether they are concealing information, or how they feel about a specific person. Target is aware of your scrutiny. They may contest with INT if actively concealing.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Erratic Hex",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast erratic",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Place a malediction on a target within Ranged distance. They cannot repeat an action from their previous turn. An action must be expended each round to maintain it. The target rolls INT -1 each turn to break free; the modifier increases by +1 each round.",
-    "method": ""
+    "desc": "'You can see right through them.' Each time this spell is cast, the caster learns one of the following about the target: - What is their emotional state? - Are they concealing information? - How do they feel about a specific person? If the target is actively trying to conceal this information, they must roll higher on an INT check than a caster's HAR: Arcana check. On success, they reveal only what they choose to. The target is aware of the caster's scrutiny.",
+    "method": "Making eye contact or touching a target."
   },
   {
     "branch": "Cursesmithy",
@@ -76,21 +37,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Your motion obscures your form with a thin sheen of illusory mist. For the remainder of the scene, all Skirmishing and Ranged attacks have -1 against you as long as you moved on your last turn.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Lour",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast lour",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Light dims around you or a target within Ranged distance. For the remainder of the scene, the target is treated as one light category darker (Normal→Dim, Dim→Dark).",
-    "method": ""
+    "desc": "The caster's motion obscures their form with a thin sheen of illusory mist and dust; not enough to hide behind, but enough to distort. For the remainder of the scene, all Skirmishing and Ranged attacks have a -1 penalty against the caster as long as they moved on their last turn.",
+    "method": "Exhaling a low breath before moving with flowing grace."
   },
   {
     "branch": "Cursesmithy",
@@ -102,21 +50,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Pierce the veil, seeing spectres that are otherwise invisible for the scene. Your piercing eyes become visible to the spectres in turn, possibly drawing their attention. Attacks against spectral and undead targets have +2 aim bonus.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Second Sight",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast secondsight",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Project your sight to a line-of-sight point within 15 blocks, allowing you to peer around corners or see as though you had eyes in the back of your head.",
-    "method": ""
+    "desc": "The caster pierces the veil, gaining the ability to see spectres in the area that would otherwise be invisible for the scene. Their piercing green eyes become visible to the spectres in turn, which may draw their attention. While active, attacks made against spectral and undead targets have a +2 aim bonus.",
+    "method": "Focusing intently on their perception of others."
   },
   {
     "branch": "Cursesmithy",
@@ -128,8 +63,60 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Bind a target's voice, preventing any verbal sound. The target may roll HAR: Arcana each turn to break free. Lasts 3 rounds unless broken by the caster.",
-    "method": ""
+    "desc": "The caster binds a target's voice, preventing them from making any verbal sound. Each turn after the hex is cast, the target may make a HAR: Arcana roll to resist this effect, breaking free of it on a success. The hex lasts 3 rounds unless broken earlier by the caster.",
+    "method": "A flick of fingers."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Borrowed Knowledge",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast borrowed",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster can replicate a skill they've seen in action in the last ten minutes; for example, an intricate hand sign, a set of practised motions, or matching someone's speed at performing a task. If the copied task involves a roll, the caster can use the same modifier that the target did when performing this action. This can be used on a language, allowing the caster to fluently repeat another tongue, but not to understand it.",
+    "method": "Focusing in on the memory of another action and letting it guide your body."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Erratic Hex",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast erratic",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "The caster places a malediction on a target within Ranged distance, confounding their mind and decision-making. Each round after the cast, an action must be expended to maintain the hex. While it is in effect, the target cannot repeat an action that they performed on their previous turn (e.g. If their previous turn consisted of an Evade and Dash, they cannot perform those actions on their turn). Attacks modified by feats (e.g. Piercing Strike) or made with different weapons are considered unique. At the beginning of their turn, the target makes an INT check with a -1 modifier. On a success, they break free of the hex's effects. Otherwise, every subsequent turn spent hexed increases this modifier by +1.",
+    "method": "Chanting a curse and gesturing to the target with a beguiling hand sign."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Lour",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast lour",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Light dims around the caster or a target within Ranged distance, hiding the details of items and appearance; for the remainder of the scene, the target is treated as if they're in a space one light category darker (Normal->Dim, Dim->Dark).",
+    "method": "A gusting sleeve, a flourishing wrist."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Second Sight",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast secondsight",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster projects their sight to a line-of-sight point within 15m (blocks), effectively allowing them to peer around corners or see as though they had eyes in the back of their head from that point.",
+    "method": "Shutting one's eyes."
   },
   {
     "branch": "Cursesmithy",
@@ -141,21 +128,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Shadows writhe toward a target in Skirmishing distance for 4 AP damage. Cannot be blocked or evaded. The target may contest with HAR: Belief. Mixed success deals 2 AP damage instead.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Eidetic Echo",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast eidetic",
-    "req": "DEX: Stealth +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Split into illusory duplicates equal to your HAR: Arcana (max 3). When attacked, roll to determine if it hits you or a duplicate. Attackers may roll INT: Perception DC 13 to determine which is real. Ends if you block or evade by any means.",
-    "method": ""
+    "desc": "Shadows come alive, warping and slithering toward a target in Skirmishing distance and wracking their shadow for 4 AP damage. The target may contest the cast with a successful HAR: Belief roll, but cannot block or evade it. On a mixed success, the target takes 2 AP damage instead.",
+    "method": "A twist of the hand, pointed at shadows."
   },
   {
     "branch": "Cursesmithy",
@@ -167,21 +141,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Cloak a target, changing their outward appearance to any personoid form without physically altering them. A contested INT: Perception or HAR: Belief roll against the target's DEX: Stealth can pierce the veil. The disguise is dismissed by removing the veil.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Hiding Place",
-    "anima": 4,
-    "actions": "20",
-    "cmd": "/cast hidingplace",
-    "req": "DEX: Stealth +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Pull an obscuring veil over a location up to a 20-block cube. Anyone within sight must roll INT: Perception with -3 or the location remains hidden. Cannot make this check again for 24 hours.",
-    "method": ""
+    "desc": "A shroud of self cloaks the target, changing their outward appearance to any personoid form the caster chooses without altering them physically. A contested INT: Perception or HAR: Belief roll against the glamoured target's DEX: Stealth can be used to pierce the veil and see their true nature. An unwitting target may forgo the roll, banking on the successful scrutiny of onlookers to see through the veil. The disguise may be dismissed with a removal of the veil.",
+    "method": "Casting a sheet or otherwise veiling garment over a target, enchanting it to show as they wish."
   },
   {
     "branch": "Cursesmithy",
@@ -193,21 +154,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Enchant a reflective object for a day. When your eyes close, you may see and hear through it. You can speak through it in Whisper range.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Nightsent",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast nightsent",
-    "req": "HAR: Belief +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Your mind travels through the Nocturne to a target you know through personal contact. When both have eyes closed, you see each other in a black void. Communicate mentally for up to an hour. Can be used to invade a target's dream.",
-    "method": ""
+    "desc": "Enchanting a reflective object for a day, the caster may see and hear through it whenever their eyes close. While doing so, the caster will appear translucent within the reflection, and may speak through it in Whisper range.",
+    "method": "A long lingering look at one's own reflection, closing eyes to see the self through it."
   },
   {
     "branch": "Cursesmithy",
@@ -218,22 +166,9 @@ window.SPELLS_CURSESMITHY = [
     "req": "HAR: Belief +1",
     "patron": "",
     "capstone": false,
-    "targeted": true,
-    "desc": "Craft a curse invading a target's dreams with vivid nightmares. -1 to all STR: Fortitude and STR: Athletics checks starting the day after the initial cast. Lasts up to one week with daily recasts.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Somnic Chant",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast somnic",
-    "req": "HAR: Belief +1",
-    "patron": "",
-    "capstone": false,
     "targeted": false,
-    "desc": "Produce a melody within Ranged distance that lulls HAR: Arcana modifier targets to light slumber. Targets must not be actively in combat and may contest with STR: Fortitude. Awareness of your presence grants them +2. Loud noises or jostling wakes them.",
-    "method": ""
+    "desc": "The caster crafts a curse that lingers in the target's mind, haunting their dreams. The target's sleep will be invaded by vivid nightmares that prevent them from getting any truly restorative rest. For the duration of this curse, the target's energy and alertness suffer from these sleepless nights and take a -1 penalty to all STR: Fortitude and STR: Athletics checks starting the day after the initial cast. This lasts for up to one week, so long as the caster recasts each day.",
+    "method": "As part of speech, a verbal curse or malediction directed at the target able to hear it."
   },
   {
     "branch": "Cursesmithy",
@@ -245,8 +180,60 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Within a day of acquiring a bodily sample from two targets, swap one chosen stat modifier between them for the next day. Targets may roll HAR: Belief at the end of each turn to break the bond.",
-    "method": ""
+    "desc": "Within a day of acquiring a bodily sample (blood, hair, etc.) from two targets, which can include the caster, the caster may attune one quality between both targets. Pick one stat (DEX, STR, HAR, INT); the targets' modifier from this stat is swapped for the next day. This effect can only affect two targets at a time. The targets may choose to make a HAR: Belief roll at the end of each of their turns in-combat and after making a skill or stat check using the swapped stat. On success, the spell ends. The caster can choose to break the bond as an action.",
+    "method": "Collecting a sample from two people, forming a circle of your own blood around it, and entering a trance."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Eidetic Echo",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast eidetic",
+    "req": "DEX: Stealth +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A number of illusory duplicates equal to the caster's HAR: Arcana (up to a maximum of 3) split from them. When an attack is made against the caster, roll 1d#, where # is the number of remaining duplicates + the caster (e.g. for 3 duplicates, a 1d4). Rolling a 1 means the attack hits the caster; otherwise, the attack hits one duplicate and dispels it instantly. Duplicates move with the caster and will always remain within Melee distance of them. Attackers may roll INT: Perception (DC 13) on their turn to determine which is real; their attacks in that round are made directly on the caster if the attempt is successful, but they cannot communicate which is real with others. If the caster attempts to block or evade through any means, the spell ends.",
+    "method": "A twist, a heelturn, a flourish of fabrics."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Hiding Place",
+    "anima": 4,
+    "actions": "20",
+    "cmd": "/cast hidingplace",
+    "req": "DEX: Stealth +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "An obscuring veil is pulled over a location up to a 20m (20 blocks) cube, making it harder to find. Whenever a person or creature comes within sight of the veil, they must roll an INT: Perception check with a -3 penalty unless actively looking for something hidden. On a failure, the veiled location remains hidden unless they witness someone else move into it. They cannot make this check again for another 24 hours.",
+    "method": "A ten minute procedure, carving signs of concealment."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Nightsent",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast nightsent",
+    "req": "HAR: Belief +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "The caster's mind travels through the Nocturne to a target they know through personal contact or detailed description. Unwilling targets may reject the effect with a contested HAR: Belief roll at any point. When both the caster and target have their eyes closed they see one another standing face to face surrounded by an endless black void; when eyes are open they see and interact with the world like normal. They can communicate mentally in this way for up to an hour or until the caster chooses to dispel the effect. This spell can even be used to invade a target's dream, where the usual void is replaced with the content of their dreamscape and the caster's presence may be substituted with an alternate messenger.",
+    "method": "Casting intentions across the Nocturne whilst in trance."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Somnic Chant",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast somnic",
+    "req": "HAR: Belief +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster produces a melody within Ranged distance that lulls a number of targets equal to their HAR: Arcana modifier to a light slumber. The targets must not be actively in combat, and may contest the effect with a STR: Fortitude against the caster's roll. If they are aware of the caster's presence, they gain a +2 to this roll. Any loud noises or jostling will wake the target and allow one immediate action from them.",
+    "method": "A whistled melody, a piping noise, a song or chant."
   },
   {
     "branch": "Cursesmithy",
@@ -258,21 +245,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Enter a trance and let your senses float free. Your ghostly form can move 30 blocks unconstrained by gravity and phase through walls. Cannot be seen in the waking world but can whisper in ears. Creatures you linger near may glimpse you unless you succeed DEX: Stealth.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Baffle",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast baffle",
-    "req": "DEX: Stealth +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Blur a target's senses. They can no longer see beyond 5 blocks, and non-visual INT: Perception beyond this is made with -2. Requires an action each turn to maintain; dismissed if you take damage.",
-    "method": ""
+    "desc": "The caster enters a trance or dreamless sleep, allowing their senses to float free from the body. This ghostly form can move within 30m (30 blocks), unconstrained by gravity and phasing freely through walls. It cannot be seen in the waking world, but can communicate to others by whispering in their ear. Creatures that the caster lingers near or eavesdrops on will gain a glimpse of the watching presence unless the caster succeeds a DEX: Stealth check.",
+    "method": "Entering a trance and breaking free from the body."
   },
   {
     "branch": "Cursesmithy",
@@ -284,21 +258,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Create a haven in your mind that feels as real as life. Willing subjects within 5 blocks may be drawn in by you, falling into a trance they can easily wake from. No harm or benefits carry to the waking world. The edges border deeper parts of your mind.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Latchkey",
-    "anima": 6,
-    "actions": "0",
-    "cmd": "/cast latchkey",
-    "req": "HAR: Belief +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "A single target known to you is left haunted by your demise; they need not be near. You live on in their dreams with full memory. An unwilling target may sever the haunting with a HAR: Arcana contest once per visit. Cast after dying in Bleedout.",
-    "method": ""
+    "desc": "The caster creates a haven in their mind: a childhood home with memories recorded in books, an abstract labyrinth of colour and living music, or anything in between. The caster can remain as long as they remain in trance or asleep. Any willing subjects within 5m (5 blocks) may be drawn into this space by the caster, falling into a trance of their own that they can easily wake from. The place feels as real as life, but no harm or benefits experienced here carry into the waking world (e.g food, healing, wounds). While the caster chooses the decor of their domain, its edges border on the deeper parts of the mind (e.g. past traumas, sentimental memories, symbolic items, etc.), which even they may not have explored in full. When someone approaches the edges, the caster can roll a HAR: Arcana check against the visitor's HAR: Arcana check to keep them contained where they choose during the visit.",
+    "method": "Entering a trance or sleep."
   },
   {
     "branch": "Cursesmithy",
@@ -310,21 +271,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Render a target and anyone touching them indistinct and forgettable. They are considered Hidden with -3 to all INT: Perception checks to notice them. The spell ends the moment they interact with another person or produce a noticeable environmental effect.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Paralysis Daemon",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast paralysis",
-    "req": "HAR: Belief +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Conjure an inner demon that paralyzes the target in place, visible only to them. Any movement deals 3 AP damage per action. The target may overcome paralysis with a successful HAR check (-1 modifier increasing by 1 each round).",
-    "method": ""
+    "desc": "'You dull your presence, moving as a ghost.' Renders the target and anyone touching the target indistinct and forgettable: people can see them, but will struggle to notice them, forgetting them entirely once out of sight. They are considered Hidden and all INT: Perception checks to notice the target are made with a -3 penalty. The spell ends the moment they interact with another person or produce a noticeable effect on the environment (e.g. loud noise, door swinging, etc.).",
+    "method": "Laying a hand on the target, and then wiping it in front of their face, beginning the obscurement."
   },
   {
     "branch": "Cursesmithy",
@@ -336,21 +284,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "(Reaction) Project a vision of the best or worst outcome in a target's mind in line of sight. Roll 2d2 and either add or subtract the result from their roll. Can be cast as a reflex to a visible target's action.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Scry",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast scry",
-    "req": "DEX: Stealth +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Peer into a place or person you are familiar with. On an INT: Perception success, glimpse that person or place at the moment of casting. On a failed DEX: Stealth to hide, the target is immune for 48 hours and senses someone watching.",
-    "method": ""
+    "desc": "(Reaction) The caster conjures visions of success or disaster in the mind of a target in line of sight. When the target makes an attack or other physical action, the caster projects a vision of the best or worst outcome. Roll a 2d2 and either add or subtract the result to the target's roll. The caster can attempt a cast as a reflex to a visible target's action.",
+    "method": "Flashing a talisman or speaking a malediction."
   },
   {
     "branch": "Cursesmithy",
@@ -362,8 +297,60 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Ask up to 3 questions to determine whether the target's answers reflect their true beliefs. Alternatively, embed a simple idea in their mind with brief physical contact — resisted with INT: Perception. Target may sense magic use with a HAR: Arcana check.",
-    "method": ""
+    "desc": "By asking up to 3 questions, the caster can determine whether the answers given are truly what the target believes. If the target refuses to reply or is otherwise elusive, the caster instead learns whether the target knows the answer, and the certainty of the target's belief in their knowledge. Alternatively, the caster may embed a simple idea (a short sentence) in the mind of their target, such as 'he is lying' or 'I did not really see anything, it must be a trick of the darkness.' The caster must make brief physical contact with their target, who can resist the effect with an INT: Perception check that meets or exceeds the casting roll. The target can sense the caster's use of magic with a single successful HAR: Arcana check.",
+    "method": "Asking a probing question of the target or making brief physical contact with them."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Baffle",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast baffle",
+    "req": "DEX: Stealth +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Blurs a target's senses, dulling vision and tactile sensations. The target can no longer see further than a 5m (5 block) range, and non-visual INT: Perception checks beyond this are made with -2 penalty. The caster must sacrifice an action each turn to maintain the spell, dismissing it altogether if they take damage.",
+    "method": "Laying a hand on the target."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Latchkey",
+    "anima": 6,
+    "actions": "0",
+    "cmd": "/cast latchkey",
+    "req": "HAR: Belief +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "A single target known to the dying caster is left haunted by their demise; they need not be near, merely known. The caster will live on in the target's dreams with full control over the premise they are found in, and may commune with the target with full memory and facility of even their death. An unwilling target may sever this haunting by defeating their foe in a HAR: Arcana contest, attempted once each visit. The caster may alternatively dispel the effect from beyond the grave at their discretion. The spell ends if they should return to life for even a moment.",
+    "method": "A last gasp, made even in death. A name spoken on their lips. Cast after dying in Bleedout."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Paralysis Daemon",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast paralysis",
+    "req": "HAR: Belief +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "The caster conjures an inner demon that paralyses the target in place, visible only to them. Any movement (free, dash, flight, etc.) while paralyzed is strenuously painful and inflicts 3 AP damage per action of movement. At the end of their turn, the target may overcome the paralysis by making a successful HAR check with a -1 modifier that increases each round (-1, +0, +1, etc.).",
+    "method": "A small incantation before snapping towards the target."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Scry",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast scry",
+    "req": "DEX: Stealth +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "'You let the waves of the Nocturne crash around you, carrying visions of distant places.' The caster attempts to peer into a place or person they are familiar with beyond passively seeing them. By succeeding an INT: Perception they glean a brief glimpse of that person or place and their activities at the moment the spell is cast. The target can hide from the caster through a successful DEX: Stealth check if they don't wish to be found. On a success, they are immune to this spell for 48 hours and have the sense of someone trying to watch them.",
+    "method": "Closing eyes and focusing on another place or person."
   },
   {
     "branch": "Cursesmithy",
@@ -375,34 +362,8 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Bind a target to a pact marked as a blot of ink. If they violate its terms, they enter a critical state at your beckon. They may resist with HAR: Belief, but you may reinitiate the effect as an action until success, at which point the spell ends.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Haunt",
-    "anima": 10,
-    "actions": "7",
-    "cmd": "/cast haunt",
-    "req": "None",
-    "patron": "",
-    "capstone": true,
-    "targeted": true,
-    "desc": "Travel through the Nocturne to manifest as a spectre-like projection near a sleeping target. You interact with the scene as if physically present. A resisting target may force you out after 7 rounds. Wounds sustained during the scene remain when you return.",
-    "method": ""
-  },
-  {
-    "branch": "Cursesmithy",
-    "name": "Occult Communion",
-    "anima": 10,
-    "actions": "10",
-    "cmd": "/cast occult",
-    "req": "HAR: Belief +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Prepare an altar with candles, blood, and a belonging of the intended recipient. Slip into the Nocturne to reach spirits of the lost. A spirit temporarily binds to speak directly into the target's mind through your voice.",
-    "method": ""
+    "desc": "A pact, marked upon the pacted as a blot of ink. Should an agreement be bound in writ contract, verbal vow, or a formality (i.e. the shake of hands), this spell may be cast to bind the compliant to their oath. The intended target may make a HAR: Belief roll against the cast to resist, should they be averse to the spell; both parties will know the spell is cast and if it has been successfully resisted. Should the pacted be found in violation of their terms, they will, at the caster's beckon, enter a critical state as the inkblot burns them. They may resist this effect with a HAR: Belief success, but the caster may reinitiate the effect as an action until success, at which point the spell ends. While under this effect, the caster may eschew methods to cast spells on the target.",
+    "method": "Agreement with the target and a signifying gesture; a snap of the hand, a whistle, a scratch."
   },
   {
     "branch": "Cursesmithy",
@@ -414,7 +375,33 @@ window.SPELLS_CURSESMITHY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Subsume yourself and the material realm into the shallowest Nocturne. The world twists and distorts. All rolls made within Skirmishing distance suffer -1. The spell's effects last for the duration of the scene.",
-    "method": ""
+    "desc": "The caster subsumes themself and the material realm around them into the shallowest depths of the Nocturne. The world around them twists and distorts, dreams come to life and nightmares are made reality, shadows lengthening and lights flaring. While within Skirmishing distance of the caster, all rolls are made at a -1 penalty. The caster can exempt targets from this effect as part of casting the spell, but can not later exempt people (e.g. if additional people join the scene following the casting of the spell). The spell's effects last for the duration of the scene.",
+    "method": "Closing your eyes and lulling yourself to the border of sleep; often achieved by a hummed lullaby."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Occult Communion",
+    "anima": 10,
+    "actions": "10",
+    "cmd": "/cast occult",
+    "req": "HAR: Belief +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster prepares an altar for a meeting most taboo. An assortment of candles, blood, and something belonging to the intended recipient must all be present. The caster then closes their eyes and slips into the Nocturne, entering a trance-like state as they reach out to the spirits of the lost. Once located, a spirit will temporarily bind themself to the target, speaking directly into their mind and through the caster's own voice. Lights dim and the air grows supernaturally frigid. Spirits asked to provide details of their own death find they possess no memory of it.",
+    "method": "Preparing an altar (makeshift or proper); encircling a worldly possession with blood and candles, followed by vocal meditation."
+  },
+  {
+    "branch": "Cursesmithy",
+    "name": "Haunt",
+    "anima": 10,
+    "actions": "7",
+    "cmd": "/cast haunt",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Through esoteric means, the caster travels through the Nocturne to manifest at the edge of a sleeping target's subconscious. In order to Haunt a target, the caster must be familiar beyond passively having seen them. They appear somewhere near the target's physical location, such as a shadowy corner or the basement of their home, as a spectre-like projection of themself. Though not physically present, they still interact with the scene as if they were. The target is awoken by and aware of the invasion and who performed it, and can choose to resist; if they do, the caster only remains at that location for 7 rounds before being whisked back to their proper place. Otherwise, the caster remains for the duration of a scene. Any wounds or conditions, such as the effects of a spell, sustained during the scene remain when the caster returns. Objects and entities, however, simply refuse to escape with the caster.",
+    "method": "Performing a candlelit ritual to breach the veil between the dreaming and waking worlds."
   }
 ];

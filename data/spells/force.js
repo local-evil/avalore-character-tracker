@@ -1,22 +1,9 @@
-// Avalore spells — force
-// Edit this file to update spells for this branch
+// Avalore spells — Force
+// Place in: data/spells/force.js
 window.SPELLS_FORCE = [
   {
-    "branch": "Force Cantrip",
-    "name": "Sanctum",
-    "anima": 0,
-    "actions": "1",
-    "cmd": "/cast sanctum",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "A field of force forms around you encompassing yourself or anyone within Melee distance. Prevents minor non-harmful environmental effects (rainfall, dirt, severe heat and cold) from affecting those within it.",
-    "method": ""
-  },
-  {
     "branch": "Force",
-    "name": "Buffer",
+    "name": "No requirement.",
     "anima": 2,
     "actions": "1",
     "cmd": "/cast buffer",
@@ -24,21 +11,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Place a force ward on a willing target. When next hit, roll 1d2. On a 2, the hit becomes a grazing hit (incoming damage halved, rounded up), even while wearing medium or heavy armour. A target may only have one buffer active at a time.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Deflect",
-    "anima": 2,
-    "actions": "0",
-    "cmd": "/cast deflect",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "(Reaction) A projectile crossing through Melee distance is directed away by a bat of the hand, haplessly losing momentum and falling to the wayside. May only be used once per round.",
-    "method": ""
+    "desc": "A ward of force is placed on a willing target, actively repelling the might of incoming blows. When the target is next hit, they roll a 1d2. On a 2, the hit is rendered a grazing hit (incoming damage is halved, rounded up, e.g. 3 damage is turned into 2), even while wearing medium or heavy armor. The buffer lasts until it successfully protects the target. A target may only have one buffer active on them at a time.",
+    "method": "Running a hand a few inches in front of a target to place a protective force ward on them."
   },
   {
     "branch": "Force",
@@ -50,21 +24,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Exert inner force on a target within Skirmishing distance, causing them to kneel (1 action, half movement) or fall Prone (2 actions). Resisted with a successful STR: Athletics check.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Distant Hand",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast distanthand",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Exert fine motor control as if your hand was touching an object unobstructed within Skirmishing Range. Anything you can do with your hand alone, you can perform from a distance. Lasts until dismissed or you are attacked.",
-    "method": ""
+    "desc": "The caster exerts their inner force upon a target within Skirmishing distance, causing them to fall to their knees, or if cast with both actions, Prone against the ground. Kneeling targets lose half their movement speed, while Prone targets suffer the condition as normal. This effect can be resisted with a successful STR: Athletics check.",
+    "method": "The faff of a hand, downward."
   },
   {
     "branch": "Force",
@@ -76,21 +37,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "(Reaction) Conjure a whirl of force to slow a falling target in Ranged distance. They take no fall damage from that fall.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Interference",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast interference",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Amplify or silence all sounds within Skirmishing distance for up to 3 rounds or 5 minutes (decide on cast). Silence enables stealth; amplification reveals Unnoticed targets who must pass DEX: Stealth each time they use stealth-related feats.",
-    "method": ""
+    "desc": "(Reaction) The caster conjures a whirl of force that sends a falling target into a slowing spin. Choose one falling target in Ranged distance; they take no Fall damage from that fall.",
+    "method": "Twisting a hand and turning one's torso."
   },
   {
     "branch": "Force",
@@ -102,21 +50,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Sprint up to 10 blocks in a straight line at unnatural speed. Targets in the way are knocked aside; an immovable object halts you. Cast with 2 actions to double the distance. Miscast: you crash, moving 5 blocks and falling Prone.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Stagger",
-    "anima": 2,
-    "actions": "0",
-    "cmd": "/cast stagger",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "(Reaction) When a target in Skirmishing distance is knocked back, add your HAR: Arcana to the number of blocks they are displaced.",
-    "method": ""
+    "desc": "The caster's momentum is bolstered beyond limits. An aura of force builds in front of them as they sprint up to 10m (10 blocks) in a straight line at an unnatural speed. Any targets in their way are knocked aside, and any immovable object will halt the caster unless they are capable of tearing through. This spell may be cast with 2 actions to double the distance moved. Miscast: The caster fails to control their sudden speed and crashes, moving forwards 5m (5 blocks) then falling prone.",
+    "method": "Bending the knees, taking a breath, then leaping forwards."
   },
   {
     "branch": "Force",
@@ -128,8 +63,60 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "While sturdy on the ground, lay hands on a willing target and throw them up to 10 blocks horizontally.",
-    "method": ""
+    "desc": "While the caster is sturdy on the ground, they lay hands on a willing target and can throw them up to 10m (10 blocks) horizontally.",
+    "method": "Laying on hands, bracing the body and then tossing the target as if it were weightless."
+  },
+  {
+    "branch": "Force",
+    "name": "Deflect",
+    "anima": 2,
+    "actions": "0",
+    "cmd": "/cast deflect",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "(Reaction) A projectile crossing through Melee distance is directed away by a bat of the hand, haplessly losing momentum and falling to the wayside. This may only be used once per round.",
+    "method": "A flick of the wrist."
+  },
+  {
+    "branch": "Force",
+    "name": "Distant Hand",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast distanthand",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Carefully manipulating forces at a distance, the caster exerts fine motor control as if their hand was touching an object unobstructed within Skirmishing Range. Anything the caster can do with their hand alone, they can perform from a distance. The caster can continue the spell until they dismiss the effect or are attacked.",
+    "method": "A twirl of the hand, a flexing of fingers: the caster must mime the action they are doing."
+  },
+  {
+    "branch": "Force",
+    "name": "Interference",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast interference",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Commanding their surroundings through a mastery of force, the caster amplifies or silences all sounds within Skirmishing distance for up to 3 rounds in combat or up to 5 minutes out of combat. The caster must decide which when casting the spell. If silencing, all noises within Skirmishing distance of the caster are muted, mixed successes on checks to Conceal are treated as successes, and auditory checks to perceive those in the area of effect are rolled with an additional -2. If amplifying, all sounds and noises within Skirmishing distance echo aloud as if at normal volume. All Unnoticed targets within range are no longer Unnoticed and must pass a DEX: Stealth check each time they wish to utilize stealth-related feats or abilities.",
+    "method": "A pinch of the fingers and thumb pulling downward to silence, a bloom of the hand pushing upward to amplify."
+  },
+  {
+    "branch": "Force",
+    "name": "Stagger",
+    "anima": 2,
+    "actions": "0",
+    "cmd": "/cast stagger",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "(Reaction) Heightened reflexes allow the caster to catch others off balance. When a target in Skirmishing distance is knocked back, the caster adds their HAR: Arcana to the number of blocks the target is displaced.",
+    "method": "Shoving a palm in the direction of a stumbling target."
   },
   {
     "branch": "Force",
@@ -141,8 +128,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Render a target unable to hear. While under the effect, they are immune to sound-based effects and feats (such as Bardic Inspiration) and their hearing cannot be damaged. Lasts a scene unless dispelled. Target may roll INT: Perception once per turn as a free action to dispel.",
-    "method": ""
+    "desc": "A target within Skirmishing distance is rendered unable to hear as sound from the world around them warps, reduced to incomprehensible, quiet murmurs or replaced with a cacophony of noise. While under the effect of the spell, the target is immune to other sound-based effects or feats (such as Bardic Inspiration) and their hearing cannot be damaged. The effect lasts for a scene, unless dispelled by the caster. The target can also try to dispel the effect with a successful INT: Perception check, done as a free action once per turn.",
+    "method": "The gesture of gingerly placing hands over ears made toward the target."
   },
   {
     "branch": "Force",
@@ -154,21 +141,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Unleash a flurry of blows. Make STR: Athletics (max 3) + 2 unarmed attacks, each doing 3 fixed damage on success. These attacks may be blocked or evaded but only provoke one reaction attack. Your knuckles split unless protected.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Caul Of Stillness",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast stillness",
-    "req": "DEX: Acrobatics +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Conjure a protective force dome up to Skirmishing distance in radius. Provides reprieve from extreme environmental hazards such as hail, extreme winds, torrential rain, or falling ash and fire. Creatures may freely pass in and out.",
-    "method": ""
+    "desc": "A flurry of blows unleash in a flash. The caster may make STR: Athletics (max 3) + 2 unarmed attacks, each doing a fixed 3 damage upon success. These attacks may be blocked or evaded but only provoke one reaction attack. Unless protected, the caster's knuckles split.",
+    "method": "Winding up one arm, flexing fingers and beginning the punching streak."
   },
   {
     "branch": "Force",
@@ -180,21 +154,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Raise objects to descend on a target within Skirmishing distance for 6 total damage. Optionally spread equally between up to 3 foes, with each strike doing +1 damage. Targets may Evade or Block against the casting roll, but it does not trigger Shieldmaster or Quickfooted.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Kinetic Conversion",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast conversion",
-    "req": "DEX: Acrobatics +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "For the scene, whenever you Dash you can run along vertical surfaces or across water, and uneven terrain does not impede you. If you finish a turn without Dashing, you fall to the ground if not already grounded.",
-    "method": ""
+    "desc": "The caster raises objects small and large to descend upon a target within Skirmishing distance for a total of 6 damage. When casting, they may choose to spread the damage equally between up to 3 foes, with each strike doing an additional 1 damage. Targets may Evade or Block against the casting roll, but it does not trigger Shieldmaster or Quickfooted.",
+    "method": "Reaching towards objects and willing the forces around them into the air; once all are ready, a thrust forward."
   },
   {
     "branch": "Force",
@@ -206,21 +167,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Concentrate arcane force onto the weapons of yourself or a target within Melee distance. Their next successful attack deals +2 damage and knocks the struck enemy back for as many blocks as damage dealt. Weapons below Good quality shatter on impact.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Partition",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast partition",
-    "req": "STR: Athletics +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "A kinetic wall rises up to 10x5 blocks within Skirmishing distance. Small projectiles deal half damage through it. Moving into the wall costs an extra block of movement. Lasts 3 rounds or 30 seconds outside of combat.",
-    "method": ""
+    "desc": "The potency of the caster's arcane force is concentrated to the weapons of themselves or a specified target within Melee distance. Their next successful attack deals an additional 2 damage and knocks the struck enemy back for as many blocks as they took damage (5 damage = 5 blocks). Imbued weapons lower than Good quality will shatter on impact.",
+    "method": "Extending one's hand(s) toward the desired weapon(s) and imbuing them with force."
   },
   {
     "branch": "Force",
@@ -232,21 +180,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Use echoes from precise vibrations to ascertain information on the contents of a room: the number of entities, the existence of any large objects, or bits and pieces of quiet conversation.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Shatter",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast shatter",
-    "req": "STR: Athletics +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Emit a shudder in Melee distance. Weapons, shields, and armour of Average quality or below in the radius are broken and unusable for the remainder of the scene. Surfaces and objects of poor repair may also break at DM discretion.",
-    "method": ""
+    "desc": "Using echoes from precise vibrations of force, the caster ascertains information on the contents of a room or area based on DM discretion. They are able to gather the number of entities within an area, the existence of any large objects, or bits and pieces of quiet conversation.",
+    "method": "Placing one's hands to a wall or floor neighboring the target area, and concentrating with closed eyes."
   },
   {
     "branch": "Force",
@@ -258,8 +193,60 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Emit an ear-piercing sound from your mouth or channeled through a metal object. Targets within Ranged distance with unprotected ears must succeed STR: Fortitude or lose maintained spells and suffer -2 to aim rolls until the next round.",
-    "method": ""
+    "desc": "An ear-piercing sound emanates from the caster, either from their mouth directly or channelled through a metal object. Targets within Ranged distance with unprotected ears must succeed a STR: Fortitude check or lose focus on any maintained spells (ending them early) and suffer a -2 penalty to aim rolls until the next round. Targets have all bardic effects (positive or negative) nullified during the shriek.",
+    "method": "Taking a deep breath, channeling from within, before creating a harsh noise."
+  },
+  {
+    "branch": "Force",
+    "name": "Caul Of Stillness",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast stillness",
+    "req": "DEX: Acrobatics +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A caul of protective force energy is conjured around the caster, extending out to form a dome up to Skirmishing distance in radius. While unable to protect from mundane or magic attacks, the barrier provides reprieve from even the most extreme environmental hazards such as hail and extreme winds, torrential downpours of rain, or falling ash and fire. Creatures may freely pass in and out of the dome. The dome remains centred on the caster as they move and can be dissipated at their whim.",
+    "method": "Placing one's hands on the ground, growing a barrier from the earth to sky."
+  },
+  {
+    "branch": "Force",
+    "name": "Kinetic Conversion",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast conversion",
+    "req": "DEX: Acrobatics +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Disks of concentrated arcane force form beneath the caster's feet, converting their kinetic energy into potential. For the duration of the scene whenever they Dash, the caster can run along vertical surfaces (e.g. walls) or across water, and uneven terrain does not impede them. If the caster finishes a turn without Dashing, they will fall to the ground if not already grounded.",
+    "method": "Closing the eyes and focusing inner balance toward the feet."
+  },
+  {
+    "branch": "Force",
+    "name": "Partition",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast partition",
+    "req": "STR: Athletics +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A kinetic wall rises up within Skirmishing distance in a direction of the caster's choosing, up to 10x5m (10x5 blocks) in size. The barrier applies mild resistance against anything moving inwards. Small projectiles (e.g. arrows, bolts, javelins, etc.) shot into the forcefield lose momentum, dealing half-damage to their targets, rounded up (5 down to 3). Attempts to walk into the wall consume an extra block of movement. The effect lasts 3 rounds or 30 seconds outside of combat.",
+    "method": "Pointing outward with a finger and drawing a horizontal line through the air."
+  },
+  {
+    "branch": "Force",
+    "name": "Shatter",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast shatter",
+    "req": "STR: Athletics +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A rippling shudder emits from the caster in a Melee distance radius around them. Weapons, shields, and armour of Average quality or below in the radius are broken and rendered unusable for the remainder of the scene. Surfaces and objects of poor repair will also falter and break apart at DM discretion.",
+    "method": "Extending the hands to either side; exerting one's inner force outward."
   },
   {
     "branch": "Force",
@@ -271,34 +258,21 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Conjure a tempestuous updraft in Melee distance lasting until end of your next turn. Creatures within may ride the winds, ascending 20 blocks upward. They do not fall until end of their next turn. Falls within the current are treated as 20 blocks shorter.",
-    "method": ""
+    "desc": "The caster conjures a tempestuous updraft in Melee distance around them that lasts until the end of their next turn. Creatures within the area may ride the winds, ascending 20m (20 blocks) upwards and, buoyed by the wind, not falling until the end of their next turn. Falls within the current are softened and are treated as if 20m (20 blocks) shorter.",
+    "method": "Spreading arms wide then whirling in place."
   },
   {
     "branch": "Force",
     "name": "Displace",
     "anima": 6,
     "actions": "1",
-    "cmd": "/cast displace",
+    "cmd": "/cast telekinesis",
     "req": "STR: Athletics +2",
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "A telekinetic shove toward or away from you. Up to 3 targets within Skirmishing Range must succeed STR: Fortitude or DEX: Acrobatics with -3 or be displaced 8 blocks. Objects do not make a test but may be destroyed. Secured targets are immune.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Giant-Felling Strike",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast giantfelling",
-    "req": "STR: Athletics +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Channel force into a fist for 4 damage. Spend additional actions to charge +2 damage per action (above 10 deals 2 damage to you). Delivered as a one-action Unarmed attack. A blocked or evaded hit still deals half damage as a shockwave.",
-    "method": ""
+    "desc": "A telekinetic shove toward or away from the caster, declared upon casting. Up to 3 targets within Skirmishing Range of the caster must succeed a STR: Fortitude or DEX: Acrobatics test with a -3 penalty or be displaced 8 blocks; objects do not make a test, but may be destroyed by the force. Should a target be secured, it is immune to the effect.",
+    "method": "A flick of the wrist in the desired direction."
   },
   {
     "branch": "Force",
@@ -310,21 +284,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "(Reaction) Strike the ground on landing. Entities within Skirmishing distance must succeed DEX: Acrobatics or STR: Fortitude or be knocked Prone and take damage equal to blocks the caster fell (max 10). Mixed success halves damage. You always take half the damage dealt.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Lattice",
-    "anima": 6,
-    "actions": "4",
-    "cmd": "/cast lattice",
-    "req": "DEX: Acrobatics +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Weave an invisible web of compressed force as scaffolding or platforms suspended in mid-air within Ranged distance. You cannot move or act while casting, but being attacked does not break concentration. Dissipates only when you will it.",
-    "method": ""
+    "desc": "(Reaction) A thundering crash resounds around the caster as they strike the ground. Entities within Skirmishing distance must succeed a DEX: Acrobatics or STR: Fortitude check or be knocked Prone while taking damage equivalent to the number of blocks the caster fell (up to 10 damage). A mixed success halves the damage dealt, rounded up. The caster always takes half of the damage dealt, but is protected from the fall itself and any serious damage such as broken bones. This spell can only be cast as a reaction to falling; if the caster casts it during their turn, their turn ends after impact as they need a moment to recover from the fall.",
+    "method": "Exerting one's inner force into the ground beneath them with a slam of the feet or fists."
   },
   {
     "branch": "Force",
@@ -336,21 +297,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Extend your reach to stabilize all desired targets within Skirmishing distance. Prone targets stand up. All affected become immune to grappling effects (push, pull, or prone) until the start of your next turn.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Restrain",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast restrain",
-    "req": "STR: Athletics +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Pin a target within Melee distance against a solid surface with telekinetic force. They cannot move or act. You cannot move or act while maintaining focus. Each turn the target may roll STR: Fortitude or HAR: Arcana against your STR: Athletics to break free.",
-    "method": ""
+    "desc": "Through mastery of Force magic, the power to topple enemies can be reshaped to help allies instead. The caster extends their reach to all desired targets within Skirmishing distance, physically stabilizing each of them and lifting those who have fallen. Prone targets are now upright, and any affected by the spell become immune to grappling effects (i.e. push, pull, or prone) until the start of the caster's next turn.",
+    "method": "Extending the arms outward while lowering a knee to the ground."
   },
   {
     "branch": "Force",
@@ -362,8 +310,47 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Seize control of an untethered object or creature (wagon-size or smaller) within Ranged distance. Move it up to 8 blocks immediately, then 4m per action on subsequent turns. The target may still take actions as normal if physically capable.",
-    "method": ""
+    "desc": "The caster seizes control of an untethered object or creature within Ranged distance that is no larger than a wagon. When the spell is cast and at the end of each of the target's turns, they make a STR: Athletics check. On a success (green), the spell ends. Immediately after casting, the target can be moved up to 8 blocks in any direction. On subsequent turns, the caster may move the target 4m per action, or otherwise expend one action to maintain the spell if no movement is taken. The target may still take their actions as normal as long as they are physically capable of doing such (i.e. they may need a means of flight to move around mid-air). Falls caused by this spell automatically deal half damage.",
+    "method": "Holding out hands, with each palm facing the target's arms."
+  },
+  {
+    "branch": "Force",
+    "name": "Giant-Felling Strike",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast giantfelling",
+    "req": "STR: Athletics +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "With but a single strike, destroy mountains. The caster begins channeling momentous force within and around one of their fists, capable of dealing 4 damage. The caster may spend subsequent actions to charge the strike, gaining 2 damage per action. If charged above 10 damage, each additional action spent charging deals 2 damage to the caster. The caster's movement is reduced by 1m (1 block) until they unleash their attack, which is delivered as a one-action Unarmed attack roll. If the attack misses or is successfully Blocked or Evaded it still deals half damage as a shockwave rushes forward. At DM discretion, sufficiently charged Giant-Felling Strikes can damage, break, or destroy structures or equipment.",
+    "method": "Continually bracing one's body firmer and fiercer before lashing out with a single brutal blow."
+  },
+  {
+    "branch": "Force",
+    "name": "Lattice",
+    "anima": 6,
+    "actions": "4",
+    "cmd": "/cast lattice",
+    "req": "DEX: Acrobatics +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster weaves an invisible web of compressed force that acts like scaffolding or platforms suspended in mid-air, allowing people and objects to move along an unseen path. They may create this lattice in any singular area (over a stream, along the side of a building, towards an opening in the ceiling) within Ranged distance over the course of 4 actions, unable to move or take actions otherwise. Being attacked or otherwise disturbed does not break the caster's concentration on casting, and the lattice only dissipates once the caster wills it to.",
+    "method": "Weaving a complex, invisible web with hands extended out to the target area."
+  },
+  {
+    "branch": "Force",
+    "name": "Restrain",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast restrain",
+    "req": "STR: Athletics +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Telekinetic force pins a target within Melee distance against a solid surface, preventing them from moving or acting. The caster, likewise, is unable to move or act while maintaining focus with both actions. Each turn, the target may attempt to break free with a STR: Fortitude or HAR: Arcana roll against the caster's STR: Athletics. This effect may be maintained for up to 1 minute (5 rounds) and may be dismissed at caster discretion. Restraint is broken if the caster or target is attacked.",
+    "method": "Holding out hands, with each palm facing the target's arms."
   },
   {
     "branch": "Force",
@@ -375,34 +362,8 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "A weapon hovers under telekinetic command for up to 4 rounds. Each turn it independently takes one action. Must remain within Skirmishing range. Succeed STR: Fortitude each time you take damage or the spell ends. Only one dancing weapon at a time.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Gravitic Weight",
-    "anima": 10,
-    "actions": "2",
-    "cmd": "/cast graviticweight",
-    "req": "STR: Athletics +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Increase gravity within Skirmishing range of you for up to 3 rounds. All movement reduced by 2 blocks, flight becomes impossible. Entities mid-air are grounded and take halved fall damage. Physical attacks deal 2 less damage. Requires both actions each turn to maintain.",
-    "method": ""
-  },
-  {
-    "branch": "Force",
-    "name": "Imperium Aura",
-    "anima": 10,
-    "actions": "2",
-    "cmd": "/cast imperium",
-    "req": "None",
-    "patron": "",
-    "capstone": true,
-    "targeted": false,
-    "desc": "For three rounds including casting, anyone entering or starting their turn within Skirmishing distance must contest STR: Athletics or HAR: Arcana. On failure they are pushed outside the radius and fall Prone. Ranged attacks and spells from outside cannot affect anything within.",
-    "method": ""
+    "desc": "A weapon the caster wields or that is unattended in Skirmishing range hovers under telekinetic command for up to 4 rounds. On the caster's turn, the weapon independently takes one action (ie, Lift, Attack, Loose). Attacks are rolled using base weapon templates without any bonuses, penalties, or external effects applied. The weapon must remain within Skirmishing range of the caster, and they must succeed a STR: Fortitude save each time they take damage, ending the spell should they fail. Commanding the weapon to move within range (e.g. to the caster's hand or in range or an enemy) is a free action. Only one dancing weapon may be active at a time.",
+    "method": "A weapon defies gravity, rising from the ground or leaving the hand without falling."
   },
   {
     "branch": "Force",
@@ -414,7 +375,33 @@ window.SPELLS_FORCE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Hover 1 block above the nearest surface and gain +2 blocks to all forms of movement for the scene. Move vertically using your movement. Float safely back to ground at end of turn. Considered flight for relevant effects.",
-    "method": ""
+    "desc": "Planes of buoying force bring the caster to great heights. For the remainder of the scene the caster hovers 1m (1 block) above the nearest solid surface below them and moves an additional 2m (2 blocks) for all forms of movement. For the duration of the spell the caster can move vertically using their movement; at the end of their turn they float safely back to the ground. For the purpose of effects that interact with flying, this spell is considered flight.",
+    "method": "Weaving hands over legs, then hopping free of the earth below."
+  },
+  {
+    "branch": "Force",
+    "name": "Gravitic Weight",
+    "anima": 10,
+    "actions": "2",
+    "cmd": "/cast graviticweight",
+    "req": "STR: Athletics +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The weight of the world hangs heavy over the surrounding area. Gravity increases to a crushing degree within Skirmishing range of the caster; all forms of movement are reduced by 2m (2 blocks) and flight becomes impossible (entities mid-air are grounded and take halved Fall damage). Physical attacks also become sluggish, dealing 2 less damage. The caster must use both of their actions each turn to maintain the spell, which lasts for up to 3 rounds, or up to a minute out of combat.",
+    "method": "Taking a deep breath before plunging arms down towards the earth."
+  },
+  {
+    "branch": "Force",
+    "name": "Imperium Aura",
+    "anima": 10,
+    "actions": "2",
+    "cmd": "/cast imperium",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The force of the caster's presence becomes so immense that the very air around them is distorted. For three total rounds including casting, anyone that enters or starts their turn within Skirmishing distance of the caster makes a contested STR: Athletics or HAR: Arcana roll. Upon failing to meet or beat the caster's roll, they are pushed outside of that radius and fall Prone. Additionally, Ranged and Skirmishing weapon attacks are stopped midair within the aura, and spells cast outside of it cannot affect anything within.",
+    "method": "Reaching for inner strength with each hand, then exerting it outward."
   }
 ];

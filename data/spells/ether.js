@@ -1,19 +1,6 @@
-// Avalore spells — ether
-// Edit this file to update spells for this branch
+// Avalore spells — Ether
+// Place in: data/spells/ether.js
 window.SPELLS_ETHER = [
-  {
-    "branch": "Ether Cantrip",
-    "name": "Starsign",
-    "anima": 0,
-    "actions": "1",
-    "cmd": "/cast starsign",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Manifest your Zodiac somewhere on your person, permitting its use in place of a Focus. Lasts for a day, provides Dim light within Melee distance, and may be dismissed at any time.",
-    "method": ""
-  },
   {
     "branch": "Ether",
     "name": "Ether Sheath",
@@ -24,21 +11,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Coat an object in protective magic and cast it into the Ether. For the rest of the day, summon or dismiss it with an action while holding a focus. If the item is itself a focus, no focus is needed. Weapons with Ether Sheath do not consume a weapon slot.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Greater Resonance",
-    "anima": 2,
-    "actions": "2",
-    "cmd": "/cast greaterresonance",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Your vision becomes grayscale as you discern traces of magic from the last 24 hours. Each trace is a uniquely-colored splotch revealing the branch of magic, degree of power, and nature of the target. Lasts until end of scene or dismissed.",
-    "method": ""
+    "desc": "The caster coats an object in a protective sheath of magic, then casts it into the Ether. For the rest of the day, using an action, they may summon or dismiss the sheathed item from the Ether while holding a focus. If the item is itself a focus, they do not need to hold a focus to summon or dismiss it. Weapons with Ether Sheath cast on them do not consume a weapon slot.",
+    "method": "Tracing the outline of the affected object in the air, to stow or draw it."
   },
   {
     "branch": "Ether",
@@ -50,21 +24,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Destabilize the area, allowing reflexive portals when attacked. Until your next turn, roll DEX: Finesse against successful attacks — on a success, redirect the attack to a designated target within Melee distance. Miscast: attacks that hit also deal half damage to all in Melee distance.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Skyveil",
-    "anima": 2,
-    "actions": "2",
-    "cmd": "/cast skyveil",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Create a window to the sky on any ceiling surface up to 10x10 blocks. The surface becomes a clear view of the sky, bypassing clouds and fog at your discretion. Lasts up to a day.",
-    "method": ""
+    "desc": "The caster destabilizes the area around them, making it possible to reflexively tear open unstable portals when attacked. Until the start of the caster's next turn, they may roll DEX: Finesse against successful attacks targeting them; if the result of the check meets or beats the attack roll, the attack is redirected to a designated target within Melee distance. Otherwise, the attack affects the caster normally. On a miscast, spatial stability is temporarily sundered: kaleidoscopic rifts tear open all around the caster. Until the start of their next turn, attacks that hit the caster also deal half damage to all other targets in Melee distance.",
+    "method": "A series of sharp slashes with a focus while releasing anima into the air."
   },
   {
     "branch": "Ether",
@@ -76,21 +37,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Call on starlight to hover near you. Gives off ambient glow within Skirmishing distance and illuminates to Ranged distance at Dim level. Can be used underwater. Lasts until end of day, but is not equivalent to Daylight.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Vector",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast vector",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "The space between spaces becomes nearer. Make contact-based actions and Melee attacks with an additional 2 meter range for 1 round.",
-    "method": ""
+    "desc": "The caster is able to call on the light of the stars, conjuring a source of light that hovers near them. It gives off an ambient glow within Skirmishing distance, and further illuminates up to Ranged distance to Dim level. The light can be used underwater and lasts until the end of the day, but is not equivalent to Daylight.",
+    "method": "Does not require a focus. Holding out your hand with your palm up."
   },
   {
     "branch": "Ether",
@@ -102,8 +50,47 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "As part of casting a spell, conjure a temporary rift to increase its targeting range by one category (Melee→Skirmishing, Skirmishing→Ranged). Does not increase area-of-effect radius. Miscast: the spell is lost in the Ether.",
-    "method": ""
+    "desc": "As part of casting a spell, the caster conjures a temporary rift to bridge near and far. Increase its targeting range by one distance category for the duration of the effect (Melee -> Skirmishing, Skirmishing -> Ranged). This does not increase the radius of any spell with an area-of-effect. On a miscast, the spell is lost in the Ether and has no effect.",
+    "method": "Tracing a small circle with a focus or hand."
+  },
+  {
+    "branch": "Ether",
+    "name": "Greater Resonance",
+    "anima": 2,
+    "actions": "2",
+    "cmd": "/cast greaterresonance",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster's vision becomes grayscale as an inherent sense of the arcane lets them discern traces of magic used within the last 24 hours. Anything from the casting of a spell, the presence of a magic item, or even the presence of a hexed individual leaves a uniquely-colored splotch amidst the grey landscape, informing the caster of the branch of magic used, the degree of power, and the nature of the target (living, dead, inanimate), but nothing further except at DM discretion. Attempts to hide arcane objects or traces from the caster require a HAR: Arcana contest. This effect lasts until the end of the scene, or until dismissed.",
+    "method": "Blinking, then seeing the world through greyed out eyes for the duration of the spell."
+  },
+  {
+    "branch": "Ether",
+    "name": "Skyveil",
+    "anima": 2,
+    "actions": "2",
+    "cmd": "/cast skyveil",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster is able to create a window to the sky on any ceiling surface by tracing its outline, up to 10x10m (10x10 blocks) in size. The surface becomes a clear window to the sky, allowing sight of the sun, stars, and moon. Clouds, fog, and any other obscuring conditions may be bypassed to caster discretion. This effect lasts up to a day, fading sooner at the caster's discretion.",
+    "method": "Trailing an outline with a focus to form the shape."
+  },
+  {
+    "branch": "Ether",
+    "name": "Vector",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast vector",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The space between spaces becomes nearer, permitting the caster to make contact-based actions and Melee attacks with an additional 2 meter range for 1 round.",
+    "method": "A flourish of the focus, taking on a ready stance."
   },
   {
     "branch": "Ether",
@@ -115,21 +102,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Time slows for a target within Skirmishing distance. For a single turn, they gain an additional action and +3m to ground speed. Does not stack. May be cast on yourself.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Arcane Guard",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast arcaneguard",
-    "req": "INT: Research +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Ward a target against arcane influence. For the scene, the target uses your HAR: Arcana modifier on any defensive spell check. +1 against spells from your primary branch. Can be dismissed as a free action by either party.",
-    "method": ""
+    "desc": "Time slows for a target within Skirmishing distance, giving a brief window of speed. For a single turn, a target of the spell is permitted an additional action, and their ground speed increases by 3m (blocks). This effect does not stack, and may be cast upon oneself.",
+    "method": "Tracing along the foci sigil as if a clockface, indicating a target."
   },
   {
     "branch": "Ether",
@@ -141,21 +115,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Become Hidden to most denizens of the Ether for the remainder of the scene. Making noise or interacting overtly with the environment loses Hidden status. To non-Ether beings, you appear slightly translucent. Miscast: you become blindingly obvious to your quarry.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Fractal",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast fractal",
-    "req": "STR: Fortitude +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Coursing energy envelops your focus. Until your next turn, projectiles aimed at you are drawn toward it and diminish into nothing. Focus must be Good quality or greater or it breaks. Miscast: the focus briefly attracts matter, granting +1 to inbound aim rolls.",
-    "method": ""
+    "desc": "Obscured to the hum of the void, the caster becomes Hidden to most denizens of the Ether (such as Fey) for the remainder of the scene, even if directly in front of one. Should they make noise (such as speaking) or interacting with the environment in an overt manner, they lose their Hidden status and risk being noticed. To beings not of the Ether, the caster will appear slightly translucent with little other effect. Voidtouched are not considered as 'beings or denizens of the Ether' here, perceiving the mage as any playable race would. On a miscast, the caster becomes blindingly obvious to the avoided quarry, and any nearby are aware of exactly what the caster tried to do.",
+    "method": "Bringing the focus close to the heart, merging one's entire being into the background forces of Ether."
   },
   {
     "branch": "Ether",
@@ -167,21 +128,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Enchant a container as a portal to a pocket-space in the Ether. Gain two additional weapon slots, tool slots, and consumable slots. Items in the pouch can only be accessed out of combat and can be freely switched with carried items when not in combat.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Pierce Penumbra",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast piercepenumbra",
-    "req": "STR: Fortitude +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Rays of bright light or absolute dark shoot from your focus, striking 3 + HAR: Arcana unique targets in Skirmishing distance for 2 AP damage each. Cannot be blocked, evaded, or resisted by a roll.",
-    "method": ""
+    "desc": "The caster enchants a container (i.e. a coin pouch, pocket, backpack, or chest) to be a portal into a pocket-space within the Ether. It can freely store a medley of miscellaneous items, and also allows them to carry additional equipment that can be accessed while on adventures. The caster gains two additional weapon slots, tool slots, and consumable slots, representing items stored within the Magic Pouch. Items in the pouch can only be accessed out of combat, and can freely be switched with carried items when not in combat. Items of any shape or size can be placed within the Magic Pouch as long as they can physically fit within the opening. Living creatures should not be placed or left within the pouch; such creatures left within one for over an hour vanish and can not later be retrieved.",
+    "method": "Running a focus alongside the opening of a container before 'punching' it into the container."
   },
   {
     "branch": "Ether",
@@ -193,21 +141,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Instantly teleport to an unoccupied point within Skirmishing distance and line of sight. Either a flash of light or a skirt of shadow marks where you were.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Slipspace",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast slipspace",
-    "req": "INT: Research +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Open a rift to slipspace, forging a stable 5-block radius plateau in a pocket realm between worlds. Only accessible through the ritual circle you forge. If you depart, any additional visitors are shunted out with you.",
-    "method": ""
+    "desc": "In a blink, the caster quickly teleports to an unoccupied point within Skirmishing distance and line of sight of their spellcast. Either a flash of light or a skirt of shadow remarks where they were in the slightest afterimage.",
+    "method": "Touching the focus against oneself."
   },
   {
     "branch": "Ether",
@@ -219,8 +154,60 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Until your next turn, up to half your person can selectively pass through solid objects. Clothing and worn items can be selectively excluded. Ends if dismissed, if you are hit, or if you attack. If hit, you are pushed out in the direction of the force.",
-    "method": ""
+    "desc": "The caster slips self into the border between, allowing a parcel of flesh to pass through the material. Until the start of their next turn, up to half of their person can selectively pass through solid objects. Clothing, equipment, and other worn items can selectively be excluded from this phasing. The effect lasts until dismissed, the caster is hit, or the caster attacks. If hit, they will immediately be pushed out in the direction of the force applied.",
+    "method": "Tensing one's body while channeling energy into a focus."
+  },
+  {
+    "branch": "Ether",
+    "name": "Arcane Guard",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast arcaneguard",
+    "req": "INT: Research +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "A ward is placed on the target, protecting them from arcane influence. For the duration of the scene, the target can use the caster's HAR: Arcana modifier on any defensive check a spell requires. When warding against spells that match the caster's primary branch, add an additional +1 modifier to the defensive check. This ward can be dismissed as a free action by either the target or the caster.",
+    "method": "Contact between the focus and the target."
+  },
+  {
+    "branch": "Ether",
+    "name": "Fractal",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast fractal",
+    "req": "STR: Fortitude +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Coursing energy envelops the caster's focus, arcing and radiating from it. Until their next turn, projectiles aimed at the caster are drawn toward their focus and diminished by warping Ether, spiralling into smaller pieces until fading from existence entirely. The focus must be an item of Good quality or greater, or it too will break apart into nothing by the end of the cast as well. On a miscast, the focus briefly seems to attract matter rather than dispel it; though visually appearing the same, it grants a +1 to any inbound aim rolls until the next turn.",
+    "method": "Sustained physical contact with the focus for the duration of the spell."
+  },
+  {
+    "branch": "Ether",
+    "name": "Pierce Penumbra",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast piercepenumbra",
+    "req": "STR: Fortitude +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Rays of bright light or absolute dark shoot out of the caster's focus, striking a number of unique targets in Skirmishing distance for 2 AP damage. The number of targets is equal to 3 plus the caster's HAR: Arcana. This attack cannot be blocked, evaded, or resisted by a roll.",
+    "method": "Channeling into focus, drawing upon light or absence of it."
+  },
+  {
+    "branch": "Ether",
+    "name": "Slipspace",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast slipspace",
+    "req": "INT: Research +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Opening a rift into slipspace, the caster forges a stable 5m (blocks) radius plateau in this pocket realm between worlds, solid enough to be stood upon. They may bring objects and other visitors within this space, which may only be accessed through the ritual circle forged by the caster-if the caster departs, any additional visitors are shunted out with them. If the caster remains in the slipspace for longer than an hour, beings of the void may take notice.",
+    "method": "Inscribing a runic circle into the ground."
   },
   {
     "branch": "Ether",
@@ -232,8 +219,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Tendrils of light or dark ensnare a target within Skirmishing distance and pull them adjacent to your focus. They are confined to a 4-block radius and require a STR check to leave. Actions to leave require a successful STR check. Lasts until dismissed or the target breaks out.",
-    "method": ""
+    "desc": "Tendrils of light or dark pour out from the caster's focus, ensnaring a target within Skirmishing distance. If more than 4 blocks away, they may succeed a STR roll to escape being grabbed. Upon failing, or if already within 4 blocks, they are immediately pulled onto a block adjacent to the focus. They find themselves tethered to a 4 block radius around the focus and any attempts to leave this area are met with an equal and opposite force that pulls them back in. Actions to leave (free movement, dashes, being pulled) require a successful STR check. They may take other actions as normal. The tether remains until the caster dismisses it or the target breaks out.",
+    "method": "Twisting one's hand, commanding out from the focus tendrils of light and dark."
   },
   {
     "branch": "Ether",
@@ -245,21 +232,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Allow another caster to cast up to a 6-anima spell with guaranteed success at no cost. They may be at 0 anima or have already overcast for the day. Can also assist cooperative casting but cannot begin a spell. Miscast: you are paralyzed until your next turn.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Blur",
-    "anima": 6,
-    "actions": "1",
-    "cmd": "/cast blur",
-    "req": "INT: Research +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Become intangible and elusive. For your DEX: Acrobatics modifier turns (max 3), enter a passive evade stance with unmodified DEX: Acrobatics rolls. Any attacks against you trigger this evade roll.",
-    "method": ""
+    "desc": "Channelling the caster's control of the Ether into another, they immediately allow another caster to cast up to a 6 anima spell with a guaranteed success, at no cost to them. The target caster may be at 0 anima and/or have already overcast for the day. Alternatively, Arcane Conduit can be used to assist in the cooperative casting of any spell, though cannot itself begin casting a spell. On miscast, the caster's focus is overwhelmed with raw arcane energy with nowhere to go, paralyzing them in place, unable to act or move until their next turn.",
+    "method": "Holding out a palm or focus towards the target caster, wordlessly arcing a bolt of energy towards them."
   },
   {
     "branch": "Ether",
@@ -271,21 +245,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "When you would end your turn, undo it — reverting damage, rolls, actions, and effects. Spells are undone and anima is refunded (must be tracked manually). A turn can only be undone once per round.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Dusk Door",
-    "anima": 6,
-    "actions": "1",
-    "cmd": "/cast duskdoor",
-    "req": "INT: Research +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Tear an unstable rift in the world within Skirmishing distance. Creatures within Melee distance at the start of their turn must succeed STR: Athletics or DEX: Acrobatics or take 5 damage (2 on mixed success). Cannot be closed, fades at end of scene.",
-    "method": ""
+    "desc": "When the caster would end their turn, they can instead turn back the clock. The caster's latest turn is undone, reverting any damage done or healed, rolls succeeded or failed, and actions/effects not otherwise encompassed; spells are undone and anima is refunded (must be tracked manually). An individual turn can only be undone once per round.",
+    "method": "Tracing a hand counterclockwise along the foci sigil immediately after taking action."
   },
   {
     "branch": "Ether",
@@ -297,21 +258,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Displace a target within Melee distance to a grounded spot within Skirmishing distance (2 actions) or banish them to the Ether for up to 1 minute (10 actions). Banished targets roll HAR: Arcana each turn to return. Miscast: you are banished for one round.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Ethershield",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast ethershield",
-    "req": "STR: Fortitude +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Form a barrier up to 10x10 blocks in the direction you face, 2 blocks in front of you. The space is replaced with pure Ether — impossible to pass. If the wall is attacked, you take half the damage directly with no mitigation. Moves with you.",
-    "method": ""
+    "desc": "The caster focuses on a single target within Melee distance, displacing them either somewhere grounded within Skirmishing distance of their original location (must be an open spot within line of sight, e.g not inside a cell or building) or to the Ether itself for up to 1 minute (5 rounds when in combat). Displacing someone within the material realm takes 2 actions; banishing someone to the Ether takes 10 actions. If they wish to, the caster can freely end the displacement early. Otherwise, targets sent to the Ether make a HAR: Arcana check at the end of each of their turns, ending the spell and reforming in their prior position on a success. Beings of the Ether do not make HAR: Arcana checks and do not naturally return when the spell ends; Voidtouched are not considered as 'beings of the Ether' for the purposes of this spell. On a miscast, the caster is instead banished to the Ether for one round, returning to their prior position at the end of their next turn.",
+    "method": "A flourish of the focus."
   },
   {
     "branch": "Ether",
@@ -323,21 +271,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Focus on an object of interest to witness a hazy one-minute glimpse of what brought it to its current condition. Cannot glean anything said or exact identities, only number of people and general body language as featureless black forms.",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Nebula",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast nebula",
-    "req": "STR: Fortitude +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Conjure a miasma of dust and dark centering on a space within Skirmishing distance. Those within feel their arcane ability diminish, suffering -3 to all casting and Arcana rolls. Lasts 3 rounds.",
-    "method": ""
+    "desc": "The caster focuses upon an object of interest (e.g. blood puddle), slipping temporarily into a fold of the past to better understand what brought it to its current condition-such as what caused the blood to be spilled. They are able to witness a hazy, one-minute glimpse of what happened in the immediate surroundings, but cannot glean anything said or the exact identity of anyone who was present. The caster can determine the number of people who were present and their general body language, who appear as featureless forms of black. If no particular object of interest is available, the caster may try their luck with a HAR: Arcana roll; on a success, the caster is able to find a fruitful instance in the last day instead.",
+    "method": "Tracing a focus circle around an object or point of interest."
   },
   {
     "branch": "Ether",
@@ -349,8 +284,60 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Forge a portal stable enough for any being or object to traverse, travelling up to 1000 blocks in an instant to a location you know. Dissipates once you step through unless you sacrifice an action each turn to maintain it.",
-    "method": ""
+    "desc": "Over the course of a minute (5 rounds), the caster forges a shortcut stable enough for any being or object to traverse through, travelling in an instant up to 1000m (1000 blocks) away. The portal's other side can only be pinpointed to within 20m (20 blocks) and must be in a location the caster knows. If hit, the caster must succeed a HAR: Arcana check or else the portal closes. The portal dissipates into nothing once the caster steps through, but they can choose to keep it from closing by sacrificing an action on each turn.",
+    "method": "Slowly tracing a circle in the air before you with the focus."
+  },
+  {
+    "branch": "Ether",
+    "name": "Blur",
+    "anima": 6,
+    "actions": "1",
+    "cmd": "/cast blur",
+    "req": "INT: Research +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Becoming intangible and elusive, the caster masks their movements in a supernatural blur. On the turn that this spell is cast and for a number of subsequent turns equal to their DEX: Acrobatics modifier (maximum 3), the caster enters into a passive evade stance; any attacks against them trigger an evade roll with no modifiers (feats, armor, etc.) aside from the caster's DEX: Acrobatics.",
+    "method": "Waving a hand before yourself to shift your appearance in place."
+  },
+  {
+    "branch": "Ether",
+    "name": "Dusk Door",
+    "anima": 6,
+    "actions": "1",
+    "cmd": "/cast duskdoor",
+    "req": "INT: Research +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "An unstable rift is torn into the world, reality making way for inky void. The Door appears in Skirmishing distance, and any creature within Melee distance of it at the start of their turn must make a STR: Athletics or DEX: Acrobatics check. Failing deals 5 damage and Mixed Success deals 2 damage. The Door cannot be closed by the caster, only fading away at the end of the scene. Miscast: The rift is more unstable than the caster intended it to be. It immediately collapses in on itself, releasing a surge of unstable magic; creatures in Skirmishing distance take 3 damage as the energy rattles their bodies. Mages take double damage from this effect.",
+    "method": "Slashing a focus through the air towards where the caster intends to open the rift."
+  },
+  {
+    "branch": "Ether",
+    "name": "Ethershield",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast ethershield",
+    "req": "STR: Fortitude +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A barrier is formed as large as 10x10m (10x10 blocks) in any direction the caster is facing, 2m (2 blocks) in-front of them. The space of this wall is replaced with pure Ether in its rawest form, making it impossible to pass. If the wall is attacked, the caster takes half of the damage themselves, directly losing HP and entirely unable to mitigate it with armour, Evasion, or Blocking. The caster can freely dismiss the shield on their turn, and are limited to free movement and dash actions while maintaining the shield, which moves with them.",
+    "method": "Holding a focus in the direction of the shield, ripping reality to form an impassable wall."
+  },
+  {
+    "branch": "Ether",
+    "name": "Nebula",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast nebula",
+    "req": "STR: Fortitude +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster conjures a miasma of dust and dark centering on a space within Skirmishing distance. Those within feel their arcane ability diminish, adding a -3 to all casting and Arcana rolls. The spell remains for 3 rounds.",
+    "method": "A twist, stutter, or shake of the focus."
   },
   {
     "branch": "Ether",
@@ -362,8 +349,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "A tear in the sky reveals inky darkness. After a moment of focus, stars plummet downward toward three different targets in Ranged distance. Rolls Spellbook template — cannot be blocked or evaded. Deals 3 damage to primary targets and anyone within their Melee distance.",
-    "method": ""
+    "desc": "A tear in the sky opens, revealing inky darkness; the caster's star sign appears in this rift no matter where they are. After a moment of focus, each star in the constellation suddenly grows brighter and closer-plummeting downward toward three different targets in Ranged distance. The caster rolls a Spellbook template against each target; this attack cannot be blocked or evaded. On a miss, the stars sputter out before impact and do nothing. The fallen stars produce a deafening explosion, dealing 3 damage to the primary targets and any additional targets within their Melee distance. If caught in the radius of multiple starfalls, add the damage from each together before rolling armour.",
+    "method": "Drawing one's star sign in the air above with a focus or pointed finger."
   },
   {
     "branch": "Ether",
@@ -375,21 +362,8 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "A dome up to 30m in radius is sundered into the void. Those within cannot leave; those outside cannot enter and see only a large black sphere. You cannot move or take actions while maintaining it but can speak freely. Lose 1 HP per round (or per minute out of combat).",
-    "method": ""
-  },
-  {
-    "branch": "Ether",
-    "name": "Leyline",
-    "anima": 10,
-    "actions": "2",
-    "cmd": "/cast leyline",
-    "req": "INT: Research +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Form a one-way arcane tether between two targets within Ranged distance. Any spell effect on the Primary target also activates for the Secondary for the remainder of the scene. Either target may contest with HAR: Arcana to break the Leyline after each activation.",
-    "method": ""
+    "desc": "A dome centered on the caster and up to 30m in radius is sundered into the void, living in a pocket of slipspace forged of Ether. Those within are unable to leave the dome; those outside are unable to enter and see only a large black sphere where the dome was conjured. The caster is unable to move or take actions while maintaining the spell, but can still speak freely. They lose HP the longer they maintain it at a rate of 1 HP per round, or 1 HP per minute if not in combat.",
+    "method": "Forcing a focus against the ground, channeling Ether to consume its surroundings."
   },
   {
     "branch": "Ether",
@@ -401,8 +375,21 @@ window.SPELLS_ETHER = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Release a shockwave of disruptive arcane energy. Mages within Skirmishing distance, including yourself, cannot cast for the next 2 rounds. Mages in Melee distance additionally take 2 AP damage. Miscast: the energy implodes, dealing 3 AP damage to you.",
-    "method": ""
+    "desc": "The caster releases a shockwave of disruptive arcane energy that extends out in all directions. Mages in Skirmishing distance, as well as the caster themselves, find their arcane abilities inhibited and are unable to cast for the next 2 rounds; mages in Melee distance additionally take 2 AP damage. A mage may overcome the effect by succeeding a HAR: Arcana check made with a -3 penalty each time they attempt to cast. On a miscast, the built up arcane energy implodes prematurely, dealing 3 AP damage to the caster.",
+    "method": "Striking your focus into the ground, sending out an arcane shockwave."
+  },
+  {
+    "branch": "Ether",
+    "name": "Leyline",
+    "anima": 10,
+    "actions": "2",
+    "cmd": "/cast leyline",
+    "req": "INT: Research +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster focuses on two targets within Ranged distance (this can include themselves) and forms a one-way arcane tether between them. For the remainder of the scene, any spell effect rendered upon the Primary target activates the Leyline, rendering the effect upon the Secondary as well. Either target can make a contested HAR: Arcana check against the casting roll to break the Leyline between them after each time it activates, and the caster may dispel it at will.",
+    "method": "Identifying two targets, a Primary and a Secondary, then tracing a line between them with a focus or pointed finger."
   },
   {
     "branch": "Ether",
@@ -412,9 +399,9 @@ window.SPELLS_ETHER = [
     "cmd": "/cast unravel",
     "req": "None",
     "patron": "",
-    "capstone": true,
-    "targeted": false,
-    "desc": "When a spell is cast within Ranged distance, immediately counter it (treating it as a miscast) or redirect it to another target within Ranged distance. This spell fails if your casting check is lower than the triggering spell's.",
-    "method": ""
+    "capstone": false,
+    "targeted": true,
+    "desc": "Sometimes referred to as 'taking hold of the strands of magic's weave' among eccentric casters. With unparalleled attunement to raw magical forces, the caster taps into the strands of magic that compose the spells of another. When a spell is cast within Ranged distance, they may immediately use this spell to either counter it-treating the triggering spell as if it had miscast-or redirect it to another target within Ranged distance of themself. Self-targeted spells that are redirected treat the new target as the caster. This spell fails if the casting check is lower than that of the triggering spell.",
+    "method": "Flourish a focus towards the spell and release a downpour of raw magic."
   }
 ];

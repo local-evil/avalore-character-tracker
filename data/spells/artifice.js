@@ -1,19 +1,6 @@
-// Avalore spells — artifice
-// Edit this file to update spells for this branch
+// Avalore spells — Artifice
+// Place in: data/spells/artifice.js
 window.SPELLS_ARTIFICE = [
-  {
-    "branch": "Artifice Cantrip",
-    "name": "Cognitive Lithography",
-    "anima": 0,
-    "actions": "6",
-    "cmd": "/cast cognitive",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Draw a single accessible memory from a willing target and enchant it into a crystal or gemstone. When touched by a willing individual, they experience the stored memory visually — dull, as if distanced.",
-    "method": ""
-  },
   {
     "branch": "Artifice",
     "name": "Adaptation",
@@ -24,21 +11,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Magically reconfigure a Construct to function in the air, earth, or sea for the scene. Air: hover with -1 movement. Earth: burrow through loose dirt at normal movement, rock at -3. Sea: swim at normal movement, ignores underwater combat penalties.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Enchantment: Bane",
-    "anima": 2,
-    "actions": "2",
-    "cmd": "/cast bane",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Select one creature type (excluding playable races). For the scene, the enchanted weapon triggers that type's weakness and can damage creatures not normally vulnerable to physical attacks. Surge: deals +2 damage against the baned type.",
-    "method": ""
+    "desc": "The caster magically re-arranges and re-constructs a Construct's physical form to allow it to function in the air, the earth, or the sea for the scene. If adapted to the air, it can slowly hover in any direction with its movement reduced by 1. If adapted to the earth, it can burrow through loose dirt and soil at normal movement and stone and rock with its movement reduced by 3. If adapted to the sea, it can swim through water at normal movement and more viscous liquids with its movement reduced by 1. It also ignores normal penalties to underwater combat.",
+    "method": "Gesturing the hands to dismantle and rearrange the construct into a desired form."
   },
   {
     "branch": "Artifice",
@@ -50,21 +24,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Bind a weapon to its owner for a day. They can summon it through the air as an action from within Ranged distance. Others find it impossibly heavy and may only wield it as an Improvised Weapon. Surge: cannot be disarmed, summon as a free action.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Fabricate",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast fabricate",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Assemble a shield or weapon from disparate parts on-hand, functioning for the scene at -1 to roll and Mediocre quality. Only one instance at a time; can be passed off. May also temporarily repair a broken weapon or shield until end of scene.",
-    "method": ""
+    "desc": "Arcane runes appear along the length of the targeted weapon. For a day, the weapon is bound to its owner beyond mere physical contact. As an action, they can summon it through the air to an empty hand so long as it is within Ranged distance. When someone not bound to the weapon attempts to pick it up, they find it to be impossibly heavy. They may wield it as an Improvised Weapon. Surge Effect: For the duration of the scene, the enchanted weapon cannot be disarmed and may be summoned with a free action instead of an action.",
+    "method": "Tracing intricate runes with magic over the surface of a weapon in Melee distance, then repeating the symbols around the wrist of the wielder."
   },
   {
     "branch": "Artifice",
@@ -76,21 +37,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Channel your anima through an item you created. It may be spoken with as if you were present at the time of casting for 10 minutes, conveying instructions or information — even if you are deceased. Must be recast daily. Breaks if the item is broken.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Material Constraints",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast constraints",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "A loose cloth springs at a target within Skirmishing distance, lowering movement by 3 meters if they fail a STR: Athletics contest (Heavy Armour -2 to roll). Effect persists until end of scene or until the target succeeds; roll repeated each turn.",
-    "method": ""
+    "desc": "Something of the caster remains in their creations. If cast upon an item they have created, the caster's anima may be channeled through it, appearing on or within the material. They may be spoken with as if they were the caster at time of spellcast for 10 minutes before dissipating for the day, allowing the caster to confer instructions or information while nonpresent or indisposed-even deceased. This semblance of the caster cannot pass information to the caster, and must be maintained with a recast to remain active. Should the item be broken, the effect dispels.",
+    "method": "Cast upon a rune, sigil or other signifier made to represent the creator."
   },
   {
     "branch": "Artifice",
@@ -102,21 +50,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Prolong the use of a non-weapon tool or mechanism. If it would otherwise be consumed or unusable, this spell permits one free use without consequence per scene. Lacking materials are supplemented with whatever is on hand.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Reconfigure",
-    "anima": 2,
-    "actions": "10",
-    "cmd": "/cast reconfigure",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Merge a weapon or tool with a small object. As an action, concentrate to reshape the object into weapon or tool form and back. While in object form, it can be concealed without taking a slot. Must be recast daily or the two violently separate.",
-    "method": ""
+    "desc": "A non-weapon tool or mechanism has its use prolonged; if it would otherwise be consumed or unusable, the spell permits for a free use without consequence, once per scene. Components are maintained with surgical precision, and lacking materials are supplemented with whatever is on hand.",
+    "method": "Reusing a tool or mechanism."
   },
   {
     "branch": "Artifice",
@@ -128,8 +63,73 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Duplicate a mundane item in-hand for a day as a perfect copy. A successful INT: Perception check may intuit the original. Magic or cursed items cannot be copied, nor other products of this spell. The copy dissolves to dust by end of day.",
-    "method": ""
+    "desc": "A mundane item in-hand is duplicated for a day, created as a perfect copy by the caster's anima manifested. While outwardly appearing as a total duplicate, a successful INT: Perception check may intuit the original. Magic or cursed items cannot be copied, nor may other products of this spell. By the end of the day, the item dissolves into dust.",
+    "method": "Setting the item in a circle of runes to be duplicated."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Ward",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast ward",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "A Construct is placed under the authority of a willing target marked by the caster. This target can now Direct the construct as the caster would each day until the caster cancels the spell or the target directs the construct to return to its creator. The caster can designate multiple Constructs under the same target, or the same Construct under multiple targets, by recasting this spell once per. The hierarchy of authority always places the caster on top, followed by each target in the order the spell was cast upon them.",
+    "method": "Drawing arcane runes on the body of a willing target, which are reflected as lines of magic on the Construct they now control."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Enchantment: Bane",
+    "anima": 2,
+    "actions": "2",
+    "cmd": "/cast bane",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Arcane runes appear along the length of the targeted weapon. The caster selects one type of creature (e.g. fey, beast, necrophage), excluding playable races (e.g. human, greatling). For the duration of the scene, the enchanted weapon's attacks trigger the weakness of creatures belonging to its bane, and creatures that are not normally vulnerable to physical attacks become vulnerable to this weapon. Surge Effect: For the duration of the scene, the enchanted weapon deals +2 damage against the baned type of creature.",
+    "method": "Tracing intricate runes with magic over the surface of a weapon in Melee distance while focused on one's understanding of the creature to be baned."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Fabricate",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast fabricate",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A shield or weapon is put together from disparate parts on-hand, functioning for the length of the scene with a -1 to roll, considered Mediocre quality. Only one instance of the spell may be held together at a time and may be passed off from the caster; this spell may instead be used to temporarily repair a broken shield or weapon until the end of the scene.",
+    "method": "Drawing runic markings onto materials, laying a hand on them to assemble."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Material Constraints",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast constraints",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "A loose cloth springs at a target within Skirmishing distance, lowering movement by 3 meters if they should fail a STR: Athletics contest; targets in Heavy Armour suffer a -2 to this roll. The roll may be attempted again at the end of the target's turn each round until success; the effect will otherwise persist until the end of the scene, or the caster's bidding.",
+    "method": "Whispering a dense poetic equation to a piece of clothing."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Reconfigure",
+    "anima": 2,
+    "actions": "10",
+    "cmd": "/cast reconfigure",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Through careful meditation, calibration, and reconfiguration, a weapon or tool and small object merge together, taking on the appearance of the object. As an action, the caster can concentrate on the object and reshape it, causing it to unfold into its usable weapon or tool form (or reshape back into the small object). While in object form, it can be concealed and carried without taking a weapon or tool slot. This enchantment applies to a single pair of objects and must be recast daily to maintain. If it is cast on a different set of objects or not recast at all, the current two violently separate into what they once were.",
+    "method": "Forming a ritual circle of runes around two objects and meditating over them."
   },
   {
     "branch": "Artifice",
@@ -141,21 +141,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Flawlessly describe the visible appearance, known materials, and perceivable function of any item within sight. Qualities may be hidden with a DEX: Finesse or DEX: Stealth contest from the wielder or creator.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Ward",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast ward",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Place a Construct under the authority of a willing target. They can Direct the construct as you would each day until you cancel the spell. Multiple Constructs or multiple targets can be designated by recasting. The caster always retains top authority.",
-    "method": ""
+    "desc": "Quickly adapting to the surface nuances of a target, the caster is able to flawlessly describe the visible appearance, known materials, and perceivable function of an item within sight. Qualities may be hidden with a DEX: Finesse or DEX: Stealth contest from the wielder or creator, and non-visible details are obfuscated from the caster's understanding.",
+    "method": "Line of sight paired with a method of conveying understanding; parchment, engraving or orating."
   },
   {
     "branch": "Artifice",
@@ -167,21 +154,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Ward up to a 10x10 area with runes designed to alert you when something enters. An optional passphrase allows someone to bypass the wards without triggering them. Triggers provide no details beyond something entering the space.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Arcane Repair",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast arcanerepair",
-    "req": "STR: Forging +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Use on-hand material to patch or repair damage on a Construct, restoring 2 + STR: Forging HP.",
-    "method": ""
+    "desc": "The caster wards up to a 10x10 area with runes designed to alert them when someone enters the area. They can add a passphrase when casting the spell to allow someone to bypass the wards without triggering them. When triggered, the spell mentally informs the caster that something has entered the space but provides no additional details.",
+    "method": "Engraving a net of runes within the warded space."
   },
   {
     "branch": "Artifice",
@@ -193,21 +167,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Send an animated critter of wood or metal (mouse to crow size) to deliver a message or cargo. It can crawl on walls and ceilings, or fly through open areas. Returns if unable to locate the target, then falls apart before reaching you.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Enchantment: Adhesion",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast adhesion",
-    "req": "INT: Research +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Enchant a wearable for a day to allow climbing vertical surfaces at regular movement speed. You cannot make attacks or maneuvers while climbing. Surge: unaffected by uneven terrain and movement hazards; can also climb across ceilings.",
-    "method": ""
+    "desc": "A critter of animated wood or metal no smaller than a mouse and no larger than a crow is sent to deliver a message or cargo to a familiar place or person specified by the caster, conveyed through specific instructions such as a name, description, and place. The target may resist being located by a contested DEX: Stealth vs. the caster's HAR: Arcana. Couriers can crawl along a wall or ceiling and fly through open areas. Small and unobtrusive, they're well-suited to avoiding notice from all but magical means. If it's unable to locate the target, the Courier will return with the package. Should the package be delivered, the Courier attempts to return home, only to fall apart before it reaches the caster, reverting to inanimate material.",
+    "method": "Recite instructions and give an object to the construct intended."
   },
   {
     "branch": "Artifice",
@@ -219,21 +180,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Protect armour against undead: attacks by undead deal 1 less damage and 1 AP damage back. Armour radiates light to Skirmishing distance. Surge: for 3 rounds, allies within Skirmishing distance also receive -1 damage from undead, and light becomes Daylight.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Fortify",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast fortify",
-    "req": "STR: Forging +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Seal the faults in a set of armour, making it immune to AP effects for rounds equal to your STR: Forging modifier (max 3). May also preserve or reinforce an item or environmental object to prevent it from breaking in an instance.",
-    "method": ""
+    "desc": "Arcane runes appear upon the targeted armour. For the duration of the scene, the wearer is protected from attacks by the undead. Attacks made by undead creatures against the wearer deal 1 less damage and cause 1 AP damage back to the undead. Additionally, the armor radiates light around the wearer that reaches to Skirmishing distance. Surge Effect: For three rounds, allies within Skirmishing distance of the wearer also receive -1 damage from attacks made by undead creatures, and the radiated light becomes equivalent to Daylight.",
+    "method": "Tracing intricate runes with magic over the surface of armour, verbally warding off the undead while doing so."
   },
   {
     "branch": "Artifice",
@@ -245,21 +193,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "A body part encumbered by injury is given the proper brace to continue as if uninjured for the remainder of the scene. If the subject is struck, you must succeed an INT: Research check to maintain the spell or the effect ends.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Prolong",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast prolong",
-    "req": "STR: Forging +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "If a construct would fall at 0 HP, roll STR: Forging. On success, the construct remains standing past its limits. On failure or at scene's conclusion, the construct is irreparably destroyed.",
-    "method": ""
+    "desc": "A body part or external component that is encumbered by injury is given the proper brace to continue as if uninjured for the remainder of the scene, allowing action without further injury. If the subject of this spell is struck, the caster must succeed an INT: Research check to maintain the spell or the effect will end.",
+    "method": "Imbuing runes along a brace or apparatus and supplementing materials to facilitate movement."
   },
   {
     "branch": "Artifice",
@@ -271,8 +206,60 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Apply runes to worn armour, allowing you to adjust it between unarmoured, light, medium, and heavy at will for the scene. Must meet the requirements of each tier. Costs an action to change. Unarmoured form stows as a decorative accessory.",
-    "method": ""
+    "desc": "Runes applied upon worn armour allow the caster to adjust it while wearing, turning from unarmoured to light to medium to heavy and back at their whim for the scene. The caster must meet the requirements of the armor itself, and to change costs an action. If turned to an unarmoured form, it will stow as a decorative accessory.",
+    "method": "Winding pieces of the adornment into shape."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Arcane Repair",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast arcanerepair",
+    "req": "STR: Forging +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "On-hand material is used to patch or repair damage on a specified construct, restoring 2 + STR: Forging HP.",
+    "method": "Taking material and attempting to arcanely attach it to the construct."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Enchantment: Adhesion",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast adhesion",
+    "req": "INT: Research +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Arcane runes appear on the targeted wearable. For a day, the wearer can use it to climb vertical surfaces using their regular movement or movement actions. You cannot make attacks or maneuvers while climbing with this enchantment. The spell can be recast daily. Surge Effect: For the duration of the scene, the wearer is unaffected by uneven terrain and movement hazards (dense foliage, ice, the rocking of a vessel). The wearer may also climb across horizontal surfaces (i.e. ceilings).",
+    "method": "Tracing intricate runes with magic over the targeted wearable then pressing it firmly to a solid surface."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Fortify",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast fortify",
+    "req": "STR: Forging +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The faults and gaps in a set of armour seal shut and fortify into an impenetrable carapace, welded together with forces of arcana. A target set of armour becomes immune to any armour piercing (AP) effects for a number of rounds equal to the caster's STR: Forging modifier, to a maximum of 3. Alternatively, the caster may use this spell to preserve or reinforce an item or environmental object to prevent it from breaking in an instance, at a DM's discretion. This may be made in reaction to a break or in advance of one, and takes precedence over object damaging effects (e.g. Hostile Architecture feat).",
+    "method": "Placing a tool of artifice in contact with the target material."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Prolong",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast prolong",
+    "req": "STR: Forging +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "A construct will hold out until it can no longer sustain. Should the construct take damage past its HP threshold, the caster may make a STR: Forging roll; upon success, rather than falter or go inert, the construct will remain standing past its limits. Upon a failure or the scene's conclusion, the construct is irreparably destroyed.",
+    "method": "Calling out to the construct."
   },
   {
     "branch": "Artifice",
@@ -284,8 +271,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Runes paralyze the components of a Ranged or Skirmishing weapon within Skirmishing distance. If the user fails an INT: Research contest, the weapon is unusable for 2 rounds. The target may retry the roll as an action to amend it early.",
-    "method": ""
+    "desc": "Runes shoot along the length of an item within Skirmishing distance, paralyzing its components by the will of the caster's anima. Should the user of a targeted tool, trap or weapon (Ranged or Skirmishing categories) fail an INT: Research contest against the casting roll, they are unable to work around the limitations imposed on the article for 2 rounds. The caster may dismiss the effect at will or the target may roll INT: Research again at the expense of an action to try and amend it early.",
+    "method": "Illustration of artifice runes by gesture at the intended target."
   },
   {
     "branch": "Artifice",
@@ -297,21 +284,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Animate a prosthesis of wood, stone, or steel as an arm or leg. Capable of basic actions while attached. Subsequent casts permit fine motor movement and grant +2 unarmed damage (does not stack with other damage modifiers) per worn prosthetic.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Create Construct",
-    "anima": 6,
-    "actions": "10",
-    "cmd": "/cast createconstruct",
-    "req": "STR: Forging +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Breathe life into an inanimate body (fox to Greatling size). Melee form: 12 HP, heavy armour, 4m movement, Greatsword attacks. Ranged form: 8 HP, medium armour, 6m movement, Crossbow attacks. Direct with an action within 30 blocks.",
-    "method": ""
+    "desc": "A prosthesis of wood, stone or steel becomes animated, functioning as an arm or leg where the target may lack one. Fine motor movement for the limb is a challenge and true contact and pain cannot be felt in it, but the prosthetic is otherwise capable of basic actions (weapon attack, movement) so long as it remains attached. Subsequent casts on a target permit fine motor movement and grant +2 unarmed damage (does not stack with other damage modifiers) in every worn prostheses in the duration of the scene.",
+    "method": "Scribing runes along the prosthetic limb."
   },
   {
     "branch": "Artifice",
@@ -323,21 +297,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Overload your pre-inscribed runes, dispersing raw materials as shrapnel. Damage equal to your unmodified INT: Research to targets within Melee distance of the item. May be blocked or evaded against the casting roll.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Enchantment: Honing",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast honing",
-    "req": "INT: Research +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Enchant a weapon to be unbreakable for a day and increase bonus damage traits by +1. Surge: for the scene, the weapon treats targets as wearing one armour tier lower than they actually bear.",
-    "method": ""
+    "desc": "Pre-inscribed runes of the caster's creation overload and shatter at their urging, causing the raw materials to disperse as shrapnel. Damage equivalent to the caster's unmodified INT: Research is dealt to targets within Melee distance of the item; this may be subject to Block or Evade against the casting roll. Spells subject to this effect include: Articulate, Fabricate, Forge (Helper, Familiar, Automaton), Locomotion, Reinforce, Wirework & Stagecraft.",
+    "method": "Inscribing runes ahead of time. An articulation of the hand, as if pressing a button or pulling a lever. Countdown optional."
   },
   {
     "branch": "Artifice",
@@ -349,8 +310,34 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Inscribe a simple trigger condition on an object or surface, then imbue a second spell (equal cost or lower) within it. When triggered, the stored spell is cast upon the first person or object that set it off. Maintained daily; can remain active even when not accessible to you.",
-    "method": ""
+    "desc": "A series of runes inscribing a simple trigger condition is written upon an object no smaller than a jewelry box, or upon a flat surface such as a floor, wall, or door no larger than a 5x5 area. To finish the Tripwire the caster must cast a second spell equal to or below the anima cost of this one, and imbue it within the enchanted surface. When the condition is met, the stored spell is cast upon the first person or object who triggered it, after which both the spell and the tripwire are expended. The condition cannot be more elaborate than a simple phrase (such as: when the door is opened, when a spell is cast, or when someone steps within the circle), and it cannot identify specific characteristics.",
+    "method": "Inscribe instructional runes upon a flat surface, then cast another spell onto it to set the trap. This spell must be maintained daily, and can remain active even if the object is no longer accessible to the caster."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Create Construct",
+    "anima": 6,
+    "actions": "10",
+    "cmd": "/cast createconstruct",
+    "req": "STR: Forging +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Complete a ritual to breathe life into an inanimate body no smaller than a fox and no larger than a Greatling. The construct can take one of two forms: Melee (12 HP, heavy armour, 4m (4 block) movement, and Greatsword attacks); or Ranged (8 HP, medium armour, 6m (6 block) movement, and Crossbow attacks). In combat, the construct will remain inert until the caster spends an action to Direct them, up to 30m (30 blocks) away. When Directed, a construct can move and attack a verbally or gesturally chosen target. Instead of attacking, the caster may also Direct a construct to protect a chosen target: it will forgo its attack and make Large Shield template rolls on the target's behalf until the start of the caster's next turn or until that target leaves the construct's melee range. Outside of combat, the caster can freely Direct the construct to perform moderate level tasks. Non-directed constructs can only handle simple or repetitive tasks: delivering goods, chopping wood, and the like.",
+    "method": "Forming a body from craftable materials, then inscribing artifice runes upon it. The caster can have as many active constructs as they have caster levels."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Enchantment: Honing",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast honing",
+    "req": "INT: Research +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Arcane runes appear along the length of the targeted weapon. For the duration of the day, the weapon is considered unbreakable. Additionally, any bonus damage traits are increased by +1 (i.e finesse weapon bonus against unarmoured targets, or mace bonus against armoured targets). Surge Effect: For the duration of the scene, the weapon treats its targets as wearing one armour tier lower than what they actually bear (Heavy -> Medium, Medium -> Light, Light -> Unarmoured). Effects such as bonus damage against unarmoured targets apply.",
+    "method": "Tracing intricate runes with magic over the surface of a weapon in Melee distance, particularly around the sharp, heavy, or pointed ends."
   },
   {
     "branch": "Artifice",
@@ -362,21 +349,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Animate a mundane mechanism within Skirmishing distance, controlling it like a puppet using your stats. If struck, roll HAR: Arcana to remain active. Persists until end of scene or the HAR: Arcana roll is failed.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Conductor",
-    "anima": 10,
-    "actions": "10",
-    "cmd": "/cast conductor",
-    "req": "None",
-    "patron": "",
-    "capstone": true,
-    "targeted": false,
-    "desc": "Take direct control of one of your active constructs, perceiving and acting through it. Switching control costs one action. Your body falls into a comatose trance while linked — it cannot act or sense. If your real body is attacked, the bond severs.",
-    "method": ""
+    "desc": "An inanimate, mundane mechanism within Skirmishing distance becomes animated under the control of the caster, allowing them to move it like a puppet held by strings of anima. It may be controlled as if an extension of the self, capable of complex actions using the caster's stats to enact or control; if struck, a HAR: Arcana roll must be made to remain active. This spell may be maintained at any range cast, and will continue until the conclusion of the scene or if the HAR: Arcana roll is failed.",
+    "method": "Gesturing a hand akin to a marionette control bar."
   },
   {
     "branch": "Artifice",
@@ -388,21 +362,8 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Overwhelm a construct with anima. Until end of combat, it doubles movement and deals +2 damage. At 0 HP it explodes, dealing damage equal to its total HP to anything in Melee distance that fails DEX: Acrobatics or STR: Fortitude. Surviving construct must be reactivated.",
-    "method": ""
-  },
-  {
-    "branch": "Artifice",
-    "name": "Runic Surge",
-    "anima": 10,
-    "actions": "2",
-    "cmd": "/cast runicsurge",
-    "req": "INT: Research +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Forcefully overload enchantment runes on your objects within Skirmishing distance. For the remainder of the scene, each enchantment has its Surge effect. Objects of Exceptional quality or lower may break as surging magic cracks wood and breaks metal.",
-    "method": ""
+    "desc": "Overwhelming a construct with anima, the caster renders it both powerful and unstable until the end of combat. The construct's movement speed doubles and damage is increased by 2. When the construct reaches 0 HP, it will explode, dealing damage equal to its total HP to anything in Melee distance that fails either an DEX: Acrobatics or STR: Fortitude save. At the end of the scene, a surviving construct is rendered inert and must be reactivated with a recast of its creation spell. This spell will override the conditions of Prolong.",
+    "method": "Laying hands on the construct, the caster charges them with their anima, causing all of the construct's runes to glow a bright white."
   },
   {
     "branch": "Artifice",
@@ -414,7 +375,33 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Command mundane mechanisms to act on your behalf within Skirmishing distance. Speak, see, and hear through your artifice. Control individual components as an action. Any attack made by the scene rolls as a Small Weapon template.",
-    "method": ""
+    "desc": "Entire surroundings fall under the caster's control, allowing them to command mundane mechanisms to act on their behalf. They may speak, see, and hear through their artifice within Skirmishing distance and control individual components as an action. Mannequins become lifelike harlequins, hinges, pulleys and winches move as willed, and pyrotechnics and traps wait for signal. A STR: Athletics contest against the caster may disable components of the construct. Any attack made by the scene is rolled as a Small Weapon template.",
+    "method": "Preparation of a scene with runic scribing, the caster must then signal a go-ahead to the sequence around them."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Runic Surge",
+    "anima": 10,
+    "actions": "2",
+    "cmd": "/cast runicsurge",
+    "req": "INT: Research +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster forcefully overloads the runes inscribed upon objects they enchanted within Skirmishing distance. For the remainder of the scene, the enchantment has its Surge effect. After the scene, the enchantment spell ends and objects of Exceptional quality or lower are broken as the surging magic cracks wood and breaks metal.",
+    "method": "A gesture towards each enchanted object in range, then a twist of the gesturing limb."
+  },
+  {
+    "branch": "Artifice",
+    "name": "Conductor",
+    "anima": 10,
+    "actions": "10",
+    "cmd": "/cast conductor",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster takes direct control of one of their active constructs, perceiving and acting through it so long as both remain on the same plane. Switching control between the construct and the caster's own body takes one action, but can be done as many times as desired. The construct's stats remain unchanged, but under direct control the caster can perform more complex tasks such as wielding an alternate weapon template, using tools, and moving without being Directed. Through the possessed construct, the caster can also Direct their other active constructs and cast Artifice spells. While linked, the caster's body falls into a trance, becoming comatose and incapable of sensation or action. If the controlled construct is destroyed, the caster may transfer control to another construct that is bound to them. If the caster's real body is attacked while controlling a construct, the bond severs. This spell otherwise persists daily until the caster chooses to cease.",
+    "method": "Tracing a series of runes on the caster's body, which are reflected as lines of magic on the construct they actively control."
   }
 ];

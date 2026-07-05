@@ -1,19 +1,6 @@
-// Avalore spells — tellurgy
-// Edit this file to update spells for this branch
+// Avalore spells — Tellurgy
+// Place in: data/spells/tellurgy.js
 window.SPELLS_TELLURGY = [
-  {
-    "branch": "Tellurgy Cantrip",
-    "name": "Conjure Element",
-    "anima": 0,
-    "actions": "1",
-    "cmd": "/cast conjure",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Exercise influence on elements around you, even conjuring them. Create enough of any element where a spell requires it. Simple flares like chilling a drink or stoking a fire are accomplished with a gesture.",
-    "method": ""
-  },
   {
     "branch": "Tellurgy",
     "name": "Barbs",
@@ -24,21 +11,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Elemental materials (ice, rock, metal, coals) form spikes or charged plating upon your body. Successful melee attacks upon you inflict 1 AP damage to the attacker. The effect lasts for 3 instances of contact within a scene, then melts away.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Drain",
-    "anima": 2,
-    "actions": "2",
-    "cmd": "/cast drain",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Water deflects away from you for a scene. Breathe while submerged. Anything on your person remains dry even while underwater. You are unaffected by Shallow or Deep water conditions.",
-    "method": ""
+    "desc": "Elemental materials (ice, rock, metal, coals, etc.) form spikes, barbs, or charged plating upon the caster's body. Successful melee attacks upon the caster inflict retaliatory wounds, dealing 1 AP damage to the attacker. The effect lasts for 3 instances of contact within a scene, melting or dropping away thereafter.",
+    "method": "Striking a hand to one's chest."
   },
   {
     "branch": "Tellurgy",
@@ -50,21 +24,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Hasten or temper the build-up of rust and scum upon metal, raising or lowering the quality of a metal item by 2 for the duration of the scene.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Pallid Breath",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast pallidbreath",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Sap heat from the surrounding air, extinguishing fires or flash-freezing liquid within Skirmishing distance, up to a 5x5 block area per cast. The affected area is brought to a bone-chilling cold.",
-    "method": ""
+    "desc": "Build-up of rust and scum upon metal is hastened or tempered, raising or lowering the quality of a metal item by 2 for the duration of the scene.",
+    "method": "Briefly making contact with the item in question."
   },
   {
     "branch": "Tellurgy",
@@ -76,21 +37,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Power simmers at your fingertips until your touch becomes a brand of living energy. When a target is Grappled, they take 1 AP damage per round, compounding (1→2→3). Persists for the scene unless dispelled. Alternatively, cauterize fatal wounds or Stabilize a target in Bleedout.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Seize",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast seize",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Electricity locks muscles or ice freezes joints. Delivered through a successful Unarmed strike, the target must succeed STR: Fortitude or be held fast, unable to move until the end of their next turn. Mixed success slows movement to half.",
-    "method": ""
+    "desc": "Power gathers at the caster's fingertips, simmering until their touch becomes a brand of living energy. Water hisses into steam, flammable materials ignite, and even wounds may be seared shut beneath its press. When a target is Grappled, their flesh is blistered from scorching heat or crackling electricity, dealing 1 AP damage. So long as the caster maintains the hold, the damage compounds each round (1 -> 2 -> 3). The effect persists for the scene, unless dispelled by the caster or another Tellurgy spell is cast. Alternatively, the effect may be used to cauterize fatal wounds or jolt the heart abeat, Stabilizing a target in Bleedout until combat ends.",
+    "method": "Focusing power between the palms until they spark with flame or crackle with current."
   },
   {
     "branch": "Tellurgy",
@@ -102,21 +50,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Create oil, water, or frost on the ground in Melee radius around you. Targets entering or exiting must succeed DEX: Acrobatics or fall Prone; mixed success reduces movement by 2 for that turn. The medium reacts to other effects: oil ignites, frost melts or freezes, water conducts electricity.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Surf",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast surf",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Focus on a cluster of loose earth or water beneath you, driving upward until a wave forms. Downhill movement — including down cliff formations — costs no movement and exempts you from associated fall damage. Ends as soon as you stop moving downhill.",
-    "method": ""
+    "desc": "Pull to the surface moisture to create oil, water, or frost upon the ground in Melee radius around the caster. Targets that enter or exit the affected space must make a successful DEX: Acrobatics roll or fall prone; on a mixed success, movement of all forms is reduced by 2m (2 blocks) for that turn. The spell remains for the scene, and its medium reacts to other effects: oil may be set ablaze, frost may melt or freeze further, and water may conduct electricity.",
+    "method": "Kneeling with a hand to the ground."
   },
   {
     "branch": "Tellurgy",
@@ -128,8 +63,60 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Impose your will on a metal or stone object no larger than a door. Adding energy makes it red-hot, enabling resculpting like clay and scorching to the touch (1→2→3 damage per round to contact). Lasts up to 3 rounds in combat or while you maintain contact.",
-    "method": ""
+    "desc": "The caster imposes their will upon a metal or stone object no larger than a door. If substantial energy is added, the material becomes red-hot, enabling it to be resculpted like clay and scorching to the touch. It deals increasing burn damage for every round someone, excluding the caster, is in contact with it (1 -> 2 -> 3 damage). The caster chooses to add or remove energy upon casting the spell. The resulting effect lasts up to 3 rounds in combat, otherwise for as long as the caster maintains contact, and can be undone at any point at the caster's will.",
+    "method": "Placing a hand upon a metallic surface, drawing focus inward to cool, or extending it outward to heat."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Drain",
+    "anima": 2,
+    "actions": "2",
+    "cmd": "/cast drain",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Water deflects away from the caster for a scene, permitting them to breathe while submerged as well as accomplishing actions such as wholly drying off an item or their person as if wrung out. Anything on their person remains dry even while they submerge in water, and they are unaffected by Shallow or Deep water.",
+    "method": "A motion to surround oneself."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Pallid Breath",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast pallidbreath",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster saps heat from the surrounding air, allowing them to extinguish fires or flash-freeze liquid within Skirmishing distance, both up to a limit of a 5x5m (5x5 block) area per cast. The affected area is brought to a bone-chilling cold.",
+    "method": "Breathing deep, inhaling energy, breathing mistily."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Seize",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast seize",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "With a touch, the caster bends elemental force to arrest motion itself: electricity surges to lock muscles, or ice blooms to freeze joints in place. When delivered through a successful Unarmed strike, the target must resist with a successful STR: Fortitude check or be held fast, unable to move until the end of their next turn. On a mixed success movement is slowed to half.",
+    "method": "Generating friction between the palms to spark lightning, or exhaling in a breath that frosts the air before striking."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Surf",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast surf",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster focuses on a cluster of loose earth or water beneath them, driving ever upward just beneath their feet until a wave is formed. Downhill movement, including down natural cliff formations, is made with no movement cost and exempts the caster from any associated fall damage. The effect ends as soon as the caster stops moving downhill.",
+    "method": "Kicking up a wave of water or loose earth."
   },
   {
     "branch": "Tellurgy",
@@ -141,8 +128,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Transmute up to 1 block of inorganic material into a different inorganic material of the same state (solid, liquid, or gas). Lasts for the duration of the scene, then reverts. Physical changes in shape made during the period remain permanent.",
-    "method": ""
+    "desc": "The caster can, through careful manipulation of matter, transmute up to 1 block of inorganic material into a different inorganic material of the same state of matter (i.e. solid, liquid, or gas). The transmutation lasts for the duration of the scene, then reverts to its previous material as the unstable is made stable again. Any physical changes in shape made during the period of transfiguration remain permanent.",
+    "method": "Laying hands on the material, feeling the grains within, and rearranging them to your ends."
   },
   {
     "branch": "Tellurgy",
@@ -154,21 +141,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Weave water, fire, or lightning around your hand to form a dangerous weapon for the scene. Takes the form of a Whip or Meteor Hammer template without wielding requirements. Spend an action on your turn to switch between the two templates.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Atmokinesis",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast atmokinesis",
-    "req": "DEX: Finesse +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Unleash a beam of elemental force in a 1-block wide, 8-block long line. Choose Fire (3 fire damage increasing each round until extinguished), Lightning (3 damage chaining +2 damage to metal objects and nearby targets), or Ice (movement prevented next turn, fires extinguished).",
-    "method": ""
+    "desc": "Water, fire, or lightning is weft around the caster's hand, threading and coiling to form a dangerous weapon for the scene. Upon casting, the weapon takes the form of either a Whip or Meteor Hammer template without wielding requirements. The weapon remains for the remainder of the scene, until the caster equips a real weapon, or the caster dispels the weapon at will. Until dispelled, they may expend one action on their turn to switch from their chosen template to the other.",
+    "method": "Reaching toward a source of water, a burning fire, or the clouds and flicking a wrist as one would use a whip."
   },
   {
     "branch": "Tellurgy",
@@ -180,21 +154,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Shift stone and listen for shifts back. Within Skirmishing distance, learn two of the following: number and size of creatures contacting a solid surface; any concealed spaces or sublevels in the area; structural integrity of surrounding material.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Corestone Driver",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast corestonedriver",
-    "req": "STR: Fortitude +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Drive a geometric pillar of earth, stone, metal, or ice from a surface — 1 block wide, up to 7 blocks long or tall. Forms anywhere within Melee distance. If summoned below a creature, they ride up on it (unless they succeed DEX: Acrobatics to dodge).",
-    "method": ""
+    "desc": "The caster shifts stone and listens for shifts back. Within Skirmishing distance, the caster learns two of the following: - Number and size of creatures in the area (but not location), so long as they are making contact with a solid surface; - Any concealed spaces or sublevels in the area; - Structural integrity of surrounding material.",
+    "method": "Stomping the earth or knocking on a surface."
   },
   {
     "branch": "Tellurgy",
@@ -206,21 +167,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Kick up soot, sand, or frozen mist in Melee distance. Targets beginning their turn within must succeed STR: Fortitude or take 1 AP damage. Attacks within are made with -2 unless the attacker succeeds INT: Perception or can see through fog. Dissipates after 3 rounds.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Forgestoker",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast forgestoker",
-    "req": "DEX: Finesse +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Channel energy around a fire, growing embers into a blaze or a blaze into an inferno. Can start fires from the smallest flame, keep a fire from spreading in one direction, or control the direction flames spread. Control up to 5 blocks of fire per cast.",
-    "method": ""
+    "desc": "Soot, sand, or frozen mist is kicked up around the caster's Melee distance; any that begin their turn within must succeed a STR: Fortitude check or take 1 AP damage; attacks made upon a target within are made with a -2 penalty unless the attacker succeeds an INT: Perception roll or has the ability to see through fog. Arcane weapons are exempt from this penalty. The caster is not damaged by the spell nor are their attacks made with a penalty from its effect. The spell dissipates after 3 rounds.",
+    "method": "A stomp or slide of the foot."
   },
   {
     "branch": "Tellurgy",
@@ -232,21 +180,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Command a fissure of Tellurgic force through the ground in a 1-block wide, 8-block long line. Choose Stone (5 damage + 3 blocks displacement), Sand (grit cloud, prevents verbal spellcasting, -2 INT: Perception), or Mud (movement halved, fires extinguished).",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Polestar",
-    "anima": 4,
-    "actions": "2",
-    "cmd": "/cast polestar",
-    "req": "DEX: Finesse +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Channel telluric currents through something metal within Melee distance for HAR: Arcana additional rounds (max 3), turning it into a powerful magnet. As an action: increase attraction (+1/+2 aim bonus to metal weapon attacks against wielder) or repulsion (-1/-2 aim penalty).",
-    "method": ""
+    "desc": "The caster commands a fissure of Tellurgic force to tear through the ground in a 1m (1 block) wide line extending 8m (8 blocks) in a horizontal direction. Any targets or objects caught within the line are subject to its elemental upheaval unless successfully Blocked or Evaded (DC 12). Pick one when casting: Stone: The earth convulses, jagged crags erupting upward to slam ground targets for 5 damage and hurl them 3 blocks toward or away from the caster, at the caster's discretion. Sand: The ground fractures into whirling grit, engulfing targets in choking clouds and rendering them incapable of casting spells with a verbal method on their next turn. Any INT: Perception checks from these targets are made with a -2 modifier until they succeed a STR: Fortitude check made at the end of each turn. Mud: The soil liquefies beneath their feet, dragging them down. Targets' movement is halved until actions are spent to wrench themselves free; fires are extinguished.",
+    "method": "A brief pause to gather strength, then driving heel or fist into the ground to awaken it."
   },
   {
     "branch": "Tellurgy",
@@ -258,8 +193,60 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Stone, metal, or ice reinforce a target's person, upgrading their armour one rank (unarmoured→light→medium→heavy) for the scene with all associated penalties. Target may attempt STR: Fortitude vs your HAR: Arcana at start of their turn to dispel one added layer.",
-    "method": ""
+    "desc": "Stone, metal, or ice reinforce a contacted target's person, encasing them in enough material to upgrade the protective properties of their armour-or lack thereof-for the scene. Those wearing no armour are considered to be wearing Light Armour, and all other armor moves up a rank, Light to Medium and Medium to Heavy; they take on all of the associated penalties and protection of their new armour class. At the start of their turn, the target may attempt to dispel one added layer beyond their regular armour with a successful STR: Fortitude contest against the caster's HAR: Arcana.",
+    "method": "Placing a palm against the intended target, willing nearby material to further encase them."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Atmokinesis",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast atmokinesis",
+    "req": "DEX: Finesse +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster unleashes a beam of elemental force along a 1m (1 block) wide line stretching out 8m (8 blocks) from themself in a direction of their choosing; any targets or objects caught within the line are subject to its elemental effects unless successfully blocked or evaded (DC 12). Pick one when casting: Fire: Targets and objects are set ablaze, taking 3 fire damage that increases each round (3 -> 4 -> 5) until an action is spent to extinguish them. Lightning: Initial targets take 3 damage; any targets within Melee distance of each initial target (including other initial targets and metal objects) take 2 additional damage as lightning chains between. Ice: Targets and objects are chilled to the core as ice grows rapidly upon them. Movement is prevented on the target's next turn, and fire is extinguished.",
+    "method": "A brief pause to charge, followed by an act of flowing movement to channel arcane energy through the palm."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Corestone Driver",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast corestonedriver",
+    "req": "STR: Fortitude +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Drives a geometric pillar made of either earth and stone, metal, or ice out of a surface, one block wide and up to seven blocks long or tall. The pillar can form anywhere in Melee distance of the caster; if summoned below a creature, they are either carried up on the pillar (unless they succeed a DEX: Acrobatics to dodge) or are pushed to an adjacent space of the caster's choice.",
+    "method": "A swing of fist or foot into the earth."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Forgestoker",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast forgestoker",
+    "req": "DEX: Finesse +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster channels energy around a fire, kicking up embers into a blaze, or growing a blaze into an inferno. This can start fires from the smallest of flames, temporarily keep a fire from spreading in one particular direction, or control the direction a flame spreads. In any case, the caster can control up to 5 blocks of fire per cast.",
+    "method": "Focusing in on the energy of the flame."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Polestar",
+    "anima": 4,
+    "actions": "2",
+    "cmd": "/cast polestar",
+    "req": "DEX: Finesse +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster channels telluric currents through something metal within Melee distance for a number of additional rounds equal to the caster's HAR: Arcana (max 3), turning it into a powerful magnet able to attract or repel at will and sensitive to anything metal within 5 blocks, even if blocked. As an action each round the caster can increase attraction, causing attacks made with a metal weapon against the polestar wielder to have a +1 aim bonus. Alternatively, the caster can increase repulsion, causing attacks made with a metal weapon against the polestar wielder to have a -1 aim penalty.If both actions are used, the modifiers now become +2 / -2 respectively, however the effect stops immediately should the caster take damage.",
+    "method": "Touching or holding a metal object: allowing energy to travel up through your feet and root itself in the metal."
   },
   {
     "branch": "Tellurgy",
@@ -271,8 +258,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Raise a chunk of earth or ice up to 3 blocks tall and 4 blocks wide (any horizontal direction) for the duration of a scene. Originates from the block in front of you.",
-    "method": ""
+    "desc": "The caster raises a chunk of earth or ice up to 3m (3 blocks) tall and 4m (4 blocks) wide (does not need to be formed in a straight line) for the duration of a scene. The wall can extend in any horizontal direction and originates from the block in front of the caster.",
+    "method": "Beating or stomping the ground."
   },
   {
     "branch": "Tellurgy",
@@ -284,21 +271,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Floods the air with charged force, magnetically seizing anything clad in metal within Skirmishing distance. For 3 rounds, targets with metal must meet the casting roll with STR: Fortitude or HAR: Arcana or have movement halved and be dragged 2 blocks toward you each round.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Earthshaker",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast earthshaker",
-    "req": "STR: Fortitude +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Cause tremors in a 20-block radius strong enough to knock people Prone, displace untethered items, and bring down unstable structures. Anyone within Skirmishing distance must succeed DEX: Acrobatics or lose an action on their following turn.",
-    "method": ""
+    "desc": "The caster floods the air with a storm of charged force, arcs of lightning leaping outward as an unseen magnetic grip seizes anything clad in metal. For three rounds, enemies within Skirmishing distance who wear or wield metal must meet or beat the casting roll with a STR: Fortitude or HAR: Arcana check at the start of their turn or find themselves bound in crackling chains of current and pull. While under this effect, movement is halved and targets are dragged 2m (2 blocks) toward the caster each round, the magnetic tether and lashing arcs working in tandem to reel them in over time. While this spell is active, the caster's magnetic tethers lash out to attract fast-moving projectiles toward them. Ranged weapon attacks from metal weapons (steel-tipped arrows, crossbow bolts) against the caster are made with a +1 aim modifier.",
+    "method": "Extending both arms outward, palms open as if casting a net, before snapping them closed to draw the storm inward."
   },
   {
     "branch": "Tellurgy",
@@ -310,21 +284,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Rapidly heat or cool a 5-block sphere centered on you. Fire: spontaneously ignite the area for HAR: Arcana rounds (max 3); you are unharmed. Ice: flash-freeze all exposed liquids; lava turns to rock; creatures may be partially trapped, requiring STR: Fortitude to break free.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Mirage",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast mirage",
-    "req": "DEX: Finesse +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Sweep surrounding dust, sand, or water into a disorienting cloud or mist in a 4-block radius around you, moving as you do. Skirmishing and Ranged attacks through the cloud suffer -2. Outside of combat, Perception checks through the Mirage suffer -2 in both directions.",
-    "method": ""
+    "desc": "The caster uses their control over thermal energy to rapidly heat or cool the area around them in a flash. Pick one while casting: Fire: The caster spontaneously ignites the area around them in a 5 block sphere, centered on them. The tongues of flame roar intensely, unable to be extinguished for as many rounds as the caster has HAR: Arcana (max 3). The caster is unharmed by these flames. Ice: The caster flash freezes exposed liquids in a 5 block sphere, centered on them. All liquids freeze and lava turns to rock, creating a surface strong enough to support a person or trap part of a creature inside, requiring a successful STR: Fortitude roll to break free (must be at least half an arm/leg stuck).",
+    "method": "An act of flowing movement, ending with both palms facing outward at the caster's sides."
   },
   {
     "branch": "Tellurgy",
@@ -336,21 +297,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Coat your arms in a hardened element: earth, ice, metal, or crystal. Arms withstand harmful extremes. Unarmed attacks knock targets back 2 blocks and deal maximum STR: Athletics damage (4) before other modifiers. Cannot perform fine motor control while active.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Pyrebolt",
-    "anima": 6,
-    "actions": "1",
-    "cmd": "/cast pyrebolt",
-    "req": "STR: Fortitude +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Hurl an unstable sphere of fire at a point within Ranged distance. Starts at 2 damage and 2-block radius, both increasing by 2 per charging action (max 4 actions). The area is set ablaze; targets take increasing fire damage (1→2→3) each round until extinguished. Being struck while charging causes it to detonate on you.",
-    "method": ""
+    "desc": "The caster coats their arms and hands with a hardened element: earth, ice, metal, or crystal. Their arms are able to withstand harmful extremes like fire, frostbite, poison etc, and become comparable to Exceptional quality stone clubs. The caster's Unarmed attacks may knock targets back 2m (2 blocks) and deal the maximum STR: Athletics damage (4) before other modifiers such as Rage. The caster is unable to perform fine motor control (suturing, lockpicking, etc) while this spell is in effect. Lasts for the duration of the scene, or until dispelled at the caster's will.",
+    "method": "Resting hands on a solid surface, drawing material from it."
   },
   {
     "branch": "Tellurgy",
@@ -362,8 +310,47 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Change the state of weather within Ranged distance, calling for rain, hail, or snow — or redirect such weather away from the area. Requires an involved dance, ritual chant, or inscription performed under open sky. Effects last for the duration of the day.",
-    "method": ""
+    "desc": "The caster can change the state of weather in Ranged distance of them, calling for rain, hail, or snow; alternatively, they can redirect such weather away from the area. The effects last for the duration of the day.",
+    "method": "An involved dance, ritual chant or inscription performed under open sky: takes at least a minute."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Earthshaker",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast earthshaker",
+    "req": "STR: Fortitude +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster causes tremors to shake a local area (within a 20m, or 20 block, radius), strong enough to knock people Prone, displace untethered items and bring down unstable structures. The epicenter at the caster is particularly dangerous: Anyone within Skirmishing distance must succeed a DEX: Acrobatics check or lose an action on their following turn, having to sturdy themselves.",
+    "method": "Beating the earth and letting out a roar."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Mirage",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast mirage",
+    "req": "DEX: Finesse +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Surrounding dust, sand, or water is swept into a disorienting cloud or mist within a 4m (4 block) radius around the caster, moving as they do. Skirmishing & Ranged attacks made outside of the Mirage cloud against those within it are made with a -2 modifier, and likewise for attacks of the same kind made against those outside. Outside of combat, Perception checks made against people within the Mirage cloud are made with a -2 modifier, however, those within it also make Perception checks at -2 against those outside. These effects last for the duration of the scene unless dispelled by the caster or a spell of equal/greater anima cost.",
+    "method": "Kicking up a cloud, then maneuvering it with hand gestures."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Pyrebolt",
+    "anima": 6,
+    "actions": "1",
+    "cmd": "/cast pyrebolt",
+    "req": "STR: Fortitude +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "An unstable sphere of raging fire is conjured in the caster's hand and hurled toward a point within Ranged distance, where it detonates in a searing blast. The fireball's damage and radius start at 2 damage and 2m (2 blocks) and both increase by 2 for each action spent charging it (up to 4 total actions). The area engulfed by fire is set ablaze along with anything inside of it. The initial explosion can be blocked or evaded, but any targets caught within its radius take increasing fire damage (1 -> 2 -> 3) each round until an action is spent to extinguish them. If the caster is struck by an attack while charging, the ball of fire implodes on itself, detonating in a radius around the caster according to its charge.",
+    "method": "Drawing heat into the palm, shaping it with careful concentration."
   },
   {
     "branch": "Tellurgy",
@@ -375,21 +362,8 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Summon a thunderhead spanning Ranged distance. An intense blizzard or lightning storm follows, blanketing the area in Dim or Dark lighting for the remainder of the scene. Targets not designated safe must succeed STR: Fortitude vs the casting roll or be stunned or frozen in place.",
-    "method": ""
-  },
-  {
-    "branch": "Tellurgy",
-    "name": "Ferrous Grip",
-    "anima": 10,
-    "actions": "2",
-    "cmd": "/cast ferrous",
-    "req": "STR: Fortitude +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "For the scene, perform Maneuvers on targets wearing or wielding substantial metal at Ranged distance. Substitute HAR: Arcana in place of other skills required for the Maneuver. Damage dealt is consistent with your Unarmed damage.",
-    "method": ""
+    "desc": "A rippling thunderhead is summoned by the caster, clouding the sky and spanning the entirety of Ranged distance from them in a matter of seconds. What follows is an intense blizzard or lightning storm, the effects of which are dictated by the caster's telluric control. Upon the caster's discretion, the storm's arrival blankets the affected area in either Dim or Dark lighting for the remainder of the scene, or until the clouds are somehow cleared. Upon casting, the caster may designate certain entities as 'safe' from the encroaching chill or arcs of lightning. Everyone else within the effective area must roll a STR: Fortitude check; if they do not meet or exceed the casting roll, they are stunned or frozen in place and cannot move or take actions/reactions (e.g. Evading) until they spend one action on their turn to break free.",
+    "method": "Inhaling a deep breath, then exhaling a storm cloud."
   },
   {
     "branch": "Tellurgy",
@@ -401,8 +375,21 @@ window.SPELLS_TELLURGY = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "All natural non-living blocks within Skirmishing distance become subject to your molten will. Manipulate up to 9 blocks per round between solid and lava. Entities take 2 AP damage when touching lava. Ends if you cast another spell or move or take actions besides blocking or evasion.",
-    "method": ""
+    "desc": "Fire and earth unify as one: all natural, non-living blocks (e.g. dirt, stone, metal) within Skirmishing distance of the caster become subject to their molten will. Heated to dangerously-high temperatures, what was once solid earth becomes malleable lava in a matter of seconds. The caster may manipulate up to 9 blocks per round, selecting them as a free action on their turn. On the start of the caster's next turn, as an action, selected solid blocks become lava, and likewise selected blocks of lava solidify back into stone. This practice-often viewed as an art form-allows the caster to rapidly reform the shape of their surroundings into new walls, structures, or sculptures. Entities take 2 AP damage whenever they touch lava. The caster may repeat the process as many rounds as they wish until they cast another spell or cancel the effect by moving or taking any actions besides blocking/evasion. The lava they create quickly cools to stone when the spell ends.",
+    "method": "Maneuvering one's hands with complete concentration, standing perfectly still otherwise."
+  },
+  {
+    "branch": "Tellurgy",
+    "name": "Ferrous Grip",
+    "anima": 10,
+    "actions": "2",
+    "cmd": "/cast ferrous",
+    "req": "STR: Fortitude +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster's metallurgical attunement is amplified at the cost of anima. For the duration of the scene, the caster may perform Maneuvers on targets wearing or wielding substantial metal (e.g. medium/heavy armour or a weapon) at Ranged distance. The caster may substitute HAR: Arcana in place of other skills required for the Maneuver they are performing. Any damage dealt by the Maneuver is consistent with the caster's Unarmed damage.",
+    "method": "Focusing magnetic energy to the fingertips, then extending a hand toward a target of choice and moving it as one would conduct music."
   },
   {
     "branch": "Tellurgy",
@@ -412,9 +399,9 @@ window.SPELLS_TELLURGY = [
     "cmd": "/cast worldweaver",
     "req": "None",
     "patron": "",
-    "capstone": true,
+    "capstone": false,
     "targeted": false,
-    "desc": "The scene shifts drastically around you. Choose one element. For three rounds, Tellurgy spells using that element are cast at one tier lower anima cost (10→6→4→2→0). All other elemental effects are ended instantly and cannot be used until this spell ends.",
-    "method": ""
+    "desc": "The scene around the caster shifts in a drastic way, hardly recognizable from the way it was before. Grassy knolls shift into Ashland crags or frozen tundras as the caster sees fit, etc. As telluric control over matter composition is pushed to its limits, so too are the elements within the scene. The caster chooses one element. For three rounds, Tellurgy spells utilizing that element are cast at one tier lower anima cost (10 -> 6, 6 -> 4, 4 -> 2, 2 -> 0) by the caster and their allies. Over the same duration, elemental effects (whether from spells, feats, or other sources) of any other element are ended instantly and cannot be utilized until this spell ends. As their brief dominance over the area fades, the altered terrain returns to normal and the affected elements function as usual once more.",
+    "method": "Extending appendages outward while focusing on an environment that favors the desired element."
   }
 ];

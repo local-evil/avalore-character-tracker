@@ -1,19 +1,6 @@
-// Avalore spells — ichor
-// Edit this file to update spells for this branch
+// Avalore spells — Ichor
+// Place in: data/spells/ichor.js
 window.SPELLS_ICHOR = [
-  {
-    "branch": "Ichor Cantrip",
-    "name": "Bloodrush",
-    "anima": 0,
-    "actions": "1",
-    "cmd": "/cast bloodrush",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Choose a target in Melee distance. Their blood rushes through their body, reducing fatigue and flushing toxins. If bleeding, blood seeps from the wound — dangerous if untended, but it cleans the injury.",
-    "method": ""
-  },
   {
     "branch": "Ichor",
     "name": "Bloodhound",
@@ -24,21 +11,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Extend your senses to trace paths of life. If someone you've interacted with was in a location in the last week, you know how recently and the immediate path they took out. Within Ranged distance, a successful INT: Perception check reveals how close they are.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Caul",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast caul",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Growths of algae or flora along your throat filter toxins from the air and provide one minute (5 rounds) of air reserve. Air pollutants cannot breach the airway. The growth lasts a day and may be manually removed.",
-    "method": ""
+    "desc": "The caster extends their senses, attuned to the faintest traces of passing life. If a person or beast they have interacted with has been in a location in the last week, they are aware of how recently and the immediate path they took out of the area. Mundane animals the caster is familiar with can be similarly tracked in the wild. As an additional action when the caster is within Ranged distance of their target, a successful INT: Perception check will inform them how close they are.",
+    "method": "Dilating eyes, ears twitching, or goosebumps prickling across your skin. Hyperawareness."
   },
   {
     "branch": "Ichor",
@@ -50,21 +24,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Contort your body to slither through half-block wide spaces at twice normal movement cost. +2 to avoid or escape grappling maneuvers while in this state, but you cannot Attack until returning to normal.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Diagnostic",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast diagnostic",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Identify the nature of mundane diseases and ease the worst symptoms and pains for up to 1 hour with a touch. For supernatural afflictions, a successful HAR: Arcana check is required.",
-    "method": ""
+    "desc": "The caster contorts their body in a way that defies reason, freely twisting and bending their limbs so that they may slither through half-block wide spaces for twice the normal movement cost. The caster's attempts to avoid or escape grappling maneuvers are made with a +2 modifier while in this state, but they are unable to Attack until they return to normal.",
+    "method": "One action to begin, one to end; carefully dislocating and relocating bones."
   },
   {
     "branch": "Ichor",
@@ -76,21 +37,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Root yourself in place and siphon energy from nature. Over one minute: receive nourishment as if from a hearty meal, hydration, and heal 3 HP. Being attacked while rooted deals +2 damage to you.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Intrusion",
-    "anima": 2,
-    "actions": "1",
-    "cmd": "/cast intrusion",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Dispel pollen or spores toward a target in Skirmishing distance. INT: Perception checks and Ranged or Skirmishing attacks suffer -1 for the remainder of the scene. The target may roll STR: Fortitude at the end of each turn to overcome the effect.",
-    "method": ""
+    "desc": "Tapping into the unseen networks of root and thread that span beneath the earth, the caster roots themselves in place. They become aware of the vague sentiments of the surrounding flora and fungi as feeling in the back of their mind. Over the course of a minute, the caster can siphon energy from nature around them. They receive nourishment as if they ate a hearty meal, are hydrated, and heal 3 HP. They can continue to drain life from the area around them, but it is not an infinite well; at DM discretion, the flora in the area might be unable to further sustain the drain and wither if Enroot is used too much. If attacked while rooted, the caster takes an additional 2 damage from the attack as their senses are violently jarred.",
+    "method": "Plunging fingers into soil and attuning oneself to the beat of nature's heart."
   },
   {
     "branch": "Ichor",
@@ -102,21 +50,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Produce a small quantity of webbing, plasma, or ooze that works as a fast-acting glue on whatever it touches first, excluding you. Targets must expend an action and succeed a STR: Athletics check to break free.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Living Necromancy",
-    "anima": 2,
-    "actions": "2",
-    "cmd": "/cast livingnecromancy",
-    "req": "None",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Place an attached or severed body part in a state of living undeath. The limb continues moving even if beyond repair, with pain and touch dulled to a tingle. Ignores physical damage, exhaustion, decay, or malnourishment.",
-    "method": ""
+    "desc": "The caster produces a small quantity of webbing, plasma, or ooze that works as a fast-acting glue on whatever it touches first, excluding the caster. This could be used to hold doors, quickly repair mechanisms, or prevent disarming. When this adhesive has to hold against physical strain or someone attempts to overpower it, they must expend an action and succeed a STR: Athletics check to break free. Can be destroyed by carefully applying the heat of a torch or candle for a half-minute.",
+    "method": "Fiddling of fingers, forming the glue from fingertips."
   },
   {
     "branch": "Ichor",
@@ -128,8 +63,60 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Stymie sources of bleeding and internal rupture in a target within Skirmishing distance. Stabilizes a target in Bleedout, but cannot be self-cast. Staunched targets are protected from blood-targeting effects until a new wound is inflicted.",
-    "method": ""
+    "desc": "Stymie sources of bleeding and internal rupture in a target within Skirmishing distance. This effect also stabilizes a target in Bleedout, but cannot be self-cast. Targets that have been Staunched are protected from effects that would target their blood until a new wound is inflicted.",
+    "method": "Extending a hand toward the wounded."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Caul",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast caul",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Growths of algae or other kinds of flora foster along the caster's throat, hair, or chest capable of filtering toxins from the air and permitting a minute (5 rounds) of air reserve where there would otherwise be none at all. Air pollutants such as smoke, spores, dust and so on are unable to breach the airway, allowing relative ease of breathing. The growth itself lasts for a day, and may be manually removed or replanted elsewhere from the caster.",
+    "method": "Ingesting a seedling or plant bulb."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Diagnostic",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast diagnostic",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster can identify the nature of mundane diseases and maladies and can ease the worst symptoms and pains of their target for up to 1 hour with a touch. For supernatural afflictions, a successful HAR: Arcana check is required to gain insight into the nature of the condition. Should a target resist, they must roll a STR: Fortitude success to keep the condition from being identified or the pain from being eased.",
+    "method": "Feeling a target's pulse, placing an ear to their sternum, or a hand on the afflicted area."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Intrusion",
+    "anima": 2,
+    "actions": "1",
+    "cmd": "/cast intrusion",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Dispel pollen or spores toward a target in Skirmishing distance, causing them to sweat, shiver, or weep as something akin to an allergic response takes on. INT: Perception checks and Ranged or Skirmishing attacks suffer a -1 penalty for the remainder of the scene. The target can overcome the effect by succeeding a STR: Fortitude check, made at the end of each turn.",
+    "method": "Exhale spores at the target."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Living Necromancy",
+    "anima": 2,
+    "actions": "2",
+    "cmd": "/cast livingnecromancy",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Attached or severed, a part of the target's body is placed in a state of living undeath reinforced with the oil-slicked colours of Ichor. They may force the limb to continue moving even if it should be beyond repair with its sense of pain and touch dulled to a distant tingle. Very little can disable this limb without destroying it entirely, meaning that it can ignore factors like physical damage, exhaustion, decay, or malnourishment.",
+    "method": "Extending a hand to the appendage and taking hold of it, imbuing it with energy."
   },
   {
     "branch": "Ichor",
@@ -141,21 +128,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Spread your senses through flora and fungi, automatically sensing movement of creatures larger than a cat within Ranged distance. Spend both actions each turn to gauge their weights, sizes, and locations. Lasts until you take damage.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Eusocial Command",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast eusocial",
-    "req": "HAR: Nature +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Bend vermin — rodents, insects, small sea creatures — under your control for the remainder of the scene. Command them as an action to complete simple tasks, create bioluminescent light, or dismantle undead targets for 3 AP damage.",
-    "method": ""
+    "desc": "The caster spreads their senses through flora and fungi in the surrounding area, casting a net through which they can detect even the slightest motion. After casting this spell, the caster automatically senses the movement of creatures larger than a cat within Ranged distance. If a creature that would be detected is attempting to Conceal their movement, they must meet or beat the casting roll of the spell, else the caster notices them. While the caster cannot determine what each creature is, they can roughly gauge their weights, sizes and locations by expending both actions each turn. This effect lasts until the caster receives damage or they choose to end the spell.",
+    "method": "Planting against the ground, staying perfectly still, and slowing the pulse to the point of feeling every vibration and touch in the surrounding area."
   },
   {
     "branch": "Ichor",
@@ -167,21 +141,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Expel toxins, potions, or foreign objects up to the size of a crossbow bolt from a body, drawing it through flesh or an open wound. The target may resist with a STR: Fortitude check.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Instrumentalise",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast instrumentalise",
-    "req": "INT: Healing +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Reshape one of your limbs to function as any craftable handheld tool for the remainder of the scene, or until dismissed. Bone and flesh snap and contort into the desired useful form.",
-    "method": ""
+    "desc": "Expel toxins, potions or foreign objects up to the size of a crossbow bolt from the body, drawing it from an open wound or seamlessly warping it through flesh. The afflicted target may choose to resist this with a STR: Fortitude check.",
+    "method": "Contact with a target."
   },
   {
     "branch": "Ichor",
@@ -193,21 +154,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Press your body to the limit for the scene. Add +3 to any STR: Fortitude or STR: Athletics check, or +3m to any movement, each at the cost of 2 HP. Ends prematurely if you enter a critical state.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Syphon",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast syphon",
-    "req": "INT: Healing +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Draw a torrent of blood from a target within Skirmishing distance through an open wound, dealing 4 AP damage on a failed STR: Fortitude check. Blood may be used for any purpose (e.g. drinking heals a vampire for 4 HP) until end of scene.",
-    "method": ""
+    "desc": "The caster presses their body to the limit for the scene, allowing for superhuman feats of speed or strength at the cost of their own body. Add +3 to any STR: Fortitude or STR: Athletics checks, or 3m (3 blocks) to any movement, each at the cost of 2HP. If the caster enters a critical state, the spell ends prematurely. This spell does not to apply to death saves.",
+    "method": "Veins appearing along the body with a crunch of joints."
   },
   {
     "branch": "Ichor",
@@ -219,21 +167,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Your body adapts to your surroundings for the scene: lichen growths, earth-toned flesh, splotchy skin. +2 bonus to blending in checks. Adverse environmental effects such as deep water or dense foliage have no effect on you.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Transfuse",
-    "anima": 4,
-    "actions": "1",
-    "cmd": "/cast transfuse",
-    "req": "INT: Healing +1",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Imbue a willing target with fresh blood, revitalizing them for up to HAR: Arcana (max 3) + 4 HP. Blood transferred becomes universal. May be sourced from yourself, dealing equal damage, or from another through hemomancy.",
-    "method": ""
+    "desc": "The caster's body adapts its physiology to better suit the wilderness around them. For the duration of the scene, they take on notes of the surrounding area (i.e lichen growths, earth toned flesh, splotchy skin patterns to match foliage), granting a +2 bonus to checks involving blending in. Adverse environmental effects such as shallow/deep water, dense foliage, or rocky terrain, have no effect against the caster.",
+    "method": "A momentary sheen of chrysalis across the body that hardens into a new shape."
   },
   {
     "branch": "Ichor",
@@ -245,8 +180,60 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Perform rapid repairs to a target's body in combat. Stabilize a critical target and instantly heal them for 1d4 + HAR: Arcana HP. At the end of combat, the target loses the HP gained (but will not fall below 1 HP total).",
-    "method": ""
+    "desc": "The caster performs rapid repairs to the target's body during the throes of combat, fusing wounds, joining bones or redirecting the flow of blood with nothing but bare hands to keep them going. Stabilise a critical target and instantly heal them for 1d4 + HAR: Arcana HP. At the end of combat, the target loses the HP gained (but will not fall below 1 HP total).",
+    "method": "Performing medical aid on a target in critical state."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Eusocial Command",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast eusocial",
+    "req": "HAR: Nature +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Vermin such as rodents, insects, and small sea creatures are bent under the caster's control. Tugged by blood, musculature, or hemolymph, they're bound to the caster's will for the remainder of the scene. As an action, the caster can command the swarm to complete simple tasks appropriate to their manner of vermin, such as creating bioluminescent light, pollinating flowers, or dismantling unliving organic material. Commanded vermin have negligible impact upon the living, but may ravage the dead or undead alike. The caster may spend an action to command the swarm to dismantle an undead organic target, causing it to suffer 3 AP damage. A commanded swarm being struck will test the caster's command over it; if they fail a HAR: Nature test, the spell ends.",
+    "method": "Extending a hand to conduct creatures as a horde."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Instrumentalise",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast instrumentalise",
+    "req": "INT: Healing +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "Form gives way to function, reshaping one of the caster's limbs to suffice as a handheld tool. Bone and flesh snap and contort such that the limb is reshaped into the desired useful form for the remainder of the scene or until dismissed by the caster. With the exception of collapsible bridges, bags, and saddles, any craftable tool may be formed using this spell.",
+    "method": "Bracing a limb, supporting it as it warps into a new shape."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Syphon",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast syphon",
+    "req": "INT: Healing +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "The caster's mastery of Ichor extends to that in and around, the very lifeblood of mortals. With a simple flourish, a torrent of blood flows violently through an open wound from a target within Skirmishing distance; they may attempt to resist the effect by succeeding a STR: Fortitude check, otherwise, they take 4 AP damage. If successful, another action may be expended to use the blood for any purpose (e.g. drinking, which heals a vampire for 4 HP, or in tandem with another spell) by the caster until the end of the scene, unless prematurely discarded.",
+    "method": "Clenching the hands and flourishing the wrist to withdraw one's lifeblood from an open wound."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Transfuse",
+    "anima": 4,
+    "actions": "1",
+    "cmd": "/cast transfuse",
+    "req": "INT: Healing +1",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "The wellspring of lifeblood need not source from one's own body. Through careful focus, the caster imbues a willing target with fresh blood, revitalizing them for up to HAR: Arcana (max 3) + 4 HP. Any blood transferred becomes universal in the process. Fresh blood may be sourced from the caster, dealing equal damage to them, or sourced from another through other hemomancy.",
+    "method": "Drawing an imaginary line between the blood source and receiver, then keeping contact with them for the duration of the transfusion."
   },
   {
     "branch": "Ichor",
@@ -258,8 +245,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Exert masterful control over 4 continuous blocks of wood or fibrous plant matter, warping or reshaping it at will. The material stays in its new form until reformed by another cast of the spell or mundane means.",
-    "method": ""
+    "desc": "The caster exerts masterful control over 4 continuous blocks worth of wood or fibrous plant matter, allowing it to be warped, unravelled, or deformed at a touch. The affected material rapidly contorts to the caster's will, even splitting into sections of wood as simple as a plank or as complex as a well-balanced cane. The spinning of simple ropes and textiles can also be done in a matter of minutes. Once molded to shape, the material stays in its new form until reformed by another cast of the spell or mundane means.",
+    "method": "A hand placed to a source of living wood or fibrous plant material."
   },
   {
     "branch": "Ichor",
@@ -271,21 +258,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Imbue a fresh blood sample with malignant resonance and force it back into a target within Skirmishing distance for 1 AP damage. On a failed INT: Healing contest, the target cannot regain HP from any source for 3 rounds.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Earthen Womb",
-    "anima": 6,
-    "actions": "10",
-    "cmd": "/cast earthenwomb",
-    "req": "HAR: Nature +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Collect the blood of two willing targets to form a magic seed. Planted, it grows over one month into a fully formed baby taking aspects of both parents. Both parents must fully understand the purpose before agreeing.",
-    "method": ""
+    "desc": "Through Ichor's dominion over blood and life, the caster imbues a fresh sample of a target's blood with a malignant resonance. Extending a hand toward the same target, who must be in Skirmishing distance, the caster violently injects corrupted blood back into an open wound, dealing 1 AP damage in the process. The target may resist this spell with a contested INT: Healing check that meets or beats the casting roll. When reintroduced to its source, the corruption turns the body's own mending against it, stifling recovery and nullifying the touch of restoration. The afflicted target cannot regain HP from any source for 3 rounds, or 30 seconds out of combat. This includes magical healing, regenerative effects, and any abilities or items that would restore HP.",
+    "method": "Contaminating the sample in hand with careful focus, then forcing it back into its rightful veins."
   },
   {
     "branch": "Ichor",
@@ -297,21 +271,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Shed your skin to take on the appearance and voice of a person from memory. Unknown scars and tattoos are not replicated, nor are mannerisms. Any injuries persist. The form lasts until end of day or at your will.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Mycophone",
-    "anima": 6,
-    "actions": "6",
-    "cmd": "/cast mycophone",
-    "req": "HAR: Nature +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Tap into the mycelium around you to rapidly grow enchanted mushrooms within Skirmishing distance. Plucked and worn around an ear, they allow telepathic communication within the hivemind and shared INT: Perception checks. The mushrooms wither at end of scene.",
-    "method": ""
+    "desc": "The caster's skin sheds like a chrysalis, exposing a new form beneath. Physical attributes such as build, shape, gender, and even species alter beneath their shed skin, allowing them to take on the appearance and even voice of a person from memory. Marks such as scars, tattoos, and other identifiers that are unknown to the caster are not replicated; nor are physical mannerisms or speech patterns. Any injuries the caster has persist. By the day's end, or at will, the skin sheds once more to give way to the caster's original form. If replicating someone seen in the past few hours, the caster's new form is near perfect. Any longer, and discrepancies such as discolored hair, uncharacteristic wrinkles, and other visual tells may hint at deception. Should someone suspect the caster due to visual or behavioral tells, they may roll an INT: Healing or INT: Perception check to discern that something is amiss.",
+    "method": "A matter of minutes spent in front of a vanity or reflective surface, carefully reshaping features."
   },
   {
     "branch": "Ichor",
@@ -323,21 +284,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Summon a living wall of dense wood and greenery within Melee distance, shaped into up to 6 blocks of volume. Shields those behind it as a mundane wall. Heals allies within Melee distance for 1 temporary HP per round. Lasts 3 rounds; withers after 2 fire strikes.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Overgrowth",
-    "anima": 6,
-    "actions": "2",
-    "cmd": "/cast overgrowth",
-    "req": "HAR: Nature +2",
-    "patron": "",
-    "capstone": false,
-    "targeted": false,
-    "desc": "Reshape the area into lush wilderness for up to 3 rounds (30 seconds out of combat), spending an action each round to maintain it. Obstructive growth within Skirmishing distance reduces movement by 2, deals 1 AP damage per turn, and requires a HAR: Nature roll to leave.",
-    "method": ""
+    "desc": "With a surge of verdant will, the caster summons a living wall of dense wood and flourishing greenery within Melee distance. Shaped into any form up to 6 total blocks of volume, the barrier shields those behind it as a mundane wall would: blocking attacks, obscuring vision, and granting cover. The living wall endures for up to 3 rounds; enchanted flowers mend allies who end their turn within Melee distance for 1 temporary HP per round, but do not bring them out of Critical. Weakened by flame, it withers after 2 strikes from a source of fire. Multiple Oasis effects do not stack.",
+    "method": "Pressing a palm to the ground and willing it to awaken with life."
   },
   {
     "branch": "Ichor",
@@ -349,8 +297,47 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Outside of combat, rapidly repair and heal another target for 2d6 + HAR: Arcana HP, leaving warped scars at their discretion. The target is exhausted after, rolling DEX and STR checks with -1 until they rest extensively.",
-    "method": ""
+    "desc": "Outside of combat, the caster can quickly repair and heal another target of non life-threatening injuries, replacing what's lost with new flesh. Heals the target for 2d6 + HAR: Arcana HP, leaving them with warped scars over the former injuries at the target's discretion. The target is left exhausted after such rapid regeneration, rolling any DEX and STR related checks with a -1 modifier until they get extensive rest.",
+    "method": "Steady and careful treatment of a wound for a full minute."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Earthen Womb",
+    "anima": 6,
+    "actions": "10",
+    "cmd": "/cast earthenwomb",
+    "req": "HAR: Nature +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "By collecting the blood of two willing and consensual targets, the caster forms a magic seed and plants it in a patch of land. The seed will grow rapidly over one month, eventually erupting from the ground as a fully formed baby. Despite the nature of its birth, the baby is natural in all ways, taking aspects from both parents just as a natural-born baby might. Both parents must fully understand the purpose of this spell before agreeing, and the caster cannot cast the spell again until the current conception completes.",
+    "method": "Collecting the blood of both parents and watering a seed with it."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Mycophone",
+    "anima": 6,
+    "actions": "6",
+    "cmd": "/cast mycophone",
+    "req": "HAR: Nature +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "By tapping into the microsystem beneath the earth, the caster extends the depths of their minds into the mycelium around them. Enchanted mushrooms begin to rapidly grow within Skirmishing distance. These mushrooms form a temporary mycelial hivemind. If plucked and worn around an ear, they allow anyone wearing them to telepathically communicate with everyone in the hivemind as an action. They also allow their wearers to quickly relay things they've noticed; if anyone in the hivemind makes an INT: Perception check, everyone else also becomes aware of what that Perception check entailed. The mushrooms wither at the end of the scene, their magic spent.",
+    "method": "Scattering spores or being in a natural area, then weaving magic into the fungi as they rapidly grow."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Overgrowth",
+    "anima": 6,
+    "actions": "2",
+    "cmd": "/cast overgrowth",
+    "req": "HAR: Nature +2",
+    "patron": "",
+    "capstone": false,
+    "targeted": false,
+    "desc": "The caster reshapes the area around them into a place of lush wilderness for up to 3 rounds (30 seconds out of combat), spending an action each round maintaining the effect. Obstructive growth such as vines, brambles, and poisonous mushrooms lay claim rapidly within Skirmishing distance, following the caster. Ground movement is reduced by 2 blocks within the area, which also counts as uneven terrain. Any who enter or start their turn in it, excluding the caster and their allies, take 1 AP damage and must succeed a HAR: Nature roll to leave.",
+    "method": "A stomp of the foot or slam of the staff, then raising one's palms upward."
   },
   {
     "branch": "Ichor",
@@ -362,8 +349,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": true,
-    "desc": "Contact fresh blood from a target within Skirmishing distance. At start of their turn: failed STR: Fortitude causes 2 AP damage and -1 to checks until end of their next turn. Mixed success deals only 2 AP damage. Can be maintained up to 3 subsequent rounds.",
-    "method": ""
+    "desc": "Let them feel sorrow from the very marrow of their bones. The caster makes contact with fresh blood from a target within Skirmishing distance, urging their remaining lifeblood to betray them. At the start of their turn, the target makes a STR: Fortitude check. On a failure, blood seeps from their orifices; they take 2 AP damage and roll STR: Fortitude & INT: Perception checks with a -1 modifier until the end of their next turn. On a mixed success they take only the 2 AP damage, and on a full success their blood is kept intact for that round. The caster may maintain this spell for up to three subsequent rounds, spending an action each round to continue it. Wept blood may be utilized once for any purpose (e.g. drinking or in tandem with another spell) by the caster until the end of the scene or otherwise discarded.",
+    "method": "Making physical contact with a target's blood, then pointing at them."
   },
   {
     "branch": "Ichor",
@@ -375,34 +362,8 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "Exhale suffocating mist. For rounds equal to your HAR: Arcana, targets within 4 blocks take 1 AP poison damage per turn and make STR: Fortitude with -2 as flesh melts from bone. Contact with flame ignites the fumes, increasing damage but removing the Fortitude penalty.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Graft",
-    "anima": 10,
-    "actions": "10",
-    "cmd": "/cast graft",
-    "req": "INT: Healing +3",
-    "patron": "",
-    "capstone": false,
-    "targeted": true,
-    "desc": "Affix limbs, appendages, or sensory organs to a target. If not the original piece, succeed an INT: Healing check to set it properly. Foreign or beastly components may be attached but behave vestigially. The graft must not be more than a day old unless preserved.",
-    "method": ""
-  },
-  {
-    "branch": "Ichor",
-    "name": "Graveblossom",
-    "anima": 10,
-    "actions": "10",
-    "cmd": "/cast graveblossom",
-    "req": "None",
-    "patron": "",
-    "capstone": true,
-    "targeted": true,
-    "desc": "Over three days, a plant chrysalis mends lethal wounds and reverses recent death (within 1 hour). Day 1: restore 10 HP. Day 2: missing limbs restored, restore 5 HP. Day 3: restore full health. A unique floral or fungal scar remains where mends were made.",
-    "method": ""
+    "desc": "Some of the most horrific magic is woven in the deep swamps south of the Wall. The caster taps into this darkness, exhaling suffocating mist that swells up into a cloud around them. For a number of rounds equal to the caster's HAR: Arcana, any other targets within 4m (4 blocks) of the caster are subjected to the pungent fumes of rot and decay, taking 1 AP damage from poison at the start of their turn and making STR: Fortitude checks with a -2 modifier as flesh melts from bone. Should any source of flame make contact with the fumes, the noxious tendrils are set alight into a raging maul of fire. Damage increases by 1 for each round a target is affected by the fire (1 -> 2 -> 3), but STR: Fortitude is no longer penalized. The caster is not protected from the fire.",
+    "method": "Inhaling deeply, then exhaling an impossible amount of boggy fumes for as long as the spell persists."
   },
   {
     "branch": "Ichor",
@@ -414,7 +375,33 @@ window.SPELLS_ICHOR = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "All targets in Skirmishing distance not at full HP take 3 AP damage as blood is forcefully drawn. Gathered blood can be directed at a target in a torrential downpour: roll Spellbook attack for 3 damage per target damaged (max 12 total). Half damage on a miss.",
-    "method": ""
+    "desc": "The caster takes hold of fresh blood as it flows around them. All targets in Skirmishing distance that aren't at full HP take 3 AP damage as blood is forcefully drawn from their veins. This blood is gathered above the caster and can be directed to assail a target in Skirmishing distance with a torrential downpour of blood. Roll a Spellbook attack. On a hit, deal 3 damage per target damaged by this spell (max of 12 total damage). On a miss, deal half damage. Successful evades or blocks halve the damage of this attack.",
+    "method": "Spreading arms out in a circle, pulling inwards; then, sharply gesturing towards the target."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Graft",
+    "anima": 10,
+    "actions": "10",
+    "cmd": "/cast graft",
+    "req": "INT: Healing +3",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Limbs, appendages and sensory organs are affixed to a target. If the attached component is not the original severed piece, the caster must succeed an INT: Healing check to set it properly; when set, the addition will function as if never severed. Foreign or beastly components may be attached, but are likely to behave vestigially (submit a ticket). If the added component is not freshly severed within the day or otherwise preserved, the spell fails.",
+    "method": "Coaxing the graft and attachment point together with transformative blood and ichor, leaving it to set for 12 hours with bandages."
+  },
+  {
+    "branch": "Ichor",
+    "name": "Graveblossom",
+    "anima": 10,
+    "actions": "10",
+    "cmd": "/cast graveblossom",
+    "req": "None",
+    "patron": "",
+    "capstone": false,
+    "targeted": true,
+    "desc": "Across three days, a plant-made chrysalis shrouds the body to mend what was lost and even unmake recent death (within 1 hour). By the end of the first day, lethal wounds are mended using floral or fungal membranes as scaffolding: restore 10 HP. By the end of the second day, missing parts or limbs function anew through total verdant facsimile: restore 5 HP. By the end of the third day, health is restored in full. If the target is deceased, a newfound life-breath is gently coaxed into their lungs as bodily functions rediscover their autonomy. Enchanted flora or fungi ring the site. Their palynomorphs bind a two-way telepathic link between the target and all others within Quiet distance. Once the cycle is completed, the chrysalis blossoms into a unique flower or fungi reminiscent of the caster's aesthetic and the target emerges well-rested. This process generates unique floral or fungal scars at the target's discretion where any mends were made. If any significant repairs occurred (e.g. limb regrowth or total revival), the target takes +1 fire damage for as long as verdant repairs remain unreplaced.",
+    "method": "Dig a body's measure in earth and plant a seed above where the heart should be."
   }
 ];
