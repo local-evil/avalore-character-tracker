@@ -158,17 +158,17 @@ window.CANTRIPS_DEFAULT = [
     "method": "An inscription on the cover of an empty book."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Fae Path",
     "type": "general",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast faepath",
     "req": "None",
-    "patron": "",
+    "patron": "The Fey Coterie",
     "capstone": false,
     "targeted": false,
-    "desc": "Fey Coterie Cantrip When moving between two spots that would both obstruct line-of-sight, the caster may instead disappear behind one and appear behind the other without physically traveling through the intervening space. Total distance possible is normal movement + dashing, and it counts against their movement total in that turn.",
+    "desc": "When moving between two spots that would both obstruct line-of-sight, the caster may instead disappear behind one and appear behind the other without physically traveling through the intervening space. Total distance possible is normal movement + dashing, and it counts against their movement total in that turn.",
     "method": "Being unseen."
   },
   {
@@ -214,17 +214,17 @@ window.CANTRIPS_DEFAULT = [
     "method": "A waving of a hand over the desired object; an illusion left in its place."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Seed Of Chaos",
     "type": "general",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast seedofchaos",
     "req": "None",
-    "patron": "",
+    "patron": "The Fey Coterie",
     "capstone": false,
     "targeted": false,
-    "desc": "Fey Coterie Cantrip The caster hexes a target they've previously conversed with, causing them to suffer a mundane but persistent inconvenience of the caster's choosing for no less than a week (more at target's discretion). This curse can deliver things along the likes of: frequent stumbles, missing socks, constantly falling into puddles, hounded by mosquitoes. The curse must represent a mundane inconvenience or light humiliation; true terror or magical effects are beyond the bounds of the spell. Only one hex can be made per day, unless the caster breaks a previous one.",
+    "desc": "The caster hexes a target they've previously conversed with, causing them to suffer a mundane but persistent inconvenience of the caster's choosing for no less than a week (more at target's discretion). This curse can deliver things along the likes of: frequent stumbles, missing socks, constantly falling into puddles, hounded by mosquitoes. The curse must represent a mundane inconvenience or light humiliation; true terror or magical effects are beyond the bounds of the spell. Only one hex can be made per day, unless the caster breaks a previous one.",
     "method": "A verbally delivered wishing of, or promise of a curse on the target. It need not be explicit, or even serious, but a promise must be made to be kept."
   },
   {
@@ -242,17 +242,17 @@ window.CANTRIPS_DEFAULT = [
     "method": "An arm aloft to obstruct or shield."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Sprite Of Hand",
     "type": "general",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast spriteofhand",
     "req": "None",
-    "patron": "",
+    "patron": "The Fey Coterie",
     "capstone": false,
     "targeted": false,
-    "desc": "Fey Coterie Cantrip The caster may exchange items that fit in-hand between their grasp by merely obscuring such; a clasped hand would see the item appear in the other even if there should be no feasible moment for a sleight of hand to permit.",
+    "desc": "The caster may exchange items that fit in-hand between their grasp by merely obscuring such; a clasped hand would see the item appear in the other even if there should be no feasible moment for a sleight of hand to permit.",
     "method": "Obscuring an item behind a hand."
   },
   {
@@ -298,17 +298,17 @@ window.CANTRIPS_DEFAULT = [
     "method": "Vocalized communication."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Mind's Eye",
     "type": "general",
     "anima": 0,
     "actions": "2",
     "cmd": "/cast mindseye",
     "req": "None",
-    "patron": "",
+    "patron": "The Dreaming One",
     "capstone": false,
     "targeted": false,
-    "desc": "Dreaming One Cantrip An equivalent exchange takes place in the target's mind, like a priceless treasure swapped for a weighted bag of sand. They are filled with eldritch visions in their mind's eye, both confusing and frightening them. In exchange, the caster isolates and learns a single fear of their target-knowing what, but not why. The process is unpleasant for the target, as if icy fingers were prodding through their very brain. The effects can be resisted with a successful HAR: Belief check, while on a mixed success no fear is learned.",
+    "desc": "An equivalent exchange takes place in the target's mind, like a priceless treasure swapped for a weighted bag of sand. They are filled with eldritch visions in their mind's eye, both confusing and frightening them. In exchange, the caster isolates and learns a single fear of their target-knowing what, but not why. The process is unpleasant for the target, as if icy fingers were prodding through their very brain. The effects can be resisted with a successful HAR: Belief check, while on a mixed success no fear is learned.",
     "method": "Maintaining physical contact on someone while closing one's physical eyes to open the eye within."
   },
   {
@@ -326,35 +326,35 @@ window.CANTRIPS_DEFAULT = [
     "method": "Scribing or weaving runic symbols on a cloth, then placing a hand upon it."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Self Delusion",
     "type": "general",
     "anima": 0,
     "actions": "1",
     "cmd": "/cast selfdelusion",
     "req": "None",
-    "patron": "",
+    "patron": "The Dreaming One",
     "capstone": false,
     "targeted": false,
-    "desc": "Dreaming One Cantrip The caster is able to tap into the dream realm and plant a belief or emotion into their own mind. For the next hour, this belief is accepted with complete conviction, whether or not it is blatantly false. For example, the caster may make themselves believe that the sky is green, or that they are happy, or that they are not, in fact, a spy. Even if the caster knows that this delusion is a lie or not representative of their true feelings before casting this spell, they uncritically believe in them for the duration-appearing as wholly convinced and truthful even to arcane analysis. Evidence that contradicts the delusion is rationalized away, but the wording of the delusion should be considered carefully such that it can be interpreted creatively when observable truth rubs up against the fiction.",
+    "desc": "The caster is able to tap into the dream realm and plant a belief or emotion into their own mind. For the next hour, this belief is accepted with complete conviction, whether or not it is blatantly false. For example, the caster may make themselves believe that the sky is green, or that they are happy, or that they are not, in fact, a spy. Even if the caster knows that this delusion is a lie or not representative of their true feelings before casting this spell, they uncritically believe in them for the duration-appearing as wholly convinced and truthful even to arcane analysis. Evidence that contradicts the delusion is rationalized away, but the wording of the delusion should be considered carefully such that it can be interpreted creatively when observable truth rubs up against the fiction.",
     "method": "Repeating the delusion before a reflective surface, accepting it as truth."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Patron Cantrip",
     "name": "Slumber",
     "type": "general",
     "anima": 0,
     "actions": "2",
     "cmd": "/cast slumber",
     "req": "None",
-    "patron": "",
+    "patron": "The Dreaming One",
     "capstone": false,
     "targeted": false,
-    "desc": "Dreaming One Cantrip Any Cursesmith can tread the water of the Nocturne with a trance: it takes practice to dive headfirst. The caster works a small enchantment on themselves, allowing them to sleep even in intolerable circumstances: they fall unconscious at a moment's notice, and can wake up at will if not impeded by another spell. The caster has no awareness of surroundings whilst in this dreamless sleep, and is protected from nightmares, intrusions, and anything else that would plague their dreams.",
+    "desc": "Any Cursesmith can tread the water of the Nocturne with a trance: it takes practice to dive headfirst. The caster works a small enchantment on themselves, allowing them to sleep even in intolerable circumstances: they fall unconscious at a moment's notice, and can wake up at will if not impeded by another spell. The caster has no awareness of surroundings whilst in this dreamless sleep, and is protected from nightmares, intrusions, and anything else that would plague their dreams.",
     "method": "Resting peacefully and closing eyes."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Ichor Cantrip",
     "name": "Bloodrush",
     "type": "inherent",
     "anima": 0,
@@ -368,7 +368,7 @@ window.CANTRIPS_DEFAULT = [
     "method": "Laying a hand near the target's heart."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Cursesmithy Cantrip",
     "name": "Dreamdiver",
     "type": "inherent",
     "anima": 0,
@@ -382,7 +382,7 @@ window.CANTRIPS_DEFAULT = [
     "method": "Laying a hand on the target's forehead."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Ether Cantrip",
     "name": "Starsign",
     "type": "inherent",
     "anima": 0,
@@ -396,7 +396,7 @@ window.CANTRIPS_DEFAULT = [
     "method": "Tracing the focus ring upon the caster's person."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Artifice Cantrip",
     "name": "Cognitive Lithography",
     "type": "inherent",
     "anima": 0,
@@ -410,7 +410,7 @@ window.CANTRIPS_DEFAULT = [
     "method": "Maintaining contact with both the target and the object, channeling the memory with eyes closed."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Force Cantrip",
     "name": "Sanctum",
     "type": "inherent",
     "anima": 0,
@@ -424,7 +424,7 @@ window.CANTRIPS_DEFAULT = [
     "method": "Passing one's hand over their head in a smooth, slow motion."
   },
   {
-    "branch": "General Cantrip",
+    "branch": "Tellurgy Cantrip",
     "name": "Conjure Element",
     "type": "inherent",
     "anima": 0,
