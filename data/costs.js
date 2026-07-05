@@ -5,10 +5,10 @@ window.COSTS_DEFAULT = {
   "stat_up": 20,
   "stat_tr": 14,
   "feat": 10,
-  "mage1": 0,
-  "mage2": 0,
-  "mage3": 0,
-  "mage4": 0
+  "mage1": 14,
+  "mage2": 20,
+  "mage3": 26,
+  "mage4": 30
 };
 window.LABELS_DEFAULT = {
   "skill_up": "Skill upgrade",
