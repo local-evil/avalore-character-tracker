@@ -166,8 +166,8 @@ const FORMAT_GUIDES = {
 <b>All cantrips:</b> Paste all cantrip pages together — general, patron, and discipline pages. The parser detects each type automatically from "Inherent Cantrip" markers and patron labels in the Effect text.<br>
 <b>Discipline spells:</b> Paste a discipline page — the Inherent Cantrip block at the top is skipped automatically.<br>
 Each spell needs: name, Effect:, Method:, and a footer line like <code>Ichor 4 anima 2 actions /cast exorcise</code>.`,
-  feats:  `<b>Feats:</b> Paste feat entries. Each feat needs a name, description, a footer line containing the category (e.g. <code>Combat feat</code> or <code>Utility feat · Limited</code>), and optionally a <code>Requires:</code> line.`,
-  weapons:`<b>Weapons:</b> Paste weapon entries. Each weapon needs a name, description, a stats line like <code>One-handed 4 damage 1 action /roll arming</code>, and a requirement line.`,
+  feats:  `<b>Feats:</b> Paste directly from the forum feat page. Category headers like <code>Combat</code>, <code>Mutation</code>, <code>Lineage Weapon</code>, <code>Backgrounds</code>, <code>Arcane Hindrances</code>, and <code>Mutant Hindrances</code> are detected automatically. Arcane and Mutant Hindrances are exported separately into <code>hindrances.js</code> format at the bottom of the output.`,
+  weapons:`<b>Weapons &amp; Armour:</b> Paste directly from the forum weapons page. Section headers like <code>Melee</code>, <code>Skirmishing</code>, <code>Ranged</code>, <code>Armour</code>, and <code>Shields</code> are detected automatically. Weapons are anchored by their stats line (<code>One-handed 4 damage 1 action /roll arming</code>) and armour by their <code>/roll armour</code> line.`,
   hindrances:`<b>Hindrances:</b> Paste hindrance entries. Include a header like <code>Arcane Hindrance</code> or <code>Mutant Hindrance</code> before each group.`,
   costs:  `<b>Costs:</b> One entry per line in format: <code>type_key, Label Name, XP cost</code><br>Example: <code>skill_up, Skill upgrade, 6</code>`,
 };
@@ -479,88 +479,242 @@ function parseSpells(text, branch) {
 // ── FEAT PARSER ──────────────────────────────────────────────────────────────
 function parseFeats(text) {
   const feats = [];
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
-  const catKeywords = ['combat','utility','magic','mutation','vampiric','social'];
+  const lines = text.split('\n').map(l => l.trim());
+
+  const CATEGORIES = {
+    'combat': 'Combat',
+    'lineage weapon': 'Lineage Weapon',
+    'mutation': 'Mutation',
+    'vampiric': 'Vampiric',
+    'utility': 'Utility',
+    'backgrounds': 'Backgrounds',
+    'arcane hindrances': 'Arcane Hindrance',
+    'arcane hindrance': 'Arcane Hindrance',
+    'mutant hindrances': 'Mutant Hindrance',
+    'mutant hindrance': 'Mutant Hindrance',
+    'social': 'Social',
+    'magic': 'Magic',
+  };
+
+  let currentCat = 'Utility';
   let i = 0;
+
   while (i < lines.length) {
-    if (/^-{2,}$/.test(lines[i]) || /^\d+\s+feat/i.test(lines[i])) { i++; continue; }
-    let footerIdx = -1;
-    for (let j = i; j < Math.min(i + 20, lines.length); j++) {
-      if (catKeywords.some(k => lines[j].toLowerCase().includes(k + ' feat'))) {
-        footerIdx = j; break;
+    const line = lines[i];
+    if (!line) { i++; continue; }
+
+    // Category header — standalone line matching a known category exactly
+    const lineLow = line.toLowerCase();
+    let foundCat = false;
+    for (const [key, val] of Object.entries(CATEGORIES)) {
+      if (lineLow === key) { currentCat = val; foundCat = true; break; }
+    }
+    if (foundCat) { i++; continue; }
+
+    // Skip separators and numbers
+    if (/^-{2,}$/.test(line) || /^\d+$/.test(line)) { i++; continue; }
+    // Skip lines that are clearly not names
+    if (/^(effect:|requires|no requirement)/i.test(line)) { i++; continue; }
+    // Skip long description lines
+    if (line.length > 100) { i++; continue; }
+
+    const name = line;
+
+    // Collect description and find Requires line
+    const descLines = [];
+    let reqLine = '';
+    let j = i + 1;
+    let foundReq = false;
+
+    while (j < lines.length && j < i + 25) {
+      const l = lines[j];
+      if (!l) { j++; continue; }
+      if (/^requires?\s/i.test(l) || /^no requirement/i.test(l)) {
+        reqLine = l; foundReq = true; j++; break;
       }
+      // Stop at next category header
+      if (Object.keys(CATEGORIES).some(k => l.toLowerCase() === k)) break;
+      descLines.push(l);
+      j++;
     }
-    if (footerIdx === -1) { i++; continue; }
-    const name = lines[i];
-    if (!name || name.length > 80 || /^(effect|method|requires)/i.test(name)) { i++; continue; }
-    const footer = lines[footerIdx];
-    const reqLine = lines[footerIdx + 1] || '';
-    let cat = 'Utility';
-    for (const k of catKeywords) {
-      if (footer.toLowerCase().includes(k)) { cat = k.charAt(0).toUpperCase() + k.slice(1); break; }
-    }
-    const limited = /limited/i.test(footer);
-    const desc = lines.slice(i + 1, footerIdx).filter(l =>
-      !/^(effect|method|note|—|-{2})/i.test(l)
-    ).join(' ').trim();
+
+    // Must have at least a description to be a real feat
+    if (descLines.length === 0 && !foundReq) { i++; continue; }
+
+    // Clean description — strip "Effect:" prefix
+    const desc = descLines
+      .map(l => l.replace(/^effect:\s*/i, '').trim())
+      .filter(Boolean)
+      .join(' ');
+
+    if (!desc) { i++; continue; }
+
+    // Parse requirement
     let req = 'None';
     if (/^no requirement/i.test(reqLine)) req = 'None';
-    else if (/^requires?\s*/i.test(reqLine)) req = reqLine.replace(/^requires?\s*/i,'').replace(/\.$/,'').trim();
-    if (name) feats.push({ name, cat, req, desc, limited });
-    i = footerIdx + 2;
+    else if (/^requires?\s/i.test(reqLine)) {
+      req = reqLine.replace(/^requires?\s+/i, '').replace(/\.$/, '').trim();
+    }
+
+    const limited = /\blimited\b/i.test(desc);
+
+    feats.push({ name, cat: currentCat, req, desc, limited });
+    i = j;
   }
+
   return feats;
 }
 
-// ── WEAPON PARSER ─────────────────────────────────────────────────────────────
 function parseWeapons(text) {
   const weapons = [];
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
-  const catPatterns = [
-    { pat:/melee.*0.*2/i, cat:'Melee (0-2)' },
-    { pat:/skirmish.*2.*8/i, cat:'Skirmishing (2-8)' },
-    { pat:/ranged.*6.*30/i, cat:'Ranged (6-30)' },
-    { pat:/^armou?r$/i, cat:'Armour' },
-    { pat:/^magic$/i, cat:'Magic' },
+
+  // Category detection
+  const CAT_PATTERNS = [
+    { pat: /^melee/i,       cat: 'Melee (0-2)'      },
+    { pat: /^skirmishing/i, cat: 'Skirmishing (2-8)' },
+    { pat: /^ranged/i,      cat: 'Ranged (6-30)'     },
   ];
+
+  // Split into blocks by the stats line — that's our reliable anchor
+  // Stats line: " One-handed 4 damage 1 action /roll arming"
+  // May have parens: " Two-handed 6 damage 2 actions (lift, strike) /roll polearm"
+  const STATS_RE = /^\s*(One|Two)-handed\s+(\d+)\s+damage\s+(\d+)\s+action[s]?[^/]*(\/roll\s+\S+)/i;
+
+  const lines = text.split('\n');
   let currentCat = 'Melee (0-2)';
+
   let i = 0;
   while (i < lines.length) {
-    for (const { pat, cat } of catPatterns) {
-      if (pat.test(lines[i]) && lines[i].length < 60) currentCat = cat;
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    // Category header
+    for (const { pat, cat } of CAT_PATTERNS) {
+      if (pat.test(trimmed) && trimmed.length < 50) {
+        currentCat = cat; break;
+      }
     }
-    const statsMatch = lines[i].match(/^(One|Two)-handed\s+(\d+)\s+damage\s+(\d+)\s+action[s]?\s+(\/\w+)/i);
+
+    // Stats line match
+    const statsMatch = line.match(STATS_RE);
     if (!statsMatch) { i++; continue; }
-    let nameIdx = i - 1;
-    while (nameIdx >= 0 && lines[nameIdx].length > 60) nameIdx--;
-    const name = nameIdx >= 0 ? lines[nameIdx] : '';
-    const reqLine = lines[i + 1] || '';
+
     const hands = statsMatch[1].toLowerCase() === 'one' ? 1 : 2;
     const dmg   = parseInt(statsMatch[2]);
     const acts  = parseInt(statsMatch[3]);
-    const dpt   = acts > 0 ? Math.round(dmg / acts * 10) / 10 : null;
+    const cmd   = statsMatch[4].trim().toLowerCase();
+    const dpt   = acts > 0 ? parseFloat((dmg / acts).toFixed(1)) : null;
+
+    // Look back up to 15 lines for name, hit bonus, and notes
+    let name = '';
+    let hit  = null;
     const notes = [];
-    for (let k = Math.max(0, i-5); k <= Math.min(lines.length-1, i+2); k++) {
-      const m = lines[k].match(/\+(\d+)\s+when rolling to hit/i);
-      if (m) { /* hit stored separately */ }
-      if (/pierces|penetrates|bypasses|cannot penetrate/i.test(lines[k])) notes.push(lines[k].replace(/^[+·•]\s*/,'').trim());
-      if (/\+\d+ damage/i.test(lines[k]) && !/to hit/i.test(lines[k])) notes.push(lines[k].replace(/^[+·•]\s*/,'').trim());
+
+    for (let k = i - 1; k >= Math.max(0, i - 15); k--) {
+      const l = lines[k].trim();
+      if (!l) continue;
+
+      // Stop at category header or previous stats line
+      if (CAT_PATTERNS.some(p => p.pat.test(l) && l.length < 50)) break;
+      if (STATS_RE.test(lines[k])) break;
+
+      // Hit bonus line
+      const hitM = l.match(/^\+(\d+)\s+when rolling to hit/i);
+      if (hitM) { hit = parseInt(hitM[1]); continue; }
+
+      // Notes lines — damage bonuses, pierce, bypass, cannot penetrate, does not reveal
+      if (/^(Pierces|Bypasses|Penetrates|Cannot penetrate|Does not reveal|\+\d+ damage)/i.test(l)) {
+        notes.unshift(l);
+        continue;
+      }
+
+      // Skip "Includes...", description text, and "Sometimes/One small/These/Though/A/An" openers
+      if (/^(Includes|Sometimes|One small|These|Though|A |An |Used |Easy |Able |Often |This |The |A versatile|Heavy|Not strong)/i.test(l)) continue;
+
+      // The name is the shortest recent non-note, non-desc line
+      if (!name && l.length < 60 && !/^\d+$/.test(l) && !/^-{2,}$/.test(l)) {
+        name = l;
+      }
     }
-    let hit = null;
-    for (let k = Math.max(0,i-6); k < i; k++) {
-      const m = lines[k].match(/\+(\d+)\s+when rolling to hit/i);
-      if (m) { hit = parseInt(m[1]); break; }
-    }
+
+    if (!name) { i++; continue; }
+
+    // Requirement — first non-blank line after the stats line
     let req = 'None';
-    if (/^no requirement/i.test(reqLine)) req = 'None';
-    else if (/^requires?\s*/i.test(reqLine)) req = reqLine.replace(/^requires?\s*/i,'').replace(/\.$/,'').trim();
-    if (name) weapons.push({ cat: currentCat, name, req, hit, hands, dmg, acts, dpt, notes: notes.join('. ') });
+    for (let k = i + 1; k < Math.min(i + 4, lines.length); k++) {
+      const l = lines[k].trim();
+      if (!l) continue;
+      if (/^no requirement/i.test(l)) { req = 'None'; break; }
+      if (/^requires?\s/i.test(l)) {
+        req = l.replace(/^requires?\s+/i, '').replace(/\.$/, '').trim();
+        break;
+      }
+      break;
+    }
+
+    weapons.push({
+      cat: currentCat, name, req, hit, hands, dmg, acts, dpt,
+      notes: notes.join('. ')
+    });
     i++;
   }
+
   return weapons;
 }
 
-// ── HINDRANCE PARSER ──────────────────────────────────────────────────────────
+function parseArmour(text) {
+  // Armour format: Name, desc lines, "Use /roll armour X" line, Requires line
+  const armour = [];
+  const lines = text.split('\n');
+  const ROLL_RE = /\/roll\s+armou?r\s+(\S+)/i;
+  let cat = 'Armour';
+  let i = 0;
+
+  while (i < lines.length) {
+    const trimmed = lines[i].trim();
+    if (/^shields?$/i.test(trimmed)) { cat = 'Armour'; i++; continue; }
+
+    const rollMatch = trimmed.match(ROLL_RE);
+    if (!rollMatch) { i++; continue; }
+
+    // Name — look back for it
+    let name = '';
+    for (let k = i - 1; k >= Math.max(0, i - 10); k--) {
+      const l = lines[k].trim();
+      if (!l) continue;
+      if (/^(Includes|Reduces|Use|Requires|Provides|Though|A |An )/i.test(l)) continue;
+      if (l.length < 60 && !/^-{2,}$/.test(l)) { name = l; break; }
+    }
+    if (!name) { i++; continue; }
+
+    // Notes from surrounding lines
+    const notes = [];
+    for (let k = Math.max(0, i - 10); k < i; k++) {
+      const l = lines[k].trim();
+      if (l === name || !l) continue;
+      if (/^(Includes|Use|Requires)/i.test(l)) continue;
+      notes.push(l);
+    }
+
+    // Requirement
+    let req = 'None';
+    for (let k = i + 1; k < Math.min(i + 4, lines.length); k++) {
+      const l = lines[k].trim();
+      if (!l) continue;
+      if (/^no requirement/i.test(l)) { req = 'None'; break; }
+      if (/^requires?\s/i.test(l)) {
+        req = l.replace(/^requires?\s+/i, '').replace(/\.$/, '').trim(); break;
+      }
+      break;
+    }
+
+    armour.push({ cat, name, req, hit: null, hands: null, dmg: null, acts: null, dpt: null, notes: notes.join(' ') });
+    i++;
+  }
+  return armour;
+}
+
+
 function parseHindrances(text) {
   const hindrances = [];
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
@@ -621,8 +775,17 @@ window.CANTRIPS_DEFAULT = ${j(data)};
       }
       return `// Avalore spells — ${branch}\n// Place in: data/spells/${info.file}\nwindow.${info.var} = ${j(data)};\n`;
     }
-    case 'feats':
-      return `// Avalore feats — generated by converter\nwindow.FEATS_DEFAULT = ${j(data)};\n`;
+    case 'feats': {
+      // Separate regular feats from hindrances
+      const regularFeats   = data.filter(f => !f.cat.includes('Hindrance'));
+      const arcaneHind     = data.filter(f => f.cat === 'Arcane Hindrance');
+      const mutantHind     = data.filter(f => f.cat === 'Mutant Hindrance');
+      let out = `// Avalore feats — generated by converter\nwindow.FEATS_DEFAULT = ${j(regularFeats)};\n`;
+      if (arcaneHind.length > 0 || mutantHind.length > 0) {
+        out += `\n// Avalore hindrances — generated by converter\nwindow.ARCANE_HINDRANCES_DEFAULT = ${j(arcaneHind.map(({name,desc})=>({name,desc})))};\nwindow.MUTANT_HINDRANCES_DEFAULT = ${j(mutantHind.map(({name,desc})=>({name,desc})))};\n`;
+      }
+      return out;
+    }
     case 'weapons':
       return `// Avalore weapons — generated by converter\nwindow.WEAPONS_DEFAULT = ${j(data)};\n`;
     case 'hindrances': {
@@ -657,17 +820,22 @@ function renderPreview(fmt, data) {
           <td class="wrap">${s.method||'—'}</td>
         </tr>`;
       break;
-    case 'feats':
-      html += '<thead><tr><th>Name</th><th>Cat</th><th>Limited</th><th>Req</th><th>Description</th></tr></thead><tbody>';
+    case 'feats': {
+      const regularCount  = data.filter(f => !f.cat.includes('Hindrance')).length;
+      const hindranceCount = data.filter(f => f.cat.includes('Hindrance')).length;
+      const subtitle = hindranceCount > 0
+        ? ` <span style="color:var(--warning);font-size:10px">(incl. ${hindranceCount} hindrances → will go in hindrances.js)</span>` : '';
+      html += `<thead><tr><th>Name${subtitle}</th><th>Category</th><th>Limited</th><th>Requirement</th><th>Description</th></tr></thead><tbody>`;
       for (const f of data)
         html += `<tr>
           <td class="nowrap">${f.name}</td>
-          <td class="nowrap">${f.cat}</td>
+          <td class="nowrap" style="color:${f.cat.includes('Hindrance')?'var(--warning)':'inherit'}">${f.cat}</td>
           <td class="nowrap">${f.limited?'Yes':'—'}</td>
           <td class="nowrap">${f.req}</td>
           <td class="wrap">${f.desc||'—'}</td>
         </tr>`;
       break;
+    }
     case 'weapons':
       html += '<thead><tr><th>Name</th><th>Cat</th><th>Hit</th><th>Hands</th><th>Dmg</th><th>Acts</th><th>Req</th></tr></thead><tbody>';
       for (const w of data)
@@ -705,7 +873,13 @@ function convert() {
     switch(fmt) {
       case 'spells':     data = parseSpells(raw, branch); break;
       case 'feats':      data = parseFeats(raw); break;
-      case 'weapons':    data = parseWeapons(raw); break;
+      case 'weapons': {
+        // Parse both weapons and armour from the same paste
+        const wpns = parseWeapons(raw);
+        const armr = parseArmour(raw);
+        data = [...wpns, ...armr];
+        break;
+      }
       case 'hindrances': data = parseHindrances(raw); break;
       case 'costs':      data = parseCosts(raw); break;
     }
@@ -743,7 +917,7 @@ function convert() {
     document.getElementById('dl-tip').innerHTML = note;
   } else {
     document.getElementById('dl-btn').textContent = '↓ Download .js file';
-    document.getElementById('dl-tip').innerHTML = `Place in your repo's <code>data/</code> folder.`;
+    document.getElementById('dl-tip').innerHTML = fmt === 'feats' ? `Place <code>feats.js</code> in <code>data/</code>. If hindrances were detected, copy the hindrance section into <code>data/hindrances.js</code> separately.` : `Place in your repo's <code>data/</code> folder.`;
   }
 
   lastData = js; lastFmt = fmt; lastBranch = branch;
