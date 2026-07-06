@@ -9,7 +9,7 @@ A community-run web tool for planning and tracking character builds in the Avalo
 
 ## How the app works
 
-When you open the tracker, it loads game data (spells, feats, weapons, etc.) directly from the `data/` folder in this repository. This means that when a data file is updated and merged, every player sees the change on their next page load — no app update required.
+When you open the tracker, it loads game data (spells, feats, weapons, etc.) directly from the `data/` folder in this repository. This means that when a data file is updated and merged, every player sees the change on their next page load, no app update required.
 
 Character saves are handled separately through a cloud save system. Your character data is never stored in this repository.
 
@@ -19,7 +19,7 @@ Character saves are handled separately through a cloud save system. Your charact
 
 If you've spotted an error in a spell description, a missing feat, an outdated requirement, or anything else that needs correcting, there are two ways to flag it.
 
-### Option A — Open an Issue (easiest, no GitHub experience needed)
+### Option A- Open an Issue (easiest, no GitHub experience needed)
 
 1. Click the **Issues** tab at the top of this repository
 2. Click **New issue**
@@ -27,20 +27,20 @@ If you've spotted an error in a spell description, a missing feat, an outdated r
    - What the entry is (spell name, feat name, weapon name, etc.)
    - What's currently wrong
    - What it should say instead, with a source if you have one (e.g. a link to the forum post)
-4. Submit — the maintainer will review it and make the change
+4. Submit - the maintainer will review it and make the change
 
 This is the best option if you just want to flag something and let someone else handle the edit.
 
 ---
 
-### Option B — Edit the file directly and submit a Pull Request (faster for confident editors)
+### Option B - Edit the file directly and submit a Pull Request (faster for confident editors)
 
 If you have a GitHub account and want to make the change yourself:
 
 1. Navigate to the file you want to edit in the `data/` folder (see the data structure section below to find the right file)
 2. Click the **pencil icon** (Edit this file) in the top right of the file view
 3. Make your changes directly in the editor
-4. Scroll to the bottom — under **"Propose changes"**, select **"Create a new branch for this commit"**
+4. Scroll to the bottom - under **"Propose changes"**, select **"Create a new branch for this commit"**
 5. Give the branch a short descriptive name, e.g. `fix-bloodrush-description`
 6. Click **Propose changes**
 7. On the next screen, fill in a brief summary of what you changed and why, then click **Create pull request**
@@ -55,19 +55,19 @@ All game content lives in the `data/` folder. Here's what each file contains and
 
 ```
 data/
-  feats.js          — All playable feats
-  hindrances.js     — Arcane and mutant hindrances
-  costs.js          — XP costs for each expenditure type
-  weapons.js        — Weapons and armour
+  feats.js          - All playable feats
+  hindrances.js     - Arcane and mutant hindrances
+  costs.js          - XP costs for each expenditure type
+  weapons.js        - Weapons and armour
   spells/
-    cantrips.js     — All cantrips (general, patron, and inherent)
-    ichor.js        — Ichor discipline spells
-    cursesmithy.js  — Cursesmithy discipline spells
-    ether.js        — Ether discipline spells
-    artifice.js     — Artifice discipline spells
-    force.js        — Force discipline spells
-    tellurgy.js     — Tellurgy discipline spells
-    index.js        — Loader (do not edit — merges the above into one list)
+    cantrips.js     - All cantrips (general, patron, and inherent)
+    ichor.js        - Ichor discipline spells
+    cursesmithy.js  - Cursesmithy discipline spells
+    ether.js        - Ether discipline spells
+    artifice.js     - Artifice discipline spells
+    force.js        - Force discipline spells
+    tellurgy.js     - Tellurgy discipline spells
+    index.js        - Loader (do not edit — merges the above into one list)
 ```
 
 Each file is a JavaScript file that sets a global variable to a JSON array. You only need to edit the array contents — don't change the `window.VARIABLE_NAME =` declaration at the top or the `;` at the end.
@@ -235,16 +235,16 @@ Rather than editing JSON by hand, you can use the **converter tool** to paste ra
 6. Click **Download** to get the `.js` file
 7. Upload the file to the appropriate location in `data/` via a Pull Request
 
-The converter handles the formatting automatically — no need to write JSON by hand.
+The converter handles the formatting automatically - no need to write JSON by hand.
 
 ---
 
 ## Repository structure
 
 ```
-index.html        — The character tracker app
-converter.html    — The data converter tool
-README.md         — This file
+index.html        - The character tracker app
+converter.html    - The data converter tool
+README.md         - This file
 data/
   feats.js
   hindrances.js
