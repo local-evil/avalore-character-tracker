@@ -100,7 +100,7 @@ Each entry in `FEATS_DEFAULT` looks like this:
 
 ### Hindrances (`data/hindrances.js`)
 
-Two arrays — `ARCANE_HINDRANCES_DEFAULT` and `MUTANT_HINDRANCES_DEFAULT`. Each entry:
+Two arrays - `ARCANE_HINDRANCES_DEFAULT` and `MUTANT_HINDRANCES_DEFAULT`. Each entry:
 
 ```json
 {
