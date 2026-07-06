@@ -603,7 +603,6 @@ function parseWeapons(text) {
     const dmg   = parseInt(statsMatch[2]);
     const acts  = parseInt(statsMatch[3]);
     const cmd   = statsMatch[4].trim().toLowerCase();
-    const dpt   = acts > 0 ? parseFloat((dmg / acts).toFixed(1)) : null;
 
     // Look back up to 15 lines for name, hit bonus, and notes
     let name = '';
@@ -653,7 +652,7 @@ function parseWeapons(text) {
     }
 
     weapons.push({
-      cat: currentCat, name, req, hit, hands, dmg, acts, dpt,
+      cat: currentCat, name, req, hit, hands, dmg, acts,
       notes: notes.join('. ')
     });
     i++;
@@ -708,7 +707,7 @@ function parseArmour(text) {
       break;
     }
 
-    armour.push({ cat, name, req, hit: null, hands: null, dmg: null, acts: null, dpt: null, notes: notes.join(' ') });
+    armour.push({ cat, name, req, hit: null, hands: null, dmg: null, acts: null, notes: notes.join(' ') });
     i++;
   }
   return armour;

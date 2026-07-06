@@ -123,8 +123,7 @@ body { min-height: 100vh; }
 
 /* ── Sheet grid ── */
 .sheet { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.full { grid-column: 1 / -1; }
-@media (max-width: 700px) { .sheet { grid-template-columns: 1fr; } .full { grid-column: 1; } }
+@media (max-width: 700px) { .sheet { grid-template-columns: 1fr; } }
 
 /* ── Cards ── */
 .card {
@@ -140,8 +139,6 @@ body { min-height: 100vh; }
 }
 
 /* ── Character header card ── */
-.char-header { display: flex; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; }
-.char-name-wrap { flex: 2; min-width: 160px; }
 .char-name-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
 .char-name-input {
   font-size: 24px; font-weight: 500; font-family: var(--font-display);
@@ -191,28 +188,6 @@ body { min-height: 100vh; }
 .stat-sub-name { font-size: 12px; color: var(--text-secondary); }
 .stat-sub-mod { font-size: 11px; color: var(--text-muted); }
 .stat-sub-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; }
-
-/* ── DC calculator ── */
-.dc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.dc-lbl { font-size: 12px; color: var(--text-secondary); min-width: 80px; }
-.dc-select, .dc-input {
-  font-size: 13px; padding: 4px 8px;
-  border-radius: var(--radius); border: 1px solid var(--border);
-  background: var(--surface-1); color: var(--text-primary);
-  font-family: var(--font-body);
-}
-.dc-select { flex: 1; }
-.dc-card { flex: 1; display: flex; flex-direction: column; }
-.dc-card .prob-box { margin-top: auto; }
-.dc-input { width: 60px; text-align: center; }
-.prob-box {
-  border-radius: var(--radius); padding: 0.75rem 1rem;
-  display: flex; align-items: baseline; gap: 10px; margin-top: 0.5rem;
-  border: 1px solid var(--success-border); background: var(--success-dim);
-  transition: all 0.2s;
-}
-.prob-pct { font-size: 30px; font-weight: 700; font-family: var(--font-display); color: var(--success); }
-.prob-desc { font-size: 12px; color: var(--success); }
 
 /* ── Expenditure table ── */
 .exp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -327,21 +302,10 @@ body { min-height: 100vh; }
 .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: stretch; }
 @media (max-width: 900px) { .top-row { grid-template-columns: 1fr; } }
 
-@media (max-width: 600px) { .top-row { grid-template-columns: 1fr; } }
 
 /* ── Character portrait ── */
 
-
-
-
 /* ── Features pane ── */
-.features-section { margin-bottom: 8px; }
-.features-section:last-child { margin-bottom: 0; }
-.features-section-title {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-muted); font-family: var(--font-display);
-  margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
-}
 .feat-chip {
   display: flex; align-items: flex-start; gap: 6px;
   padding: 4px 0 4px 10px; border-bottom: 1px solid var(--border);
@@ -351,10 +315,6 @@ body { min-height: 100vh; }
 .feat-chip-name { font-weight: 500; color: var(--text-secondary); flex-shrink: 0; }
 .feat-chip-lim { font-size: 10px; color: var(--warning); border: 1px solid var(--warning-border); background: var(--warning-dim); border-radius: 3px; padding: 0 4px; flex-shrink: 0; margin-left: 4px; }
 .feat-chip-hind { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.hind-chip { padding: 4px 0 4px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
-.hind-chip:last-child { border-bottom: none; }
-.hind-chip-name { font-weight: 500; color: var(--danger); }
-.hind-chip-type { font-size: 10px; color: var(--text-muted); margin-left: 5px; }
 .no-features { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 10px; }
 .feat-chip-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 
@@ -381,15 +341,10 @@ body { min-height: 100vh; }
 .tab-panel { padding-top: 1rem; }
 .tab-panel.hidden { display: none; }
 
-
 /* ── Left col stacks two cards ── */
-/* top-left-col removed */
-
 /* ── XP boxes stretch full width beneath portrait ── */
 .xp-beneath { display: flex; gap: 8px; margin-top: 10px; }
 .xp-beneath .xp-box { flex: 1; }
-
-
 
 /* ── Stat-style section headers for features pane ── */
 .feat-section-header {
@@ -421,7 +376,6 @@ body { min-height: 100vh; }
 .feat-weapon-table tr:last-child td { border-bottom: none; }
 .feat-weapon-table tbody tr:hover td { background: var(--surface-3); }
 
-
 /* ── Share modal ── */
 .share-url-box {
   width: 100%; padding: 8px 10px; border-radius: var(--radius);
@@ -443,7 +397,6 @@ body { min-height: 100vh; }
   opacity: 0.7;
 }
 
-
 /* ── Expenditure status bar ── */
 .exp-status-bar {
   display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
@@ -458,12 +411,10 @@ body { min-height: 100vh; }
 .exp-status-warn { color: var(--text-warning); }
 .exp-status-over { color: var(--text-danger); }
 
-
 /* ── Locked options: visually greyed but still hoverable ── */
 option[data-locked="true"] {
   color: var(--text-muted);
 }
-
 
 /* ── Cloud save/load ── */
 .cloud-status {
@@ -488,7 +439,6 @@ option[data-locked="true"] {
 }
 .load-uuid-input:focus { outline: none; border-color: var(--accent-border); }
 
-
 /* ── Autosave status ── */
 .autosave-status {
   font-size: 11px; color: var(--text-muted);
@@ -497,7 +447,6 @@ option[data-locked="true"] {
 }
 .autosave-status.dirty  { color: var(--warning); }
 .autosave-status.saved  { color: var(--success); }
-
 
 /* ── Spells tab ── */
 .spell-branch-header {
@@ -549,7 +498,6 @@ option[data-locked="true"] {
 .mage-config-lbl { font-size: 11px; color: var(--text-muted); min-width: 120px; }
 .mage-config select { font-size: 12px; padding: 3px 6px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); flex: 1; font-family: var(--font-body); }
 
-
 /* ── Spell branch tabs ── */
 .spell-tab-bar {
   display: flex; gap: 0; justify-content: center; flex-wrap: wrap;
@@ -578,7 +526,6 @@ option[data-locked="true"] {
 .spell-method b { color: var(--text-secondary); font-style: normal; }
 .spell-desc b { color: var(--text-secondary); }
 
-
 /* ── Stat requirement pills ── */
 .req-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 .req-pill {
@@ -596,7 +543,6 @@ option[data-locked="true"] {
 .req-pill.unmet-har { background: #0d2a1a; border-color: #1e6640; color: #5ccf8a; opacity: 0.4; }
 .req-pill.unmet-int { background: #1a1030; border-color: #4a3080; color: #b89cf0; opacity: 0.4; }
 .req-pill-val { opacity: 0.7; margin-left: 1px; }
-
 
 /* ── Branch colors ── */
 :root {
@@ -636,7 +582,6 @@ option[data-locked="true"] {
 /* Cantrip req line matches Effect: style */
 .spell-cantrip-req { font-size: 11px; color: var(--text-secondary); margin-top: 2px; grid-column: 1/-1; }
 .spell-cantrip-req b { color: var(--text-secondary); }
-
 
 /* ── Planned/Active toggle ── */
 .plan-toggle-wrap {
@@ -694,7 +639,6 @@ option[data-locked="true"] {
 }
 .xp-breakdown .planned-portion { color: var(--accent-text); }
 
-
 /* ── Planned feat indicator in features pane ── */
 .feat-chip-planned {
   display: inline-block; font-size: 10px; padding: 1px 5px;
@@ -704,11 +648,10 @@ option[data-locked="true"] {
 }
 .feat-chip.is-planned { opacity: 0.6; }
 
-/* DC colors reused for stat pct */
+/* stat pct colors */
 .stat-dc-ok  { color: var(--success); }
 .stat-dc-warn{ color: var(--warning); }
 .stat-dc-bad { color: var(--danger); }
-
 
 /* ── Two-column stats layout ── */
 .stats-two-col {
@@ -728,7 +671,6 @@ option[data-locked="true"] {
   padding: 3px 0 3px 12px;
 }
 .stat-sub-pct { font-size: 10px; font-weight: 500; text-align: right; min-width: 32px; }
-
 
 /* ── Welcome pane ── */
 .welcome-card {
@@ -1130,7 +1072,6 @@ function statTot(ch, key, activeOnly=false) {
   });
   return v;
 }
-function statTotActive(ch, key) { return statTot(ch, key, true); }
 function fullTot(ch, sk, pk, activeOnly=false) {
   return statTot(ch, sk, activeOnly) + statTot(ch, pk, activeOnly);
 }
@@ -1517,8 +1458,6 @@ function checkW(w,ch){
   });
 }
 
-
-
 function buildCharSel(){
   const el=document.getElementById('char-sel');el.innerHTML='';
   chars.forEach(c=>{
@@ -1571,10 +1510,6 @@ document.getElementById('char-username').addEventListener('input', e=>{const ch=
 document.getElementById('xp-total').addEventListener('input', refreshXP);
 document.getElementById('is-vampire').addEventListener('change', e=>{const ch=getChar();if(!ch)return;ch.isVampire=e.target.checked;refreshAll();});
 
-
-
-
-
 let pendingImp=null;
 
 document.getElementById('imp-confirm').addEventListener('click', ()=>{
@@ -1625,7 +1560,6 @@ function switchTab(tab) {
 // ╔══════════════════════════════════════════════════════════╗
 // ║  PORTRAIT UPLOAD                                         ║
 // ╚══════════════════════════════════════════════════════════╝
-
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  FEATURES PANEL                                          ║
@@ -1804,7 +1738,6 @@ function buildFeatures() {
     const wrap = document.createElement('div'); wrap.className = 'feat-weapon-wrap'; wrap.appendChild(tbl); el.appendChild(wrap);
   }
 }
-
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  URL SHARING                                             ║
@@ -2001,7 +1934,6 @@ document.getElementById('share-copy').addEventListener('click', () => {
   });
 });
 
-
 // ╔══════════════════════════════════════════════════════════╗
 // ║  STATUS BAR                                              ║
 // ╚══════════════════════════════════════════════════════════╝
@@ -2033,7 +1965,6 @@ function refreshStatusBar(){
     ftEl.className='exp-status-val '+(featCount>maxFeats?'exp-status-over':featCount===maxFeats?'exp-status-warn':'exp-status-ok');
   }
 }
-
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  CLOUD SAVE / LOAD                                       ║
@@ -2100,7 +2031,6 @@ function extractUUID(raw) {
 
 // ── Cloud load (Import) button ───────────────────────────────
 
-
 document.getElementById('cloud-load-confirm').addEventListener('click', async () => {
   const raw   = document.getElementById('load-uuid-input').value;
   const uuid  = extractUUID(raw);
@@ -2159,14 +2089,9 @@ document.getElementById('cloud-save-btn').addEventListener('click', async () => 
   }
 });
 
-
-
 // ── Cloud load button ────────────────────────────────────────
 
-
 // Show UUID on char slots if they have one
-function getCharUUID(ch) { return ch.cloudUUID || null; }
-
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  AUTO LOCAL SAVE (60s debounce)                          ║
@@ -2187,7 +2112,6 @@ function scheduleAutoSave() {
     autoSaveTimer = null;
   }, 60000); // 60 seconds
 }
-
 
 // ╔══════════════════════════════════════════════════════════╗
 // ║  AUTOSAVE (local, every 60s after a change)              ║
@@ -2234,7 +2158,6 @@ function resetAutosaveBaseline() {
   setAutosaveStatus('', '');
 }
 
-
 function refreshUUIDDisplay() {
   const ch = getChar();
   const el = document.getElementById('char-uuid-display');
@@ -2254,9 +2177,6 @@ function refreshUUIDDisplay() {
     el.onclick = null;
   }
 }
-
-
-
 
 // ── Branch/Patron tag helpers ──────────────────────────────────
 const BRANCH_CLASS = {
