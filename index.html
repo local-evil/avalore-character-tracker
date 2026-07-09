@@ -27,8 +27,8 @@
   --border-strong:#3e3d4e;
 
   --text-primary:  #e8e6f0;
-  --text-secondary:#a09eb8;
-  --text-muted:    #5e5c78;
+  --text-secondary:#acaac4;
+  --text-muted:    #706e8a;
 
   --accent:        #8b6fd4;
   --accent-dim:    #2d2248;
@@ -217,10 +217,10 @@ body { min-height: 100vh; }
   border-radius: var(--radius); padding: 0.5rem 0.75rem; margin-top: 5px;
 }
 .feat-preview b { font-size: 13px; font-weight: 600; display: block; margin-bottom: 3px; color: var(--text-primary); font-family: var(--font-display); letter-spacing: 0.02em; }
-.feat-preview .fx { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.feat-preview .fx { font-size: 12px; color: var(--text-secondary); line-height: 1.5; text-align: justify; }
 .feat-preview .req { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 .lim-tag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 10px; background: var(--warning-dim); color: var(--warning); border: 1px solid var(--warning-border); vertical-align: middle; margin-left: 5px; }
-.lim-note { font-size: 11px; color: var(--warning); margin-top: 3px; font-style: italic; }
+.lim-note { font-size: 11px; color: var(--warning); margin-top: 3px; font-style: italic; text-align: justify; }
 
 /* ── Inline blocks (hindrances inside rows) ── */
 .inline-block {
@@ -286,13 +286,13 @@ body { min-height: 100vh; }
 .loading-title { font-family: var(--font-display); font-size: 15px; color: var(--text-secondary); letter-spacing: 0.05em; }
 .err-box { background: var(--danger-dim); border: 1px solid var(--danger-border); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 480px; margin: 0 auto; color: var(--danger); }
 .err-box h3 { font-family: var(--font-display); margin-bottom: 0.5rem; }
-.err-box p { font-size: 13px; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6; }
+.err-box p { font-size: 13px; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6; text-align: justify; }
 
 /* ── Modals ── */
 .modal-back { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(2px); }
 .modal { background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); padding: 1.5rem; width: 360px; max-width: 94vw; }
 .modal h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
-.modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+.modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; text-align: justify; }
 .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1rem; }
 .modal-preview { background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; font-size: 13px; border: 1px solid var(--border); }
 
@@ -314,16 +314,16 @@ body { min-height: 100vh; }
 .feat-chip:last-child { border-bottom: none; }
 .feat-chip-name { font-weight: 500; color: var(--text-secondary); flex-shrink: 0; }
 .feat-chip-lim { font-size: 10px; color: var(--warning); border: 1px solid var(--warning-border); background: var(--warning-dim); border-radius: 3px; padding: 0 4px; flex-shrink: 0; margin-left: 4px; }
-.feat-chip-hind { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.feat-chip-hind { font-size: 11px; color: var(--text-muted); margin-top: 1px; text-align: justify; }
 .no-features { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 10px; }
-.feat-chip-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.feat-chip-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; text-align: justify; }
 
 /* ── Usable weapon chips ── */
 .weapon-chip { font-size: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: minmax(90px,1fr) repeat(5, auto) 1fr; gap: 0 10px; align-items: center; }
 .weapon-chip:last-child { border-bottom: none; }
 .weapon-chip-name { font-weight: 500; }
 .weapon-chip-stat { color: var(--text-secondary); font-size: 11px; text-align: center; }
-.weapon-chip-notes { color: var(--text-muted); font-size: 11px; }
+.weapon-chip-notes { color: var(--text-muted); font-size: 11px; text-align: justify; }
 .weapon-chip-header { font-size: 10px; color: var(--text-muted); font-family: var(--font-display); letter-spacing: 0.06em; display: grid; grid-template-columns: minmax(90px,1fr) repeat(5, auto) 1fr; gap: 0 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
 .weapon-chip-header span { text-align: center; }
 .weapon-chip-header span:first-child { text-align: left; }
@@ -368,9 +368,12 @@ body { min-height: 100vh; }
   font-family: var(--font-display); letter-spacing: 0.06em;
   text-align: center;
 }
-.feat-weapon-table th:first-child { text-align: left; }
 .feat-weapon-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 12px; text-align: center; vertical-align: middle; }
-.feat-weapon-table td:first-child { text-align: left; font-weight: 500; color: var(--text-primary); }
+/* Drag-handle column: tight, no wasted space */
+.feat-weapon-table th:first-child, .feat-weapon-table td:first-child { padding-left: 2px; padding-right: 0; }
+/* Weapon name column: left-aligned, styled as the primary label */
+.feat-weapon-table th:nth-child(2) { text-align: left; padding-left: 2px; }
+.feat-weapon-table td:nth-child(2) { text-align: left; font-weight: 500; color: var(--text-primary); padding-left: 2px; }
 .feat-weapon-table td:last-child { text-align: left; color: var(--text-muted); font-size: 11px; }
 .feat-weapon-table th:last-child { text-align: left; }
 .feat-weapon-table tr:last-child td { border-bottom: none; }
@@ -479,7 +482,7 @@ option[data-locked="true"] {
 }
 .spell-fav:hover { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
 .spell-fav.active { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
-.spell-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; grid-column: 1/-1; line-height: 1.5; }
+.spell-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; grid-column: 1/-1; line-height: 1.5; text-align: justify; }
 .spell-req { font-size: 10px; color: var(--text-muted); margin-top: 1px; font-style: italic; }
 .spell-cmd { font-family: monospace; font-size: 10px; color: var(--accent-text); }
 .spell-targeted { font-size: 10px; color: var(--warning); margin-left: 5px; }
@@ -512,6 +515,26 @@ option[data-locked="true"] {
 }
 .spell-tab-btn:hover { color: var(--text-primary); }
 .spell-tab-btn.active { color: var(--accent-text); border-bottom-color: var(--accent); }
+
+
+/* ── Spell search bar ── */
+.spell-search-wrap { margin-bottom: 1rem; }
+.spell-search-input {
+  width: 100%; background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text-primary); font-size: 13px;
+  padding: 9px 12px; outline: none; transition: border-color 0.15s;
+  font-family: var(--font-body);
+}
+.spell-search-input:focus { border-color: var(--accent-border); }
+.spell-search-input::placeholder { color: var(--text-muted); }
+/* ── Opposite branch tab (visible but disabled) ── */
+.spell-tab-btn.spell-tab-opposite,
+.spell-tab-btn.spell-tab-opposite:hover,
+.spell-tab-btn.spell-tab-opposite.active {
+  color: var(--text-muted) !important;
+  border-bottom-color: var(--text-muted) !important;
+  opacity: 0.55;
+}
 /* ── Anima tier sub-heading ── */
 .spell-tier-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -522,7 +545,7 @@ option[data-locked="true"] {
 }
 .spell-tier-header:first-child { margin-top: 4px; }
 /* ── Spell method line ── */
-.spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; }
+.spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; text-align: justify; }
 .spell-method b { color: var(--text-secondary); font-style: normal; }
 .spell-desc b { color: var(--text-secondary); }
 
@@ -580,8 +603,14 @@ option[data-locked="true"] {
 .spell-tab-btn[data-branch="ether"]:hover,       .spell-tab-btn[data-branch="ether"].active       { color: var(--ether);       border-bottom-color: var(--ether);       }
 .spell-tab-btn[data-branch="cursesmithy"]:hover, .spell-tab-btn[data-branch="cursesmithy"].active { color: var(--cursesmithy); border-bottom-color: var(--cursesmithy); }
 /* Cantrip req line matches Effect: style */
-.spell-cantrip-req { font-size: 11px; color: var(--text-secondary); margin-top: 2px; grid-column: 1/-1; }
-.spell-cantrip-req b { color: var(--text-secondary); }
+.spell-req-section {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+  font-size: 11px; color: var(--text-secondary); margin-top: 3px; grid-column: 1/-1;
+}
+.spell-req-section b { color: var(--text-secondary); margin-right: 1px; }
+.spell-req-section .req-pills { margin-top: 0; }
+.req-inline-ctx { display: inline-flex; align-items: center; }
+.req-none { color: var(--text-muted); }
 
 /* ── Planned/Active toggle ── */
 .plan-toggle-wrap {
@@ -627,7 +656,26 @@ option[data-locked="true"] {
 .exp-table tr.drag-over td { background: var(--accent-dim); }
 .exp-table tr.dragging { opacity: 0.4; }
 
+/* ── Generic chip drag handle (spells/feats) ── */
+.chip-drag-handle {
+  cursor: grab; color: var(--text-muted); font-size: 13px;
+  padding-top: 4px; user-select: none; flex-shrink: 0;
+}
+.chip-drag-handle:active { cursor: grabbing; }
+.feat-chip.dragging { opacity: 0.4; }
+.feat-chip.drag-over { background: var(--accent-dim); }
+.feat-weapon-table tr.dragging { opacity: 0.4; }
+.feat-weapon-table tr.drag-over td { background: var(--accent-dim); }
+
 /* ── Planned annotation in stats ── */
+.spellcasting-row { grid-column: 1 / -1; margin-top: 12px; padding-top: 8px; }
+.spellcast-line {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 3px 0 3px 12px; font-size: 12px;
+}
+.spellcast-label { color: var(--text-secondary); }
+.spellcast-val { color: var(--text-primary); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+.spellcast-pct { font-weight: 600; font-size: 13px; }
 .stat-planned-note {
   font-size: 10px; color: var(--accent-text); margin-left: 3px;
   font-style: italic; opacity: 0.8;
@@ -690,6 +738,33 @@ option[data-locked="true"] {
 }
 .welcome-link:hover { background: var(--surface-3); }
 
+
+/* ── Theme customization ── */
+.btn-icon-gear {
+  background: transparent; border: 1px solid var(--border-strong); border-radius: var(--radius);
+  color: var(--text-muted); width: 36px; height: 36px; display: inline-flex;
+  align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s;
+  flex-shrink: 0; font-size: 18px;
+}
+.btn-icon-gear:hover { color: var(--text-primary); border-color: var(--accent-border); background: var(--surface-3); }
+.theme-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.theme-row:last-of-type { border-bottom: none; }
+.theme-row-label { font-size: 13px; color: var(--text-secondary); }
+.theme-row input[type="color"] {
+  width: 40px; height: 28px; border: 1px solid var(--border-strong); border-radius: var(--radius);
+  background: transparent; cursor: pointer; padding: 2px;
+}
+.theme-modal-box { max-height: 84vh; overflow-y: auto; }
+.theme-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-text); font-family: var(--font-display);
+  margin-top: 14px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.theme-section-label:first-of-type { margin-top: 4px; }
+
 </style>
 </head>
 <body>
@@ -708,6 +783,7 @@ option[data-locked="true"] {
       <button class="btn" id="cloud-load-btn" title="Import a character by UUID or share link"><i class="ti ti-download"></i> Import</button>
       <button class="btn" id="share-btn" title="Share character via link"><i class="ti ti-link"></i> Share</button>
       <button class="btn btn-accent" id="cloud-save-btn"><i class="ti ti-cloud-upload"></i> Save</button>
+      <button class="btn-icon-gear" id="theme-gear-btn" title="Customize sheet colors"><i class="ti ti-settings"></i></button>
       <span class="autosave-status" id="autosave-status"></span>
     </div>
   </header>
@@ -861,6 +937,41 @@ option[data-locked="true"] {
     <div class="modal-btns" style="margin-top:1rem">
       <button class="btn" id="cloud-load-cancel">Cancel</button>
       <button class="btn btn-accent" id="cloud-load-confirm"><i class="ti ti-download"></i> Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- Theme customization modal -->
+<div id="theme-modal" class="modal-back hidden">
+  <div class="modal theme-modal-box">
+    <h3>Customize Sheet Colors</h3>
+    <p>Colors are saved with this character and travel with it on export/share. Changes apply immediately.</p>
+
+    <div class="theme-section-label">Backgrounds</div>
+    <div class="theme-row"><span class="theme-row-label">Page background</span><input type="color" id="theme-bg" data-key="bg"></div>
+    <div class="theme-row"><span class="theme-row-label">Card background</span><input type="color" id="theme-surface2" data-key="surface2"></div>
+    <div class="theme-row"><span class="theme-row-label">Input &amp; inset background</span><input type="color" id="theme-surface1" data-key="surface1"></div>
+    <div class="theme-row"><span class="theme-row-label">Hover / highlight background</span><input type="color" id="theme-surface3" data-key="surface3"></div>
+
+    <div class="theme-section-label">Borders</div>
+    <div class="theme-row"><span class="theme-row-label">Border</span><input type="color" id="theme-border" data-key="border"></div>
+    <div class="theme-row"><span class="theme-row-label">Border (strong)</span><input type="color" id="theme-borderStrong" data-key="borderStrong"></div>
+
+    <div class="theme-section-label">Text</div>
+    <div class="theme-row"><span class="theme-row-label">Titles</span><input type="color" id="theme-gold" data-key="gold"></div>
+    <div class="theme-row"><span class="theme-row-label">Headers</span><input type="color" id="theme-textPrimary" data-key="textPrimary"></div>
+    <div class="theme-row"><span class="theme-row-label">Sub Headers</span><input type="color" id="theme-textSecondary" data-key="textSecondary"></div>
+    <div class="theme-row"><span class="theme-row-label">Body</span><input type="color" id="theme-textMuted" data-key="textMuted"></div>
+
+    <div class="theme-section-label">Accents</div>
+    <div class="theme-row"><span class="theme-row-label">Accent (highlights, buttons)</span><input type="color" id="theme-accent" data-key="accent"></div>
+    <div class="theme-row"><span class="theme-row-label">Success (positive states)</span><input type="color" id="theme-success" data-key="success"></div>
+    <div class="theme-row"><span class="theme-row-label">Warning (caution states)</span><input type="color" id="theme-warning" data-key="warning"></div>
+    <div class="theme-row"><span class="theme-row-label">Danger (negative states)</span><input type="color" id="theme-danger" data-key="danger"></div>
+
+    <div class="btn-row" style="margin-top:1rem">
+      <button class="btn" id="theme-reset">Reset to defaults</button>
+      <button class="btn btn-accent" id="theme-close" style="margin-left:auto">Done</button>
     </div>
   </div>
 </div>
@@ -1080,6 +1191,15 @@ function xpUsed(ch, activeOnly=false) {
     .filter(e => !activeOnly || !e.planned)
     .reduce((s,e) => s + (COSTS[e.type]||0), 0);
 }
+function tradeCapExceeded(ch, expIndex, type, tradeKey) {
+  if (!tradeKey) return false;
+  let count = 0;
+  ch.exps.forEach((e, idx) => {
+    if (idx === expIndex) return;
+    if (e.type === type && e.trade === tradeKey) count++;
+  });
+  return (count + 1) > 3;
+}
 function xpPlanned(ch) {
   return ch.exps
     .filter(e => e.planned)
@@ -1122,6 +1242,7 @@ function checkFeatReq(feat,ch){
 // ║  STATE                                                   ║
 // ╚══════════════════════════════════════════════════════════╝
 let chars=[], activeId='';
+let spellSearchQuery='';
 function getChar(){return chars.find(c=>c.id===activeId)||chars[0]||null;}
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -1207,8 +1328,8 @@ function buildStats(){
     const pvAll     = statTot(ch, g.key);
     const pvActive  = statTot(ch, g.key, true);
     const pvPlanned = pvAll - pvActive;
-    const plannedNote = pvPlanned > 0
-      ? `<span class="stat-planned-note">(+${pvPlanned} Planned)</span>` : '';
+    const plannedNote = pvPlanned !== 0
+      ? `<span class="stat-planned-note">(${pvPlanned>=0?'+':''}${pvPlanned} Planned)</span>` : '';
     const grp=document.createElement('div');grp.className='stat-group';
     grp.innerHTML=`<div class="stat-par"><span class="stat-par-name">${g.group}</span><span class="stat-par-val">${pvAll>=0?'+':''}${pvAll}${plannedNote}</span></div>`;
     g.subs.forEach(s=>{
@@ -1216,8 +1337,8 @@ function buildStats(){
       const totAll    = fullTot(ch, s.key, g.key);
       const totActive = fullTot(ch, s.key, g.key, true);
       const subPlanned = totAll - totActive;
-      const subNote = subPlanned > 0
-        ? `<span class="stat-planned-note">(+${subPlanned})</span>` : '';
+      const subNote = subPlanned !== 0
+        ? `<span class="stat-planned-note">(${subPlanned>=0?'+':''}${subPlanned})</span>` : '';
       const pct = calcDC(totAll, DC);
       const cls = dcClass(pct);
       const row=document.createElement('div');row.className='stat-sub';
@@ -1229,6 +1350,35 @@ function buildStats(){
     });
     el.appendChild(grp);
   });
+
+  // ── Spellcasting row ──
+  const cfg = getMageConfig(ch);
+  const arcanaTotal = fullTot(ch, 'har_arc', 'har');
+  const primaryMod = arcanaTotal + 1;
+  const otherMod = arcanaTotal;
+  const primaryPct = calcDC(primaryMod, 10);
+  const otherPct = calcDC(otherMod, 10);
+  const spellRow = document.createElement('div');
+  spellRow.className = 'stat-group spellcasting-row';
+  spellRow.innerHTML = `
+    <div class="stat-par"><span class="stat-par-name">Spellcasting</span></div>
+    <div class="spellcast-line">
+      <span class="spellcast-label">Primary Branch</span>
+      <span class="spellcast-val">${cfg.discipline ? branchTag(cfg.discipline) + ' ' + cfg.discipline : 'None'}</span>
+    </div>
+    <div class="spellcast-line">
+      <span class="spellcast-label">Patron</span>
+      <span class="spellcast-val">${cfg.patron ? patronTag(cfg.patron) + ' ' + cfg.patron : 'None'}</span>
+    </div>
+    <div class="spellcast-line">
+      <span class="spellcast-label">Primary Branch Spell <span class="stat-sub-mod">(DC 10, ${cfg.discipline ? (primaryMod>=0?'+':'')+primaryMod : (otherMod>=0?'+':'')+otherMod})</span></span>
+      <span class="spellcast-pct ${dcClass(cfg.discipline ? primaryPct : otherPct)}">${cfg.discipline ? primaryPct : otherPct}%</span>
+    </div>
+    <div class="spellcast-line">
+      <span class="spellcast-label">Non-Primary Branch Spell <span class="stat-sub-mod">(DC 10, ${otherMod>=0?'+':''}${otherMod})</span></span>
+      <span class="spellcast-pct ${dcClass(otherPct)}">${otherPct}%</span>
+    </div>`;
+  el.appendChild(spellRow);
 }
 
 function buildExps(){
@@ -1262,9 +1412,17 @@ function buildExps(){
     }else if(e.type==='stat_up'){
       sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='skill_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ skill down</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      const skillTradeOpts = SKILL_OPTS.map(o=>{
+        const exceeded = tradeCapExceeded(ch, i, 'skill_tr', o.key);
+        return `<option value="${o.key}"${e.trade===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at -3 from skill trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ skill down</option>${skillTradeOpts}</select></div>`;
     }else if(e.type==='stat_tr'){
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ stat down</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.trade===o.key?' selected':''}>${o.label}</option>`).join('')}</select></div>`;
+      const statTradeOpts = STAT_OPTS.map(o=>{
+        const exceeded = tradeCapExceeded(ch, i, 'stat_tr', o.key);
+        return `<option value="${o.key}"${e.trade===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at -3 from stat trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ stat down</option>${statTradeOpts}</select></div>`;
     }else if(e.type==='feat'){
       const feat=FEATS.find(f=>f.name===e.target);
       const isMutFeat=feat&&feat.cat==='Mutation';
@@ -1313,9 +1471,14 @@ function buildExps(){
 
   tbody.querySelectorAll('.exp-sel:not(.mage-hind-sel):not(.mut-hind-sel)').forEach(s=>{
     s.addEventListener('change',ev=>{
-      // If the chosen option is locked, revert to previous value silently
+      // If the chosen option is locked, revert to previous value
       const chosen=ev.target.options[ev.target.selectedIndex];
       if(chosen&&chosen.dataset.locked){
+        if(ev.target.dataset.f==='trade'){
+          const n=document.createElement('div');n.className='notice-bar nb-danger';
+          n.textContent="Can't trade more than -3 into a single stat or skill.";
+          const notices=document.getElementById('notices');if(notices)notices.prepend(n);
+        }
         ev.target.value=ev.target.dataset.lastVal||'';
         return;
       }
@@ -1422,15 +1585,18 @@ function refreshTraits(){
 function buildWeapons(){
   const ch=getChar();if(!ch)return;
   const tbl=document.getElementById('wtbl');
-  tbl.innerHTML=`<thead><tr><th>Weapon</th><th>Requirement</th><th style="text-align:center">Can use?</th><th style="text-align:center">To Hit</th><th style="text-align:center">Hit %</th><th style="text-align:center">Hands</th><th style="text-align:center">Dmg</th><th style="text-align:center">Actions</th><th>Notes</th></tr></thead>`;
+  tbl.innerHTML=`<thead><tr><th>Weapon</th><th>Requirement</th><th style="text-align:center">Can use?</th><th style="text-align:center">To Hit</th><th style="text-align:center">Hit %</th><th style="text-align:center">Hands</th><th style="text-align:center">Dmg</th><th style="text-align:center">Actions</th><th>Notes</th><th style="text-align:center">Tracked</th></tr></thead>`;
   const tb=document.createElement('tbody');let lastCat='';
+  const untracked = ch.weaponUntracked || [];
   WEAPONS.forEach(w=>{
-    if(w.cat!==lastCat){const cr=document.createElement('tr');cr.className='wtbl-cat';cr.innerHTML=`<td colspan="9">${w.cat}</td>`;tb.appendChild(cr);lastCat=w.cat;}
+    if(w.cat!==lastCat){const cr=document.createElement('tr');cr.className='wtbl-cat';cr.innerHTML=`<td colspan="10">${w.cat}</td>`;tb.appendChild(cr);lastCat=w.cat;}
     const can=checkW(w,ch);
     const hitMod = w.hit !== null ? w.hit : 0;
     const hitPct = w.hit !== null ? calcDC(hitMod, 12) : null;
     const hitCls = hitPct !== null ? dcClass(hitPct) : '';
+    const tracked = !untracked.includes(w.name);
     const tr=document.createElement('tr');
+    tr.style.opacity = can ? '' : '0.5';
     tr.innerHTML=`
       <td>${w.name}</td>
       <td style="font-size:11px">${w.req && w.req !== 'None' ? renderReqPills(w.req, ch) : '<span style="color:var(--text-muted)">None</span>'}</td>
@@ -1440,21 +1606,40 @@ function buildWeapons(){
       <td style="text-align:center">${w.hands!==null?w.hands:'—'}</td>
       <td style="text-align:center">${w.dmg!==null?w.dmg:'—'}</td>
       <td style="text-align:center">${w.acts!==null?w.acts:'—'}</td>
-      <td style="font-size:11px;color:var(--text-muted)">${w.notes||'—'}</td>`;
+      <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'—'}</td>
+      <td style="text-align:center"><button class="spell-fav weapon-fav${tracked?' active':''}" data-weapon="${w.name}" title="${tracked?'Untrack':'Track'}">★</button></td>`;
     tb.appendChild(tr);
   });
   tbl.appendChild(tb);
+
+  tbl.querySelectorAll('.weapon-fav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!ch.weaponUntracked) ch.weaponUntracked = [];
+      const name = btn.dataset.weapon;
+      const idx = ch.weaponUntracked.indexOf(name);
+      if (idx === -1) ch.weaponUntracked.push(name);
+      else ch.weaponUntracked.splice(idx, 1);
+      saveAll(chars);
+      buildWeapons();
+      buildFeatures();
+    });
+  });
 }
 function checkW(w,ch){
-  return w.req.split(',').map(s=>s.trim()).every(p=>{
-    const m=p.match(/^(.+?)\s*([+-]?\d+)\s*$/);if(!m)return false;
-    const need=parseInt(m[2]),sn=m[1].trim().toLowerCase();
-    let val=0;
-    STATS.forEach(g=>{
-      if(g.group.toLowerCase()===sn)val=statTot(ch,g.key);
-      g.subs.forEach(s=>{if((g.group+': '+s.name).toLowerCase()===sn)val=fullTot(ch,s.key,g.key);});
-    });
-    return val>=need;
+  // Reuse parseReqParts so this always agrees with the pill display and spell logic
+  if (!w.req || w.req === 'None') return true;
+  const parts = parseReqParts(w.req);
+  if (parts.length === 0) return true;
+  return parts.every(({ min, statKey }) => {
+    if (!statKey) return true;
+    const parentStat = STATS.find(g => g.key === statKey);
+    const subStat = !parentStat
+      ? STATS.flatMap(g => g.subs.map(s => ({...s, par: g.key}))).find(s => s.key === statKey)
+      : null;
+    const current = parentStat
+      ? statTot(ch, statKey)
+      : subStat ? fullTot(ch, subStat.key, subStat.par) : 0;
+    return current >= min;
   });
 }
 
@@ -1477,6 +1662,7 @@ function refreshAll(){buildStats();buildExps();refreshXP();buildWeapons();refres
 function renderSheet(){
   buildCharSel();
   const ch=getChar();if(!ch)return;
+  applyCharTheme();
   resetAutosaveBaseline();
   document.getElementById('char-name').value=ch.name||'';
   const unEl=document.getElementById('char-username'); if(unEl) unEl.value=ch.username||'';
@@ -1564,6 +1750,56 @@ function switchTab(tab) {
 // ╔══════════════════════════════════════════════════════════╗
 // ║  FEATURES PANEL                                          ║
 // ╚══════════════════════════════════════════════════════════╝
+
+// ── Generic drag-to-reorder helper ──────────────────────────────
+function wireDragReorder(container, selector, onReorder) {
+  let dragKey = null;
+  const items = container.querySelectorAll(selector);
+  items.forEach(el => {
+    el.addEventListener('dragstart', ev => {
+      dragKey = el.dataset.dragKey;
+      el.classList.add('dragging');
+      ev.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      items.forEach(x => x.classList.remove('drag-over'));
+    });
+    el.addEventListener('dragover', ev => {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = 'move';
+      items.forEach(x => x.classList.remove('drag-over'));
+      el.classList.add('drag-over');
+    });
+    el.addEventListener('drop', ev => {
+      ev.preventDefault();
+      const destKey = el.dataset.dragKey;
+      if (dragKey && destKey && dragKey !== destKey) onReorder(dragKey, destKey);
+      dragKey = null;
+    });
+  });
+}
+function reorderByValue(arr, fromVal, toVal) {
+  const fromIdx = arr.indexOf(fromVal);
+  const toIdx = arr.indexOf(toVal);
+  if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+  const [moved] = arr.splice(fromIdx, 1);
+  arr.splice(toIdx, 0, moved);
+}
+function reorderFeatureExps(ch, fromKey, toKey) {
+  // Covers both feats (keyed by target name) and mage tiers (keyed by type)
+  const keyOf = e => e.type === 'feat' ? e.target : e.type;
+  const idxs = [];
+  ch.exps.forEach((e,i) => { if (e.type === 'feat' || (e.type && e.type.startsWith('mage'))) idxs.push(i); });
+  const items = idxs.map(i => ch.exps[i]);
+  const fromIdx = items.findIndex(e => keyOf(e) === fromKey);
+  const toIdx = items.findIndex(e => keyOf(e) === toKey);
+  if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+  const [moved] = items.splice(fromIdx, 1);
+  items.splice(toIdx, 0, moved);
+  idxs.forEach((origIdx, k) => { ch.exps[origIdx] = items[k]; });
+}
+
 function buildFeatures() {
   const ch = getChar(); if (!ch) return;
   const el = document.getElementById('features-panel'); if (!el) return;
@@ -1590,41 +1826,59 @@ function buildFeatures() {
     empty.textContent = 'No feats selected yet.';
     el.appendChild(empty);
   } else {
-    // Regular feats
-    featExps.forEach(e => {
-      const feat = FEATS.find(f => f.name === e.target);
-      if (!feat) return;
-      const isMut = feat.cat === 'Mutation';
+    // Scoped wrapper so drag-reorder queries don't leak into other sections (spells, weapons)
+    const featsWrap = document.createElement('div');
+    featsWrap.className = 'reorder-wrap';
+
+    const keyOfFeatureExp = e => e.type === 'feat' ? e.target : e.type;
+
+    // Render feats AND mage tiers in ONE combined loop, in their true stored order —
+    // rendering them as two separate groups would ignore any custom interleaved order.
+    const featureExps = ch.exps.filter(e => e.type === 'feat' || (e.type && e.type.startsWith('mage')));
+    featureExps.forEach(e => {
       const isPlanned = !!e.planned;
       const chip = document.createElement('div');
-      chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
+      chip.setAttribute('draggable', 'true');
+      chip.dataset.dragKey = keyOfFeatureExp(e);
       const plannedBadge = isPlanned ? '<span class="feat-chip-planned">Planned</span>' : '';
-      let html = `<div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${feat.desc}</div>`;
-      if (isMut && e.hindrance) {
-        const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
-        if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
+
+      if (e.type === 'feat') {
+        const feat = FEATS.find(f => f.name === e.target);
+        if (!feat) return;
+        const isMut = feat.cat === 'Mutation';
+        chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
+        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${feat.desc}</div>`;
+        if (isMut && e.hindrance) {
+          const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
+          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
+        }
+        html += '</div>';
+        chip.innerHTML = html;
+      } else {
+        const tier = parseInt(e.type.slice(-1));
+        chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
+        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${plannedBadge}`;
+        const hv = (e.hindrances || [])[0];
+        if (hv) {
+          const h = ARCANE_HINDRANCES.find(x => x.name === hv);
+          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
+        }
+        html += '</div>';
+        chip.innerHTML = html;
       }
-      html += '</div>';
-      chip.innerHTML = html;
-      el.appendChild(chip);
+      featsWrap.appendChild(chip);
     });
-    // Mage tiers — listed inline under the same Feats header
-    mageExps.forEach(e => {
-      const tier = parseInt(e.type.slice(-1));
-      const isMagePlanned = !!e.planned;
-      const chip = document.createElement('div');
-      chip.className = 'feat-chip' + (isMagePlanned ? ' is-planned' : '');
-      const magePlanBadge = isMagePlanned ? '<span class="feat-chip-planned">Planned</span>' : '';
-      let html = `<div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${magePlanBadge}`;
-      const hv = (e.hindrances || [])[0];
-      if (hv) {
-        const h = ARCANE_HINDRANCES.find(x => x.name === hv);
-        if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
-      }
-      html += '</div>';
-      chip.innerHTML = html;
-      el.appendChild(chip);
-    });
+
+    el.appendChild(featsWrap);
+
+    // Wire drag-to-reorder across feats AND mage tiers together
+    if (featExps.length + mageExps.length > 1) {
+      wireDragReorder(featsWrap, '.feat-chip[data-drag-key]', (fromKey, toKey) => {
+        reorderFeatureExps(ch, fromKey, toKey);
+        saveAll(chars);
+        buildFeatures();
+      });
+    }
   }
 
   // ── Favorited spells ──
@@ -1632,15 +1886,22 @@ function buildFeatures() {
   const cfg2 = ch2 ? getMageConfig(ch2) : { tier: 0, discipline: '', patron: '' };
 
   // ── Helper to render a tracked spell chip ──
-  function makeSpellChip(spell, isAuto=false) {
+  function makeSpellChip(spell, isAuto=false, dragKey=null, bloodline=false) {
     const chip = document.createElement('div');
     chip.className = 'feat-chip' + (isAuto ? ' tracked-auto' : '');
     const reqMet = checkSpellReq(spell, ch2);
     chip.style.opacity = reqMet ? '' : '0.6';
-    const autoLabel = isAuto
-      ? '<span class="feat-chip-lim" style="background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent-text)">Inherent</span>'
+    const TYPE_LABELS = { inherent: 'Inherent', patron: 'Patron', general: 'General' };
+    const autoLabel = bloodline
+      ? `<span class="feat-chip-lim" style="background:var(--danger-dim);border-color:var(--danger-border);color:var(--danger)">Arcane Bloodline</span>`
+      : (isAuto
+          ? `<span class="feat-chip-lim" style="background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent-text)">${TYPE_LABELS[spell.type] || 'Auto'}</span>`
+          : '');
+    const dragHandle = dragKey
+      ? `<span class="chip-drag-handle" title="Drag to reorder">⠿</span>`
       : '';
-    chip.innerHTML = `<div>
+    if (dragKey) { chip.setAttribute('draggable', 'true'); chip.dataset.dragKey = dragKey; }
+    chip.innerHTML = `${dragHandle}<div>
       <span class="feat-chip-name">${spell.name}${spell.capstone?' ✦':''}</span>
       ${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}
       ${branchTag(spell.branch)}
@@ -1661,8 +1922,10 @@ function buildFeatures() {
   // ── Auto-tracked: selected cantrip slots ──
   const mage1exp = ch2 ? ch2.exps.find(e => e.type === 'mage1') : null;
   const slotKeys = ['generalCantrip', 'patronCantrip', 'bloodlineCantrip'];
-  const slotSpells = mage1exp
-    ? slotKeys.map(k => mage1exp[k] ? SPELLS.find(s => s.name === mage1exp[k]) : null).filter(Boolean)
+  const slotEntries = mage1exp
+    ? slotKeys
+        .map(k => mage1exp[k] ? { spell: SPELLS.find(s => s.name === mage1exp[k]), bloodline: k === 'bloodlineCantrip' } : null)
+        .filter(x => x && x.spell)
     : [];
 
   // ── Manually favourited spells ──
@@ -1670,48 +1933,82 @@ function buildFeatures() {
     ? SPELLS.filter(s => ch2.spellFavorites.includes(s.name))
     : [];
 
-  // Combine: inherent first, then slot cantrips, then favs (deduplicated)
+  // Combine: inherent first, then slot cantrips, then favs (deduplicated) — this
+  // is just the default/natural order; actual display order is controlled by
+  // ch2.trackedSpellOrder below, which covers BOTH auto and manual spells.
   const autoNames = new Set();
-  const autoSpells = [];
-  if (inherentCantrip) { autoSpells.push({ spell: inherentCantrip, isAuto: true }); autoNames.add(inherentCantrip.name); }
-  slotSpells.forEach(s => { if (!autoNames.has(s.name)) { autoSpells.push({ spell: s, isAuto: true }); autoNames.add(s.name); } });
+  const bloodlineNames = new Set();
+  const autoSpellList = [];
+  if (inherentCantrip) { autoSpellList.push(inherentCantrip); autoNames.add(inherentCantrip.name); }
+  slotEntries.forEach(({ spell, bloodline }) => {
+    if (!autoNames.has(spell.name)) {
+      autoSpellList.push(spell);
+      autoNames.add(spell.name);
+      if (bloodline) bloodlineNames.add(spell.name);
+    }
+  });
 
-  const manualSpells = favSpells.filter(s => !autoNames.has(s.name));
+  const manualNames = (ch2.spellFavorites || []).filter(n => !autoNames.has(n));
+  const manualSpellList = manualNames.map(n => SPELLS.find(s => s.name === n)).filter(Boolean);
 
-  const hasAny = autoSpells.length > 0 || manualSpells.length > 0;
+  // Full set of trackable spells (auto + manual), in natural default order
+  const allTracked = [...autoSpellList, ...manualSpellList];
+  const hasAny = allTracked.length > 0;
 
   if (hasAny) {
     el.appendChild(secHeader('Tracked Spells'));
 
-    // Auto-tracked section
-    if (autoSpells.length > 0) {
-      autoSpells.forEach(({ spell, isAuto }) => el.appendChild(makeSpellChip(spell, isAuto)));
-    }
+    // Apply saved custom order (covers auto AND manual spells together);
+    // anything not yet in the saved order falls back to natural order at the end.
+    const savedOrder = ch2.trackedSpellOrder || [];
+    const orderedNames = savedOrder.filter(n => allTracked.some(s => s.name === n));
+    const remainingNames = allTracked.filter(s => !orderedNames.includes(s.name)).map(s => s.name);
+    const finalNames = [...orderedNames, ...remainingNames];
+    const orderedTracked = finalNames.map(n => allTracked.find(s => s.name === n)).filter(Boolean);
 
-    // Divider between auto and manual if both present
-    if (autoSpells.length > 0 && manualSpells.length > 0) {
-      const div = document.createElement('div');
-      div.style.cssText = 'border-top:1px solid var(--border);margin:6px 0 4px;';
-      el.appendChild(div);
-    }
+    // Scoped wrapper so drag-reorder queries don't collide with the Feats section
+    const trackedWrap = document.createElement('div');
+    trackedWrap.className = 'reorder-wrap';
 
-    // Manually tracked
-    manualSpells.sort((a,b) => a.anima - b.anima).forEach(spell => el.appendChild(makeSpellChip(spell, false)));
+    orderedTracked.forEach(spell => {
+      trackedWrap.appendChild(makeSpellChip(spell, autoNames.has(spell.name), spell.name, bloodlineNames.has(spell.name)));
+    });
+
+    el.appendChild(trackedWrap);
+
+    if (orderedTracked.length > 1) {
+      wireDragReorder(trackedWrap, '.feat-chip[data-drag-key]', (fromName, toName) => {
+        // Always refresh to the current full list before reordering, so spells
+        // that were never dragged before are guaranteed to be found.
+        ch2.trackedSpellOrder = orderedTracked.map(s => s.name);
+        reorderByValue(ch2.trackedSpellOrder, fromName, toName);
+        saveAll(chars);
+        buildFeatures();
+      });
+    }
   }
 
-  // ── Usable weapons ──
-  el.appendChild(secHeader('Usable Weapons'));
-  const usable = WEAPONS.filter(w => checkW(w, ch) && w.hit !== null);
+  // ── Tracked & usable weapons (reorderable) ──
+  el.appendChild(secHeader('Tracked Weapons'));
+  const untracked = ch.weaponUntracked || [];
+  const usableAll = WEAPONS.filter(w => checkW(w, ch) && w.hit !== null && !untracked.includes(w.name));
+  // Respect custom drag order; unordered weapons appended in natural order
+  const weaponOrder = ch.weaponOrder || [];
+  const orderedNames = weaponOrder.filter(n => usableAll.some(w => w.name === n));
+  const remaining = usableAll.filter(w => !orderedNames.includes(w.name)).map(w => w.name);
+  const usable = [...orderedNames, ...remaining].map(n => usableAll.find(w => w.name === n)).filter(Boolean);
+
   if (usable.length === 0) {
     const empty = document.createElement('div');
     empty.className = 'no-features';
-    empty.textContent = 'No weapons available with current stats.';
+    empty.textContent = 'No tracked weapons available with current stats. Star weapons in the Weapons & Equipment tab to track them here.';
     el.appendChild(empty);
   } else {
     const tbl = document.createElement('table');
     tbl.className = 'feat-weapon-table';
     tbl.innerHTML = `<thead><tr>
-      <th style="width:26%">Weapon</th>
+      <th style="width:4%"></th>
+      <th style="width:24%">Weapon</th>
       <th style="width:9%">To Hit</th>
       <th style="width:8%">Hit %</th>
       <th style="width:7%">Hands</th>
@@ -1722,7 +2019,8 @@ function buildFeatures() {
       const hitMod = w.hit || 0;
       const hitPct = calcDC(hitMod, 12);
       const hitCls = dcClass(hitPct);
-      return `<tr>
+      return `<tr draggable="true" data-drag-key="${w.name}">
+        <td style="text-align:center"><span class="chip-drag-handle" title="Drag to reorder">⠿</span></td>
         <td>
           <div style="font-weight:500">${w.name}</div>
           ${w.req && w.req !== 'None' ? renderReqPills(w.req, ch) : ''}
@@ -1732,10 +2030,22 @@ function buildFeatures() {
         <td>${w.hands||'—'}</td>
         <td>${w.dmg||'—'}</td>
         <td>${w.acts||'—'}</td>
-        <td style="font-size:11px;color:var(--text-muted)">${w.notes||'—'}</td>
+        <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'—'}</td>
       </tr>`;
     }).join('')}</tbody>`;
     const wrap = document.createElement('div'); wrap.className = 'feat-weapon-wrap'; wrap.appendChild(tbl); el.appendChild(wrap);
+
+    if (usable.length > 1) {
+      wireDragReorder(tbl, 'tr[data-drag-key]', (fromName, toName) => {
+        // Always refresh to the current full list before reordering — otherwise
+        // weapons that were never dragged before (and so never made it into a
+        // stale ch.weaponOrder) silently fail to find fromName/toName and no-op.
+        ch.weaponOrder = usable.map(w => w.name);
+        reorderByValue(ch.weaponOrder, fromName, toName);
+        saveAll(chars);
+        buildFeatures();
+      });
+    }
   }
 }
 
@@ -1794,6 +2104,8 @@ function encodeCharForURL(ch) {
   const compact = { i:ch.id, n:ch.name, x:ch.xpTotal };
   if (ch.isVampire) compact.v = 1;
   compact.e = (ch.exps||[]).map(compactExp);
+  // Only include theme if it has custom overrides (keeps the link short otherwise)
+  if (ch.theme && Object.keys(ch.theme).length > 0) compact.t = ch.theme;
   return LZString.compressToEncodedURIComponent(JSON.stringify(compact));
 }
 
@@ -1808,6 +2120,7 @@ function decodeCharFromURL(str) {
       xpTotal:   c.x || 200,
       isVampire: !!c.v,
       exps:      (c.e||[]).map(expandExp),
+      theme:     c.t || {},
     };
   } catch(err) { console.error('Decode error:', err); return null; }
 }
@@ -2385,7 +2698,10 @@ function buildSpellsTab() {
 
   el.appendChild(configDiv);
 
-  // ── Cantrip slots ──
+  const isSearching = spellSearchQuery && spellSearchQuery.trim().length > 0;
+
+  // ── Cantrip slots (hidden while searching) ──
+  if (!isSearching) {
   const cantripDiv = document.createElement('div');
   cantripDiv.className = 'cantrip-slots';
 
@@ -2429,12 +2745,30 @@ function buildSpellsTab() {
   cantripDiv.appendChild(cantripSlot('General Cantrip', generalCantrips, 'generalCantrip'));
   cantripDiv.appendChild(cantripSlot(`Patron Cantrip (${cfg.patron||'pick patron first'})`, patronCantrips, 'patronCantrip'));
 
-  // Arcane bloodline cantrip (if feat exists)
+  // Arcane bloodline cantrip (if feat exists) — can pick from ANY patron's cantrips
   const hasBloodline = ch.exps.some(e => e.type === 'feat' && e.target === 'Arcane Bloodline');
   if (hasBloodline) {
-    cantripDiv.appendChild(cantripSlot('Arcane Bloodline Cantrip', generalCantrips, 'bloodlineCantrip'));
+    const allPatronCantrips = SPELLS.filter(s => s.branch === 'Patron Cantrip');
+    cantripDiv.appendChild(cantripSlot('Arcane Bloodline Cantrip', allPatronCantrips, 'bloodlineCantrip'));
   }
   el.appendChild(cantripDiv);
+  } // end if (!isSearching) — cantrip slots
+
+  // ── Spell search bar (sits between cantrip slots and the tab bar) ──
+  const searchWrap = document.createElement('div');
+  searchWrap.className = 'spell-search-wrap';
+  searchWrap.innerHTML = `<input type="text" id="spell-search-input" class="spell-search-input" placeholder="Search spells by name…" value="${(spellSearchQuery||'').replace(/"/g,'&quot;')}">`;
+  el.appendChild(searchWrap);
+  const searchInputEl = searchWrap.querySelector('#spell-search-input');
+  searchInputEl.addEventListener('input', e => {
+    spellSearchQuery = e.target.value;
+    const cursorPos = e.target.selectionStart;
+    buildSpellsTab();
+    requestAnimationFrame(() => {
+      const freshInput = document.getElementById('spell-search-input');
+      if (freshInput) { freshInput.focus(); freshInput.setSelectionRange(cursorPos, cursorPos); }
+    });
+  });
 
   // ── Spell list grouped by branch, sorted by anima ──
   // ── Group accessible spells into tabs ──
@@ -2456,67 +2790,117 @@ function buildSpellsTab() {
   });
   Object.values(byBranch).forEach(arr => arr.sort((a,b) => a.anima-b.anima));
 
+  // Opposite branch: still populate for read-only display, even though
+  // spellAccessible excludes it from the normal accessible list
+  const oppositeBranch = cfg.discipline ? OPPOSITES[cfg.discipline] : null;
+  if (oppositeBranch && !byBranch[oppositeBranch]) {
+    byBranch[oppositeBranch] = SPELLS
+      .filter(s => s.branch === oppositeBranch)
+      .sort((a,b) => a.anima - b.anima);
+  }
+  const oppositeTabId = oppositeBranch ? oppositeBranch.toLowerCase() : null;
+
   const favs = ch.spellFavorites || [];
 
   // Get active spell tab from character or default to cantrip
   const activeSpellTab = ch._activeSpellTab || 'cantrip';
 
-  // Build tab bar
-  const tabBar = document.createElement('div');
-  tabBar.className = 'spell-tab-bar';
-  SPELL_TABS.forEach(tab => {
-    // Only show tabs that have accessible spells
-    const hasSpells = tab.branches.some(b => byBranch[b] && byBranch[b].length > 0);
-    if (!hasSpells) return;
-    const btn = document.createElement('button');
-    btn.className = 'spell-tab-btn' + (tab.id === activeSpellTab ? ' active' : '');
-    btn.textContent = tab.label;
-    btn.dataset.branch = tab.id;
-    btn.addEventListener('click', () => {
-      ch._activeSpellTab = tab.id;
-      buildSpellsTab();
+  if (!isSearching) {
+    // Build tab bar
+    const tabBar = document.createElement('div');
+    tabBar.className = 'spell-tab-bar';
+    SPELL_TABS.forEach(tab => {
+      const isOppositeTab = tab.id === oppositeTabId;
+      // Only show tabs that have accessible spells (opposite tab always shown, greyed)
+      const hasSpells = tab.branches.some(b => byBranch[b] && byBranch[b].length > 0);
+      if (!hasSpells && !isOppositeTab) return;
+      const btn = document.createElement('button');
+      btn.className = 'spell-tab-btn' + (tab.id === activeSpellTab ? ' active' : '') + (isOppositeTab ? ' spell-tab-opposite' : '');
+      btn.textContent = tab.label;
+      btn.dataset.branch = tab.id;
+      if (isOppositeTab) btn.title = 'Opposite branch — for reference only, cannot be cast or tracked';
+      btn.addEventListener('click', () => {
+        ch._activeSpellTab = tab.id;
+        buildSpellsTab();
+      });
+      tabBar.appendChild(btn);
     });
-    tabBar.appendChild(btn);
-  });
-  el.appendChild(tabBar);
+    el.appendChild(tabBar);
+  }
 
   // ── Helper to render a spell row ──
-  function renderSpellRow(spell) {
+  function renderSpellRow(spell, locked=false, showBranch=false) {
     const reqMet = checkSpellReq(spell, ch);
     const isFav = favs.includes(spell.name);
     const row = document.createElement('div');
-    row.className = 'spell-row';
-    row.style.opacity = reqMet ? '' : '0.5';
+    row.className = 'spell-row' + (locked ? ' spell-row-locked' : '');
+    row.style.opacity = locked ? '0.45' : (reqMet ? '' : '0.5');
     const methodLine = spell.method
       ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
       : '';
-    const cantripReqLine = (spell.anima === 0)
-      ? (spell.type === 'general' || spell.branch === 'General Cantrip'
-          ? '<div class="spell-cantrip-req"><b>Requirement:</b> None</div>'
-          : spell.type === 'patron' || spell.branch === 'Patron Cantrip'
-            ? `<div class="spell-cantrip-req"><b>Requirement:</b> ${patronTag(spell.patron)}${spell.patron || 'Patron'} patron</div>`
-            : `<div class="spell-cantrip-req"><b>Requirement:</b> ${branchTag(spell.branch)} ${spell.branch.replace(' Cantrip','')} primary branch</div>`)
-      : '';
+
+    // ── Unified Requirement section: stat pills + cantrip branch/patron context ──
+    const statPills = (spell.req && spell.req !== 'None') ? renderReqPills(spell.req, ch) : '';
+    let cantripCtx = '';
+    if (spell.anima === 0) {
+      if (spell.type === 'patron' || spell.branch === 'Patron Cantrip') {
+        cantripCtx = `${patronTag(spell.patron)}${spell.patron || 'Patron'} patron`;
+      } else if (spell.type === 'inherent' || (spell.branch && spell.branch.endsWith(' Cantrip') && spell.branch !== 'General Cantrip' && spell.branch !== 'Patron Cantrip')) {
+        cantripCtx = `${branchTag(spell.branch)} ${spell.branch.replace(' Cantrip','')} primary branch`;
+      }
+    }
+    const reqContent = (statPills || cantripCtx)
+      ? `${statPills}${cantripCtx ? `<span class="req-inline-ctx">${cantripCtx}</span>` : ''}`
+      : '<span class="req-none">None</span>';
+    const reqSection = `<div class="spell-req-section"><b>Requirement:</b> ${reqContent}</div>`;
+
     row.innerHTML = `
       <div>
-        <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
-        ${renderReqPills(spell.req, ch)}
+        <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${showBranch?branchTag(spell.branch):''}${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
         <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
         ${methodLine}
-        ${cantripReqLine}
+        ${reqSection}
         <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
       </div>
       <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
       <div class="spell-actions">${spell.actions} act${spell.actions!=='1'?'s':''}</div>
-      <button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`;
+      ${locked ? '' : `<button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`}`;
     return row;
   }
 
-  // ── Show spells for active tab ──
+  // ── Show spells for active tab, or search results ──
   const activeTab = SPELL_TABS.find(t => t.id === activeSpellTab) || SPELL_TABS[0];
   let anyShown = false;
 
-  if (activeTab.id === 'cantrip') {
+  if (isSearching) {
+    const q = spellSearchQuery.trim().toLowerCase();
+    const accessibleKeys = new Set(accessible.map(s => s.branch + '|' + s.name));
+    function matchScore(name) {
+      const n = name.toLowerCase();
+      if (n === q) return 0;
+      if (n.startsWith(q)) return 1;
+      if (n.includes(q)) return 2;
+      return -1;
+    }
+    const results = SPELLS
+      .map(s => ({ s, sc: matchScore(s.name) }))
+      .filter(x => x.sc >= 0)
+      .sort((a,b) => a.sc - b.sc || a.s.name.localeCompare(b.s.name))
+      .map(x => x.s);
+
+    results.forEach(spell => {
+      anyShown = true;
+      const locked = !accessibleKeys.has(spell.branch + '|' + spell.name);
+      el.appendChild(renderSpellRow(spell, locked, true));
+    });
+
+    if (!anyShown) {
+      const empty = document.createElement('div');
+      empty.className = 'no-mage-notice';
+      empty.textContent = `No spells found matching "${spellSearchQuery.trim()}".`;
+      el.appendChild(empty);
+    }
+  } else if (activeTab.id === 'cantrip') {
     // ── Cantrip tab: flat list, no grouping headers ──
     // Order: General first, then Patron, then branch cantrips
     const cantripBranchOrder = ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip'];
@@ -2528,6 +2912,15 @@ function buildSpellsTab() {
     });
   } else {
     // ── Discipline tabs: group by anima tier with sub-headings ──
+    const isLockedTab = activeTab.id === oppositeTabId;
+
+    if (isLockedTab) {
+      const lockedNotice = document.createElement('div');
+      lockedNotice.className = 'no-mage-notice';
+      lockedNotice.textContent = 'This is your opposite branch — shown for reference only. These spells cannot be cast or tracked.';
+      el.appendChild(lockedNotice);
+    }
+
     activeTab.branches.forEach(branch => {
       if (!byBranch[branch] || byBranch[branch].length === 0) return;
       anyShown = true;
@@ -2551,12 +2944,12 @@ function buildSpellsTab() {
         tierHdr.className = 'spell-tier-header';
         tierHdr.textContent = TIER_LABELS[tier] || tier + ' Anima';
         el.appendChild(tierHdr);
-        tierMap[tier].forEach(spell => el.appendChild(renderSpellRow(spell)));
+        tierMap[tier].forEach(spell => el.appendChild(renderSpellRow(spell, isLockedTab)));
       });
     });
   }
 
-  if (!anyShown) {
+  if (!anyShown && !isSearching) {
     const empty = document.createElement('div');
     empty.className = 'no-mage-notice';
     empty.textContent = 'No spells available in this branch with your current stats and discipline.';
@@ -2578,9 +2971,133 @@ function buildSpellsTab() {
   });
 }
 
+
+// ╔══════════════════════════════════════════════════════════╗
+// ║  THEME CUSTOMIZATION (per-character)                     ║
+// ╚══════════════════════════════════════════════════════════╝
+const THEME_DEFAULTS = {
+  bg: '#0f0e13', surface1: '#19181f', surface2: '#201f28', surface3: '#2a2934',
+  border: '#2e2d3a', borderStrong: '#3e3d4e',
+  textPrimary: '#e8e6f0', textSecondary: '#acaac4', textMuted: '#706e8a',
+  accent: '#8b6fd4', gold: '#c9a84c', success: '#4caf7d', warning: '#c9943a', danger: '#c95555',
+};
+// Flat colors map directly to a single CSS variable, no derived shades
+const THEME_FLAT_KEYS = {
+  bg: '--bg', surface1: '--surface-1', surface2: '--surface-2', surface3: '--surface-3',
+  border: '--border', borderStrong: '--border-strong',
+  textPrimary: '--text-primary', textSecondary: '--text-secondary', textMuted: '--text-muted',
+};
+// Shaded colors derive a -dim, -border, and (sometimes) -text variant
+const THEME_SHADED_KEYS = {
+  accent:  { hasText: true },
+  gold:    { hasText: true },
+  success: { hasText: false },
+  warning: { hasText: false },
+  danger:  { hasText: false },
+};
+
+function hexToHsl(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, l = (max+min)/2;
+  if (max === min) { h = s = 0; }
+  else {
+    const d = max - min;
+    s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+    switch (max) {
+      case r: h = (g-b)/d + (g<b?6:0); break;
+      case g: h = (b-r)/d + 2; break;
+      case b: h = (r-g)/d + 4; break;
+    }
+    h /= 6;
+  }
+  return [h*360, s*100, l*100];
+}
+function hslToHex(h, s, l) {
+  h/=360; s=Math.max(0,Math.min(100,s))/100; l=Math.max(0,Math.min(100,l))/100;
+  let r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    const hue2rgb = (p,q,t) => { if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; };
+    const q = l<0.5 ? l*(1+s) : l+s-l*s;
+    const p = 2*l-q;
+    r = hue2rgb(p,q,h+1/3); g = hue2rgb(p,q,h); b = hue2rgb(p,q,h-1/3);
+  }
+  const toHex = x => Math.round(x*255).toString(16).padStart(2,'0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+function deriveShades(baseHex) {
+  const [h, s, l] = hexToHsl(baseHex);
+  return {
+    base:   baseHex,
+    text:   hslToHex(h, Math.max(s*0.9, 25), Math.min(88, l+22)),
+    border: hslToHex(h, s, Math.max(22, l*0.62)),
+    dim:    hslToHex(h, Math.min(s*0.9, 60), Math.max(8, l*0.17)),
+  };
+}
+function applyTheme(colors) {
+  const root = document.documentElement.style;
+  Object.entries(THEME_FLAT_KEYS).forEach(([key, varName]) => {
+    if (colors[key]) root.setProperty(varName, colors[key]);
+  });
+  Object.entries(THEME_SHADED_KEYS).forEach(([key, cfg]) => {
+    const hex = colors[key];
+    if (!hex) return;
+    const shades = deriveShades(hex);
+    root.setProperty(`--${key}`, shades.base);
+    root.setProperty(`--${key}-dim`, shades.dim);
+    root.setProperty(`--${key}-border`, shades.border);
+    if (cfg.hasText) root.setProperty(`--${key}-text`, shades.text);
+  });
+}
+function getCharTheme(ch) {
+  return { ...THEME_DEFAULTS, ...(ch && ch.theme ? ch.theme : {}) };
+}
+// Apply the active character's saved theme (or defaults if none set)
+function applyCharTheme() {
+  const ch = getChar();
+  applyTheme(getCharTheme(ch));
+}
+
+function initThemeModal() {
+  const modal = document.getElementById('theme-modal');
+  const gearBtn = document.getElementById('theme-gear-btn');
+  const closeBtn = document.getElementById('theme-close');
+  const resetBtn = document.getElementById('theme-reset');
+  const inputs = {};
+  modal.querySelectorAll('input[type="color"][data-key]').forEach(inp => { inputs[inp.dataset.key] = inp; });
+
+  function populateInputs() {
+    const ch = getChar();
+    const colors = getCharTheme(ch);
+    Object.entries(inputs).forEach(([key, input]) => { input.value = colors[key]; });
+  }
+
+  Object.values(inputs).forEach(input => {
+    input.addEventListener('input', () => {
+      const ch = getChar(); if (!ch) return;
+      if (!ch.theme) ch.theme = {};
+      ch.theme[input.dataset.key] = input.value;
+      applyTheme(getCharTheme(ch));
+      saveAll(chars);
+    });
+  });
+
+  if (gearBtn) gearBtn.addEventListener('click', () => { populateInputs(); modal.classList.remove('hidden'); });
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    const ch = getChar(); if (!ch) return;
+    ch.theme = {};
+    applyTheme(THEME_DEFAULTS);
+    saveAll(chars);
+    populateInputs();
+  });
+}
+
 // ╔══════════════════════════════════════════════════════════╗
 // ║  BOOT                                                    ║
 // ╚══════════════════════════════════════════════════════════╝
+initThemeModal();
 (async()=>{
   const dot=document.getElementById('data-dot');
   const statusText=document.getElementById('data-status-text');
