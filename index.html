@@ -2530,6 +2530,8 @@ const STAT_COLOR = {
 function parseReqParts(reqStr) {
   if (!reqStr || reqStr === 'None') return [];
   const parts = [];
+  // Maps a stat group's FULL lowercase name to its abbreviation (e.g. "strength" -> "str")
+  const GROUP_ABBREV = { dexterity:'dex', intelligence:'int', harmony:'har', strength:'str' };
   reqStr.split(/,|\band\b/i).forEach(part => {
     part = part.trim();
     const m = part.match(/^(.+?)\s*([+-]?\d+)$/);
@@ -2538,22 +2540,21 @@ function parseReqParts(reqStr) {
     const min = parseInt(m[2]);
     // Find the stat key
     const sn = statLabel.toLowerCase();
-    const ab = { dex:'dex', int:'int', har:'har', str:'str' };
     let statKey = null;
-    // Try direct sub-skill match
+    // Try direct sub-skill match (both full "Strength: Fortitude" and short "Str: Fortitude" forms)
     STATS.forEach(g => {
       if (g.group.toLowerCase() === sn) statKey = g.key;
+      const abbrev = GROUP_ABBREV[g.group.toLowerCase()] || g.group.toLowerCase();
       g.subs.forEach(s => {
         if ((g.group + ': ' + s.name).toLowerCase() === sn) statKey = s.key;
-        // Short form e.g. "Har: Arcana"
-        const short = (ab[g.group.toLowerCase()] || g.group.toLowerCase()) + ': ' + s.name.toLowerCase();
-        if (short === sn) statKey = s.key;
+        if ((abbrev + ': ' + s.name).toLowerCase() === sn) statKey = s.key;
       });
     });
-    // Fallback: match first word as stat group
+    // Fallback: match first word as a stat group abbreviation (e.g. bare "Str +2")
     if (!statKey) {
       const firstWord = sn.split(':')[0].trim();
-      if (ab[firstWord]) statKey = ab[firstWord];
+      const matchedGroup = STATS.find(g => g.key === firstWord || g.group.toLowerCase() === firstWord);
+      if (matchedGroup) statKey = matchedGroup.key;
     }
     const color = statKey ? (STAT_COLOR[statKey] || 'int') : 'int';
     parts.push({ label: statLabel, min, statKey, color });
