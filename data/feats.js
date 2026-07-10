@@ -309,6 +309,13 @@ window.FEATS_DEFAULT = [
     "limited": true
   },
   {
+    "name": "Lineage Weapon",
+    "cat": "Lineage Weapon",
+    "req": "STR: Forging +1 and HAR: Belief +1",
+    "desc": "Select one template weapon (excluding unarmed) to become your lineage weapon; it gains a permanent +1 aim modifier when used by you. The weapon may be visually remarkable in some mundane or low-magic way (e.g. glowing, exceptional metalwork, engineered design, coated in embers).",
+    "limited": false
+  },
+  {
     "name": "LW: Lacuna",
     "cat": "Lineage Weapon",
     "req": "Lineage Weapon feat",
