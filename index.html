@@ -1213,6 +1213,12 @@ function checkFeatReq(feat,ch){
   if(req==='None')return{met:true,reason:''};
   if(req==='Vampire')return ch.isVampire?{met:true,reason:''}:{met:false,reason:'Requires: Vampire'};
   if(req==='Mutant')return{met:true,reason:''};
+  // Feat prerequisite: the requirement text is the exact name of another feat
+  const prereqFeat = FEATS.find(f=>f.name===req);
+  if (prereqFeat) {
+    const has = ch.exps.some(e=>e.type==='feat'&&e.target===req);
+    return has ? {met:true,reason:''} : {met:false,reason:'Requires feat: '+req};
+  }
   const failed=[];
   parseReq(req).forEach(r=>{
     const val=r.key&&typeof r.key==='object'?fullTot(ch,r.key.sub,r.key.par):statTot(ch,r.key);
@@ -1407,7 +1413,8 @@ function buildExps(){
       sel=makeFeatSel(i,e.target,ch);
       if(feat){
         const chk=checkFeatReq(feat,ch);
-        sel+=`<div class="feat-preview"><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}<div class="fx">${feat.desc}</div>${renderReqPills(feat.req, ch)}</div>`;
+        const notMetNote = !chk.met ? `<div class="lim-note" style="color:var(--danger)">${chk.reason}</div>` : '';
+        sel+=`<div class="feat-preview"${!chk.met?' style="opacity:0.6"':''}><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}${notMetNote}<div class="fx">${feat.desc}</div>${renderReqPills(feat.req, ch)}</div>`;
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
@@ -2494,6 +2501,14 @@ function parseReqParts(reqStr) {
 
 function renderReqPills(reqStr, ch) {
   if (!reqStr || reqStr === 'None') return '';
+  // Feat prerequisite: the requirement text is the exact name of another feat
+  const prereqFeat = FEATS.find(f=>f.name===reqStr);
+  if (prereqFeat) {
+    const has = ch.exps.some(e=>e.type==='feat'&&e.target===reqStr);
+    const cls = has ? 'met-int' : 'unmet-int';
+    const title = has ? 'Feat selected' : 'Feat not selected: '+reqStr;
+    return `<div class="req-pills"><span class="req-pill ${cls}" title="${title}">${reqStr}</span></div>`;
+  }
   const parts = parseReqParts(reqStr);
   if (parts.length === 0) return `<div class="req-pills"><span class="req-pill met-int">${reqStr}</span></div>`;
   const pills = parts.map(({ label, min, statKey, color }) => {
