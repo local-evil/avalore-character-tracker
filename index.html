@@ -474,14 +474,15 @@ option[data-locked="true"] {
 .spell-name.capstone { color: var(--accent-text); }
 .spell-anima { font-size: 11px; color: var(--text-muted); text-align: center; }
 .spell-actions { font-size: 11px; color: var(--text-muted); text-align: center; }
-.spell-fav {
+.spell-fav, .spell-fav-auto {
   background: var(--surface-3); border: 1px solid var(--border); cursor: pointer;
   color: var(--text-muted); font-size: 16px; padding: 4px 10px;
   border-radius: var(--radius); transition: all 0.15s; flex-shrink: 0;
   min-width: 36px; text-align: center;
 }
-.spell-fav:hover { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
-.spell-fav.active { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+.spell-fav:hover, .spell-fav-auto:hover { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+.spell-row-pinned { background: var(--surface-1); border-radius: var(--radius); padding: 8px; margin-bottom: 4px; }
+.spell-fav.active, .spell-fav-auto.active { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
 .spell-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; grid-column: 1/-1; line-height: 1.5; text-align: justify; }
 .spell-req { font-size: 10px; color: var(--text-muted); margin-top: 1px; font-style: italic; }
 .spell-cmd { font-family: monospace; font-size: 10px; color: var(--accent-text); }
@@ -1909,7 +1910,7 @@ function buildFeatures() {
       <div class="feat-chip-desc"><b>Effect:</b> ${spell.desc}</div>
       ${spell.method ? `<div class="feat-chip-desc" style="font-style:italic;margin-top:2px"><b>Method:</b> ${spell.method}</div>` : ''}
       ${spell.req && spell.req !== 'None' ? renderReqPills(spell.req, ch2) : ''}
-      <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · cantrip · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
+      <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · ${spell.anima>0?spell.anima+' anima':'cantrip'} · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
     </div>`;
     return chip;
   }
@@ -1939,7 +1940,10 @@ function buildFeatures() {
   const autoNames = new Set();
   const bloodlineNames = new Set();
   const autoSpellList = [];
-  if (inherentCantrip) { autoSpellList.push(inherentCantrip); autoNames.add(inherentCantrip.name); }
+  const autoUntracked = ch2.autoUntracked || [];
+  if (inherentCantrip && !autoUntracked.includes(inherentCantrip.name)) {
+    autoSpellList.push(inherentCantrip); autoNames.add(inherentCantrip.name);
+  }
   slotEntries.forEach(({ spell, bloodline }) => {
     if (!autoNames.has(spell.name)) {
       autoSpellList.push(spell);
@@ -2830,11 +2834,13 @@ function buildSpellsTab() {
   }
 
   // ── Helper to render a spell row ──
-  function renderSpellRow(spell, locked=false, showBranch=false) {
+  function renderSpellRow(spell, locked=false, showBranch=false, autoMode=false) {
     const reqMet = checkSpellReq(spell, ch);
-    const isFav = favs.includes(spell.name);
+    const isFav = autoMode
+      ? !((ch.autoUntracked || []).includes(spell.name))
+      : favs.includes(spell.name);
     const row = document.createElement('div');
-    row.className = 'spell-row' + (locked ? ' spell-row-locked' : '');
+    row.className = 'spell-row' + (locked ? ' spell-row-locked' : '') + (autoMode ? ' spell-row-pinned' : '');
     row.style.opacity = locked ? '0.45' : (reqMet ? '' : '0.5');
     const methodLine = spell.method
       ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
@@ -2855,9 +2861,17 @@ function buildSpellsTab() {
       : '<span class="req-none">None</span>';
     const reqSection = `<div class="spell-req-section"><b>Requirement:</b> ${reqContent}</div>`;
 
+    const pinnedBadge = autoMode
+      ? '<span class="feat-chip-lim" style="background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent-text)">Inherent</span>'
+      : '';
+    const favButton = locked
+      ? ''
+      : (autoMode
+          ? `<button class="spell-fav-auto${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Untrack this inherent cantrip':'Re-enable auto-tracking'}">★</button>`
+          : `<button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`);
     row.innerHTML = `
       <div>
-        <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${showBranch?branchTag(spell.branch):''}${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
+        <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${showBranch?branchTag(spell.branch):''}${pinnedBadge}${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
         <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
         ${methodLine}
         ${reqSection}
@@ -2865,7 +2879,7 @@ function buildSpellsTab() {
       </div>
       <div class="spell-anima">${spell.anima > 0 ? spell.anima+' anima' : 'cantrip'}</div>
       <div class="spell-actions">${spell.actions} act${spell.actions!=='1'?'s':''}</div>
-      ${locked ? '' : `<button class="spell-fav${isFav?' active':''}" data-spell="${spell.name}" title="${isFav?'Remove from tracked':'Track spell'}">★</button>`}`;
+      ${favButton}`;
     return row;
   }
 
@@ -2922,6 +2936,18 @@ function buildSpellsTab() {
       el.appendChild(lockedNotice);
     }
 
+    // Pin this branch's inherent cantrip at the very top, auto-tracked by
+    // default (star lit) but the user can click the star to untrack it.
+    const disciplineBranch = activeTab.branches[0];
+    const pinnedInherent = SPELLS.find(s => s.type === 'inherent' && s.branch === disciplineBranch + ' Cantrip');
+    if (pinnedInherent) {
+      anyShown = true;
+      el.appendChild(renderSpellRow(pinnedInherent, isLockedTab, false, !isLockedTab));
+      const pinnedDiv = document.createElement('div');
+      pinnedDiv.style.cssText = 'border-top:1px solid var(--border);margin:4px 0 2px;';
+      el.appendChild(pinnedDiv);
+    }
+
     activeTab.branches.forEach(branch => {
       if (!byBranch[branch] || byBranch[branch].length === 0) return;
       anyShown = true;
@@ -2968,6 +2994,20 @@ function buildSpellsTab() {
       saveAll(chars);
       buildSpellsTab();
       buildFeatures(); // update features panel
+    });
+  });
+
+  // Wire up the pinned inherent cantrip's auto-track toggle (opt out/back in)
+  el.querySelectorAll('.spell-fav-auto').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!ch.autoUntracked) ch.autoUntracked = [];
+      const name = btn.dataset.spell;
+      const idx = ch.autoUntracked.indexOf(name);
+      if (idx === -1) ch.autoUntracked.push(name); // user opts out
+      else ch.autoUntracked.splice(idx, 1); // user opts back in
+      saveAll(chars);
+      buildSpellsTab();
+      buildFeatures();
     });
   });
 }
