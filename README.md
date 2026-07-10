@@ -1,7 +1,8 @@
 # Avalore Character Tracker
 
-A community-run web tool for planning and tracking character builds in the Avalore tabletop RPG system.
+A community-run web tool for planning and tracking character builds in the Avalore System. The Converter tool is just a sort of rough copy-paste helper that helped me get the data neatly into the .js files, it doesn't work 100% but it does help if there's a huge update at some point.
 
+**Link to Avalore:** https://avalore.net/forum/
 **Live site:** https://local-evil.github.io/avalore-character-tracker/
 **Converter tool:** https://local-evil.github.io/avalore-character-tracker/converter.html
 
