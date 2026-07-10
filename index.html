@@ -58,14 +58,14 @@
   --font-display:  'Cinzel', 'Georgia', serif;
 }
 
-/* ── Base ── */
+/* Base */
 html { background: var(--bg); color: var(--text-primary); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
 body { min-height: 100vh; }
 
-/* ── Layout ── */
+/* Layout */
 .page { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem 3rem; }
 
-/* ── Top bar ── */
+/* Top bar */
 .top-bar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1rem 0 1rem;
@@ -83,7 +83,7 @@ body { min-height: 100vh; }
 .data-dot.err { background: var(--danger); }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* ── Buttons ── */
+/* Buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: var(--radius);
@@ -100,7 +100,7 @@ body { min-height: 100vh; }
 .btn-danger:hover { background: var(--danger-dim); }
 .btn-sm { padding: 3px 8px; font-size: 12px; }
 
-/* ── Character tabs ── */
+/* Character tabs */
 .char-select { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
 .char-slot {
   display: flex; align-items: center; gap: 6px;
@@ -121,11 +121,11 @@ body { min-height: 100vh; }
 }
 .new-slot:hover { border-color: var(--accent-border); color: var(--accent-text); }
 
-/* ── Sheet grid ── */
+/* Sheet grid */
 .sheet { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 @media (max-width: 700px) { .sheet { grid-template-columns: 1fr; } }
 
-/* ── Cards ── */
+/* Cards */
 .card {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -138,7 +138,7 @@ body { min-height: 100vh; }
   margin-bottom: 1rem; font-family: var(--font-display);
 }
 
-/* ── Character header card ── */
+/* Character header card */
 .char-name-lbl { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
 .char-name-input {
   font-size: 24px; font-weight: 500; font-family: var(--font-display);
@@ -162,7 +162,7 @@ body { min-height: 100vh; }
 .trait-box.active-vampire { border-color: var(--accent-border); background: var(--accent-dim); color: var(--accent-text); }
 .trait-box.active-mutant { border-color: var(--success-border); background: var(--success-dim); color: var(--success); }
 
-/* ── XP boxes ── */
+/* XP boxes */
 .xp-boxes { display: flex; gap: 10px; flex: 3; margin-top: 0; }
 .xp-box { flex: 1; background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; text-align: center; border: 1px solid var(--border); }
 .xp-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; font-family: var(--font-display); }
@@ -175,7 +175,7 @@ body { min-height: 100vh; }
   text-align: center; color: var(--text-primary); outline: none;
 }
 
-/* ── Stats ── */
+/* Stats */
 .stat-group { margin-bottom: 0.75rem; }
 .stat-group:last-child { margin-bottom: 0; }
 .stat-par {
@@ -189,7 +189,7 @@ body { min-height: 100vh; }
 .stat-sub-mod { font-size: 11px; color: var(--text-muted); }
 .stat-sub-val { font-size: 13px; font-weight: 500; color: var(--text-primary); text-align: right; }
 
-/* ── Expenditure table ── */
+/* Expenditure table */
 .exp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .exp-table th { font-size: 10px; color: var(--text-muted); font-weight: 600; text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); font-family: var(--font-display); letter-spacing: 0.06em; }
 .exp-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: top; }
@@ -202,7 +202,7 @@ body { min-height: 100vh; }
 }
 .exp-sel:focus { outline: none; border-color: var(--accent-border); }
 
-/* ── Badges ── */
+/* Badges */
 .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
 .b-su { background: var(--accent-dim); color: var(--accent-text); border: 1px solid var(--accent-border); }
 .b-st { background: var(--gold-dim); color: var(--gold-text); border: 1px solid var(--gold-border); }
@@ -211,7 +211,7 @@ body { min-height: 100vh; }
 .b-ft { background: var(--danger-dim); color: var(--danger); border: 1px solid var(--danger-border); }
 .b-mg { background: #1a1030; color: #b89cf0; border: 1px solid #4a3080; }
 
-/* ── Feat preview ── */
+/* Feat preview */
 .feat-preview {
   background: var(--surface-1); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 0.5rem 0.75rem; margin-top: 5px;
@@ -222,7 +222,7 @@ body { min-height: 100vh; }
 .lim-tag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 10px; background: var(--warning-dim); color: var(--warning); border: 1px solid var(--warning-border); vertical-align: middle; margin-left: 5px; }
 .lim-note { font-size: 11px; color: var(--warning); margin-top: 3px; font-style: italic; text-align: justify; }
 
-/* ── Inline blocks (hindrances inside rows) ── */
+/* Inline blocks (hindrances inside rows) */
 .inline-block {
   background: var(--surface-3); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 0.5rem 0.75rem; margin-top: 6px;
@@ -233,12 +233,12 @@ body { min-height: 100vh; }
 .hind-lbl { font-size: 11px; color: var(--text-muted); padding-top: 6px; white-space: nowrap; min-width: 70px; }
 .hind-inner { flex: 1; }
 
-/* ── Trade pair ── */
+/* Trade pair */
 .trade-pair { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .trade-pair select { flex: 1; min-width: 90px; }
 .trade-arrow { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
 
-/* ── Add row ── */
+/* Add row */
 .add-row { display: flex; gap: 8px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
 .add-row select {
   font-size: 13px; padding: 6px 10px; border-radius: var(--radius);
@@ -246,7 +246,7 @@ body { min-height: 100vh; }
   color: var(--text-primary); font-family: var(--font-body);
 }
 
-/* ── Feat / mage counters ── */
+/* Feat / mage counters */
 .feat-counter {
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   padding: 8px 12px; border-radius: var(--radius);
@@ -257,12 +257,12 @@ body { min-height: 100vh; }
 .fc-warn { color: var(--warning); }
 .fc-over { color: var(--danger); }
 
-/* ── Notice bars ── */
+/* Notice bars */
 .notice-bar { padding: 7px 12px; border-radius: var(--radius); font-size: 12px; margin-bottom: 8px; border: 1px solid; }
 .nb-danger { background: var(--danger-dim); border-color: var(--danger-border); color: var(--danger); }
 .nb-warning { background: var(--warning-dim); border-color: var(--warning-border); color: var(--warning); }
 
-/* ── Weapon table ── */
+/* Weapon table */
 .wtbl { width: 100%; border-collapse: collapse; font-size: 12px; }
 .wtbl th { text-align: left; font-size: 10px; color: var(--text-muted); font-weight: 600; padding: 4px 8px; border-bottom: 1px solid var(--border); font-family: var(--font-display); letter-spacing: 0.06em; }
 .wtbl td { padding: 5px 8px; border-bottom: 1px solid var(--border); }
@@ -272,7 +272,7 @@ body { min-height: 100vh; }
 .can-use { color: var(--success); font-weight: 600; }
 .no-use { color: var(--text-muted); }
 
-/* ── Loading / error ── */
+/* Loading / error */
 .loading-screen {
   text-align: center; padding: 4rem 1rem; color: var(--text-muted);
 }
@@ -288,7 +288,7 @@ body { min-height: 100vh; }
 .err-box h3 { font-family: var(--font-display); margin-bottom: 0.5rem; }
 .err-box p { font-size: 13px; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.6; text-align: justify; }
 
-/* ── Modals ── */
+/* Modals */
 .modal-back { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(2px); }
 .modal { background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); padding: 1.5rem; width: 360px; max-width: 94vw; }
 .modal h3 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
@@ -302,10 +302,7 @@ body { min-height: 100vh; }
 .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: stretch; }
 @media (max-width: 900px) { .top-row { grid-template-columns: 1fr; } }
 
-
-/* ── Character portrait ── */
-
-/* ── Features pane ── */
+/* Features pane */
 .feat-chip {
   display: flex; align-items: flex-start; gap: 6px;
   padding: 4px 0 4px 10px; border-bottom: 1px solid var(--border);
@@ -318,7 +315,7 @@ body { min-height: 100vh; }
 .no-features { font-size: 12px; color: var(--text-muted); font-style: italic; padding-left: 10px; }
 .feat-chip-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; text-align: justify; }
 
-/* ── Usable weapon chips ── */
+/* Usable weapon chips */
 .weapon-chip { font-size: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: minmax(90px,1fr) repeat(5, auto) 1fr; gap: 0 10px; align-items: center; }
 .weapon-chip:last-child { border-bottom: none; }
 .weapon-chip-name { font-weight: 500; }
@@ -328,7 +325,7 @@ body { min-height: 100vh; }
 .weapon-chip-header span { text-align: center; }
 .weapon-chip-header span:first-child { text-align: left; }
 
-/* ── Tabs ── */
+/* Tabs */
 .tab-bar { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid var(--border); }
 .tab-btn {
   padding: 8px 18px; font-size: 13px; font-family: var(--font-body);
@@ -341,12 +338,11 @@ body { min-height: 100vh; }
 .tab-panel { padding-top: 1rem; }
 .tab-panel.hidden { display: none; }
 
-/* ── Left col stacks two cards ── */
-/* ── XP boxes stretch full width beneath portrait ── */
+/* Left col stacks two cards */
 .xp-beneath { display: flex; gap: 8px; margin-top: 10px; }
 .xp-beneath .xp-box { flex: 1; }
 
-/* ── Stat-style section headers for features pane ── */
+/* Stat-style section headers for features pane */
 .feat-section-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 5px 0; border-bottom: 1px solid var(--border);
@@ -359,7 +355,7 @@ body { min-height: 100vh; }
   color: var(--gold-text); letter-spacing: 0.03em;
 }
 
-/* ── Weapon table in features — fixed column layout ── */
+/* Weapon table in features — fixed column layout*/
 .feat-weapon-wrap { padding-left: 10px; }
 .feat-weapon-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
 .feat-weapon-table th {
@@ -369,9 +365,7 @@ body { min-height: 100vh; }
   text-align: center;
 }
 .feat-weapon-table td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 12px; text-align: center; vertical-align: middle; }
-/* Drag-handle column: tight, no wasted space */
 .feat-weapon-table th:first-child, .feat-weapon-table td:first-child { padding-left: 2px; padding-right: 0; }
-/* Weapon name column: left-aligned, styled as the primary label */
 .feat-weapon-table th:nth-child(2) { text-align: left; padding-left: 2px; }
 .feat-weapon-table td:nth-child(2) { text-align: left; font-weight: 500; color: var(--text-primary); padding-left: 2px; }
 .feat-weapon-table td:last-child { text-align: left; color: var(--text-muted); font-size: 11px; }
@@ -379,7 +373,7 @@ body { min-height: 100vh; }
 .feat-weapon-table tr:last-child td { border-bottom: none; }
 .feat-weapon-table tbody tr:hover td { background: var(--surface-3); }
 
-/* ── Share modal ── */
+/* Share modal */
 .share-url-box {
   width: 100%; padding: 8px 10px; border-radius: var(--radius);
   border: 1px solid var(--border); background: var(--surface-1);
@@ -400,7 +394,7 @@ body { min-height: 100vh; }
   opacity: 0.7;
 }
 
-/* ── Expenditure status bar ── */
+/* Expenditure status bar */
 .exp-status-bar {
   display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
   padding: 7px 10px; border-radius: var(--radius);
@@ -414,7 +408,7 @@ body { min-height: 100vh; }
 .exp-status-warn { color: var(--text-warning); }
 .exp-status-over { color: var(--text-danger); }
 
-/* ── Locked options: visually greyed but still hoverable ── */
+/* Locked options: visually greyed but still hoverable */
 option[data-locked="true"] {
   color: var(--text-muted);
 }
@@ -442,7 +436,7 @@ option[data-locked="true"] {
 }
 .load-uuid-input:focus { outline: none; border-color: var(--accent-border); }
 
-/* ── Autosave status ── */
+/* Autosave status */
 .autosave-status {
   font-size: 11px; color: var(--text-muted);
   display: inline-flex; align-items: center; gap: 4px;
@@ -451,7 +445,7 @@ option[data-locked="true"] {
 .autosave-status.dirty  { color: var(--warning); }
 .autosave-status.saved  { color: var(--success); }
 
-/* ── Spells tab ── */
+/* Spells tab */
 .spell-branch-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 5px 0; border-bottom: 1px solid var(--border);
@@ -502,7 +496,7 @@ option[data-locked="true"] {
 .mage-config-lbl { font-size: 11px; color: var(--text-muted); min-width: 120px; }
 .mage-config select { font-size: 12px; padding: 3px 6px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); flex: 1; font-family: var(--font-body); }
 
-/* ── Spell branch tabs ── */
+/* Spell branch tabs */
 .spell-tab-bar {
   display: flex; gap: 0; justify-content: center; flex-wrap: wrap;
   margin-bottom: 1rem;
@@ -518,7 +512,7 @@ option[data-locked="true"] {
 .spell-tab-btn.active { color: var(--accent-text); border-bottom-color: var(--accent); }
 
 
-/* ── Spell search bar ── */
+/* Spell search bar */
 .spell-search-wrap { margin-bottom: 1rem; }
 .spell-search-input {
   width: 100%; background: var(--surface-1); border: 1px solid var(--border);
@@ -536,7 +530,7 @@ option[data-locked="true"] {
   border-bottom-color: var(--text-muted) !important;
   opacity: 0.55;
 }
-/* ── Anima tier sub-heading ── */
+/* Anima tier sub-heading */
 .spell-tier-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 0 5px 0; border-bottom: 1px solid var(--border);
@@ -550,7 +544,7 @@ option[data-locked="true"] {
 .spell-method b { color: var(--text-secondary); font-style: normal; }
 .spell-desc b { color: var(--text-secondary); }
 
-/* ── Stat requirement pills ── */
+/* Stat requirement pills */
 .req-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 .req-pill {
   display: inline-flex; align-items: center; gap: 3px;
@@ -568,7 +562,7 @@ option[data-locked="true"] {
 .req-pill.unmet-int { background: #1a1030; border-color: #4a3080; color: #b89cf0; opacity: 0.4; }
 .req-pill-val { opacity: 0.7; margin-left: 1px; }
 
-/* ── Branch colors ── */
+/* Branch colors */
 :root {
   --ichor:       #4caf7d; --ichor-dim:       #0d2a1a; --ichor-border:       #1e6640;
   --force:       #c95555; --force-dim:       #2a0e0e; --force-border:       #7a2222;
@@ -613,7 +607,7 @@ option[data-locked="true"] {
 .req-inline-ctx { display: inline-flex; align-items: center; }
 .req-none { color: var(--text-muted); }
 
-/* ── Planned/Active toggle ── */
+/* Planned/Active toggle */
 .plan-toggle-wrap {
   display: flex; align-items: center; gap: 6px; margin-top: 4px;
 }
@@ -644,11 +638,11 @@ option[data-locked="true"] {
 }
 .plan-toggle-label.active { color: var(--accent-text); font-style: normal; font-weight: 500; }
 
-/* ── Planned row styling ── */
+/* Planned row styling */
 .exp-row-planned td { opacity: 0.65; }
 .exp-row-planned .badge { border-style: dashed; }
 
-/* ── Drag handle ── */
+/* Drag handle */
 .drag-handle {
   cursor: grab; color: var(--text-muted); padding: 0 4px;
   font-size: 14px; line-height: 1; user-select: none;
@@ -657,7 +651,7 @@ option[data-locked="true"] {
 .exp-table tr.drag-over td { background: var(--accent-dim); }
 .exp-table tr.dragging { opacity: 0.4; }
 
-/* ── Generic chip drag handle (spells/feats) ── */
+/* Generic chip drag handle (spells/feats) */
 .chip-drag-handle {
   cursor: grab; color: var(--text-muted); font-size: 13px;
   padding-top: 4px; user-select: none; flex-shrink: 0;
@@ -668,7 +662,7 @@ option[data-locked="true"] {
 .feat-weapon-table tr.dragging { opacity: 0.4; }
 .feat-weapon-table tr.drag-over td { background: var(--accent-dim); }
 
-/* ── Planned annotation in stats ── */
+/* Planned annotation in stats */
 .spellcasting-row { grid-column: 1 / -1; margin-top: 12px; padding-top: 8px; }
 .spellcast-line {
   display: flex; align-items: center; justify-content: space-between;
@@ -682,13 +676,13 @@ option[data-locked="true"] {
   font-style: italic; opacity: 0.8;
 }
 
-/* ── Planned XP breakdown ── */
+/* Planned XP breakdown */
 .xp-breakdown {
   font-size: 10px; color: var(--text-muted); margin-top: 2px;
 }
 .xp-breakdown .planned-portion { color: var(--accent-text); }
 
-/* ── Planned feat indicator in features pane ── */
+/* Planned feat indicator in features pane */
 .feat-chip-planned {
   display: inline-block; font-size: 10px; padding: 1px 5px;
   border-radius: 3px; margin-left: 5px;
@@ -702,7 +696,7 @@ option[data-locked="true"] {
 .stat-dc-warn{ color: var(--warning); }
 .stat-dc-bad { color: var(--danger); }
 
-/* ── Two-column stats layout ── */
+/* Two-column stats layout */
 .stats-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -711,7 +705,7 @@ option[data-locked="true"] {
 .stats-two-col .stat-group { break-inside: avoid; }
 @media (max-width: 600px) { .stats-two-col { grid-template-columns: 1fr; } }
 
-/* ── Stat sub row: total + pct on same line ── */
+/* Stat sub row: total + pct on same line */
 .stat-sub {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -721,7 +715,7 @@ option[data-locked="true"] {
 }
 .stat-sub-pct { font-size: 10px; font-weight: 500; text-align: right; min-width: 32px; }
 
-/* ── Welcome pane ── */
+/* Welcome pane */
 .welcome-card {
   display: flex; flex-direction: column; justify-content: center; gap: 1rem;
 }
@@ -740,7 +734,7 @@ option[data-locked="true"] {
 .welcome-link:hover { background: var(--surface-3); }
 
 
-/* ── Theme customization ── */
+/* Theme customization */
 .btn-icon-gear {
   background: transparent; border: 1px solid var(--border-strong); border-radius: var(--radius);
   color: var(--text-muted); width: 36px; height: 36px; display: inline-flex;
@@ -1018,16 +1012,7 @@ option[data-locked="true"] {
 
 <script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <script>
-// ╔══════════════════════════════════════════════════════════╗
-// ║  APPS SCRIPT CONFIG                                      ║
-// ║  Character cloud save / load / share                     ║
-// ╚══════════════════════════════════════════════════════════╝
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznL9u4S4plZl2IkWB84Fzu-aCt_BWSH7fU4NklTKvmlLPSk7JFHZznYWNXOXc0OJg/exec';
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  DATA FILE URLS (GitHub Pages)                           ║
-// ║  Falls back to inline data if fetch fails                ║
-// ╚══════════════════════════════════════════════════════════╝
 const DATA_BASE   = 'https://local-evil.github.io/avalore-character-tracker/data';
 const SPELLS_BASE = DATA_BASE + '/spells';
 const CACHE_BUST  = '?v=' + Date.now();
@@ -1045,15 +1030,8 @@ const DATA_URLS = {
   spells_tellurgy:   SPELLS_BASE + '/tellurgy.js'    + CACHE_BUST,
   spells_index:      SPELLS_BASE + '/index.js'       + CACHE_BUST,
 };
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  GAME DATA (loaded from sheets)                          ║
-// ╚══════════════════════════════════════════════════════════╝
-// Game data — populated by loadDataFiles() on boot
 let FEATS = [], ARCANE_HINDRANCES = [], MUTANT_HINDRANCES = [];
 let COSTS = {}, LABELS = {};
-
-// CSV parsing removed — data loaded from JS files via loadDataFiles()
 
 async function loadDataFiles() {
   // Fetch each JS data file from GitHub Pages and execute it to update globals.
@@ -1083,9 +1061,6 @@ async function loadDataFiles() {
     fetchDataFile(DATA_URLS.spells_tellurgy,   'Spells: Tellurgy'),
     fetchDataFile(DATA_URLS.spells_index,      'Spells: Loader'),
   ]);
-
-  // Execute each fetched JS file to set the window.*_DEFAULT variables,
-  // then copy them into the live globals if they loaded successfully.
   if (fJS) {
     try { eval(fJS); if (window.FEATS_DEFAULT && window.FEATS_DEFAULT.length > 0) FEATS = window.FEATS_DEFAULT.slice(); }
     catch(e) { console.warn('Error parsing feats data:', e); }
@@ -1108,7 +1083,7 @@ async function loadDataFiles() {
     try { eval(wJS); if (window.WEAPONS_DEFAULT && window.WEAPONS_DEFAULT.length > 0) WEAPONS = window.WEAPONS_DEFAULT.slice(); }
     catch(e) { console.warn('Error parsing weapons data:', e); }
   }
-  // Eval all spell files in order, then the loader which merges them
+
   const spellFiles = { sCantrips, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx };
   const spellNames = ['sCantrips','sIchor','sCurse','sEther','sArtifice','sForce','sTell','sIdx'];
   let anySpellLoaded = false;
@@ -1119,16 +1094,14 @@ async function loadDataFiles() {
       catch(e) { console.warn('Error parsing spell file:', name, e); }
     }
   });
-  // After all files are eval'd, the index.js loader sets SPELLS_DEFAULT by merging all slices
+
   if (anySpellLoaded && window.SPELLS_DEFAULT && window.SPELLS_DEFAULT.length > 0) {
     SPELLS = window.SPELLS_DEFAULT.slice();
     console.log('Loaded', SPELLS.length, 'spells from', spellNames.filter(n => spellFiles[n]).length, 'files');
   }
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  STATIC GAME DATA                                        ║
-// ╚══════════════════════════════════════════════════════════╝
+
 const STATS = [
   {group:'Dexterity',key:'dex',subs:[{name:'Acrobatics',key:'dex_acro'},{name:'Stealth',key:'dex_stlth'},{name:'Finesse',key:'dex_fin'}]},
   {group:'Intelligence',key:'int',subs:[{name:'Healing',key:'int_heal'},{name:'Perception',key:'int_perc'},{name:'Research',key:'int_res'}]},
@@ -1160,9 +1133,7 @@ const OPPOSITES   = { Ichor:'Artifice', Artifice:'Ichor', Tellurgy:'Ether', Ethe
 
 const BADGES={skill_up:'b-ku',skill_tr:'b-kt',stat_up:'b-su',stat_tr:'b-st',feat:'b-ft',mage1:'b-mg',mage2:'b-mg',mage3:'b-mg',mage4:'b-mg'};
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  LOCAL STORAGE                                           ║
-// ╚══════════════════════════════════════════════════════════╝
+
 const LS='av_chars', LSA='av_active';
 function loadAll(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch{return[]}}
 function saveAll(c){localStorage.setItem(LS,JSON.stringify(c))}
@@ -1170,9 +1141,7 @@ function getAct(){return localStorage.getItem(LSA)||''}
 function setAct(id){localStorage.setItem(LSA,id)}
 function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2),name:name||'New character',xpTotal:200,isVampire:false,exps:[]};}
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  STAT HELPERS                                            ║
-// ╚══════════════════════════════════════════════════════════╝
+
 function statTot(ch, key, activeOnly=false) {
   let v = 0;
   ch.exps.forEach(e => {
@@ -1239,16 +1208,11 @@ function checkFeatReq(feat,ch){
   return failed.length>0?{met:false,reason:'Needs: '+failed.join(', ')}:{met:true,reason:''};
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  STATE                                                   ║
-// ╚══════════════════════════════════════════════════════════╝
+
 let chars=[], activeId='';
 let spellSearchQuery='';
 function getChar(){return chars.find(c=>c.id===activeId)||chars[0]||null;}
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  BUILD UI                                                ║
-// ╚══════════════════════════════════════════════════════════╝
 function buildTypeDropdown(){
   const sel=document.getElementById('new-type');
   sel.innerHTML='<option value="" disabled selected>— Select type —</option>';
@@ -1489,7 +1453,6 @@ function buildExps(){
       if(f==='target'){const feat=FEATS.find(x=>x.name===ev.target.value);if(!feat||feat.cat!=='Mutation')ch.exps[i].hindrance='';}
       refreshAll();
     });
-    // Store initial value for revert
     s.addEventListener('mousedown',ev=>{ ev.currentTarget.dataset.lastVal=ev.currentTarget.value; });
   });
   tbody.querySelectorAll('.mut-hind-sel').forEach(s=>{
@@ -1674,9 +1637,7 @@ function renderSheet(){
   refreshAll();
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  EVENT LISTENERS
-// ╚══════════════════════════════════════════════════════════╝
+
 document.getElementById('add-btn').addEventListener('click', ()=>{
   const sel=document.getElementById('new-type');const type=sel.value;if(!type)return;
   const ch=getChar();if(!ch)return;
@@ -1732,9 +1693,7 @@ document.getElementById('del-cancel').addEventListener('click', ()=>{
   document.getElementById('del-modal').classList.add('hidden');delId=null;
 });
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  TAB SWITCHING                                           ║
-// ╚══════════════════════════════════════════════════════════╝
+
 function switchTab(tab) {
   ['exp','wpn','spl'].forEach(t => {
     document.getElementById('tab-'+t).classList.toggle('hidden', tab !== t);
@@ -1744,15 +1703,6 @@ function switchTab(tab) {
   if (tab === 'spl') buildSpellsTab();
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  PORTRAIT UPLOAD                                         ║
-// ╚══════════════════════════════════════════════════════════╝
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  FEATURES PANEL                                          ║
-// ╚══════════════════════════════════════════════════════════╝
-
-// ── Generic drag-to-reorder helper ──────────────────────────────
 function wireDragReorder(container, selector, onReorder) {
   let dragKey = null;
   const items = container.querySelectorAll(selector);
@@ -1806,7 +1756,7 @@ function buildFeatures() {
   const el = document.getElementById('features-panel'); if (!el) return;
   el.innerHTML = '';
 
-  // ── Helper: stat-style section header ──
+  //  Helper: stat-style section header 
   function secHeader(label) {
     const d = document.createElement('div');
     d.className = 'feat-section-header';
@@ -1814,7 +1764,6 @@ function buildFeatures() {
     return d;
   }
 
-  // ── Feats (including mage tiers, all under one "Feats" header) ──
   const featExps = ch.exps.filter(e => e.type === 'feat' && e.target);
   const mageExps = ch.exps.filter(e => e.type && e.type.startsWith('mage'));
   const hasAnyFeat = featExps.length > 0 || mageExps.length > 0;
@@ -1827,14 +1776,11 @@ function buildFeatures() {
     empty.textContent = 'No feats selected yet.';
     el.appendChild(empty);
   } else {
-    // Scoped wrapper so drag-reorder queries don't leak into other sections (spells, weapons)
     const featsWrap = document.createElement('div');
     featsWrap.className = 'reorder-wrap';
 
     const keyOfFeatureExp = e => e.type === 'feat' ? e.target : e.type;
 
-    // Render feats AND mage tiers in ONE combined loop, in their true stored order —
-    // rendering them as two separate groups would ignore any custom interleaved order.
     const featureExps = ch.exps.filter(e => e.type === 'feat' || (e.type && e.type.startsWith('mage')));
     featureExps.forEach(e => {
       const isPlanned = !!e.planned;
@@ -1872,7 +1818,6 @@ function buildFeatures() {
 
     el.appendChild(featsWrap);
 
-    // Wire drag-to-reorder across feats AND mage tiers together
     if (featExps.length + mageExps.length > 1) {
       wireDragReorder(featsWrap, '.feat-chip[data-drag-key]', (fromKey, toKey) => {
         reorderFeatureExps(ch, fromKey, toKey);
@@ -1882,11 +1827,11 @@ function buildFeatures() {
     }
   }
 
-  // ── Favorited spells ──
+  //  Favorited spells 
   const ch2 = getChar();
   const cfg2 = ch2 ? getMageConfig(ch2) : { tier: 0, discipline: '', patron: '' };
 
-  // ── Helper to render a tracked spell chip ──
+  //  Helper to render a tracked spell chip 
   function makeSpellChip(spell, isAuto=false, dragKey=null, bloodline=false) {
     const chip = document.createElement('div');
     chip.className = 'feat-chip' + (isAuto ? ' tracked-auto' : '');
@@ -1915,12 +1860,12 @@ function buildFeatures() {
     return chip;
   }
 
-  // ── Auto-tracked: inherent cantrip for primary discipline ──
+  // Auto-tracked: inherent cantrip for primary discipline 
   const inherentCantrip = cfg2.discipline
     ? SPELLS.find(s => s.type === 'inherent' && s.branch === cfg2.discipline + ' Cantrip')
     : null;
 
-  // ── Auto-tracked: selected cantrip slots ──
+  //  Auto-tracked: selected cantrip slots 
   const mage1exp = ch2 ? ch2.exps.find(e => e.type === 'mage1') : null;
   const slotKeys = ['generalCantrip', 'patronCantrip', 'bloodlineCantrip'];
   const slotEntries = mage1exp
@@ -1929,14 +1874,11 @@ function buildFeatures() {
         .filter(x => x && x.spell)
     : [];
 
-  // ── Manually favourited spells ──
+  //  Manually favourited spells 
   const favSpells = (ch2 && ch2.spellFavorites)
     ? SPELLS.filter(s => ch2.spellFavorites.includes(s.name))
     : [];
 
-  // Combine: inherent first, then slot cantrips, then favs (deduplicated) — this
-  // is just the default/natural order; actual display order is controlled by
-  // ch2.trackedSpellOrder below, which covers BOTH auto and manual spells.
   const autoNames = new Set();
   const bloodlineNames = new Set();
   const autoSpellList = [];
@@ -1962,15 +1904,12 @@ function buildFeatures() {
   if (hasAny) {
     el.appendChild(secHeader('Tracked Spells'));
 
-    // Apply saved custom order (covers auto AND manual spells together);
-    // anything not yet in the saved order falls back to natural order at the end.
     const savedOrder = ch2.trackedSpellOrder || [];
     const orderedNames = savedOrder.filter(n => allTracked.some(s => s.name === n));
     const remainingNames = allTracked.filter(s => !orderedNames.includes(s.name)).map(s => s.name);
     const finalNames = [...orderedNames, ...remainingNames];
     const orderedTracked = finalNames.map(n => allTracked.find(s => s.name === n)).filter(Boolean);
 
-    // Scoped wrapper so drag-reorder queries don't collide with the Feats section
     const trackedWrap = document.createElement('div');
     trackedWrap.className = 'reorder-wrap';
 
@@ -1982,8 +1921,6 @@ function buildFeatures() {
 
     if (orderedTracked.length > 1) {
       wireDragReorder(trackedWrap, '.feat-chip[data-drag-key]', (fromName, toName) => {
-        // Always refresh to the current full list before reordering, so spells
-        // that were never dragged before are guaranteed to be found.
         ch2.trackedSpellOrder = orderedTracked.map(s => s.name);
         reorderByValue(ch2.trackedSpellOrder, fromName, toName);
         saveAll(chars);
@@ -1992,7 +1929,7 @@ function buildFeatures() {
     }
   }
 
-  // ── Tracked & usable weapons (reorderable) ──
+  //  Tracked & usable weapons (reorderable) 
   el.appendChild(secHeader('Tracked Weapons'));
   const untracked = ch.weaponUntracked || [];
   const usableAll = WEAPONS.filter(w => checkW(w, ch) && w.hit !== null && !untracked.includes(w.name));
@@ -2053,13 +1990,7 @@ function buildFeatures() {
   }
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  URL SHARING                                             ║
-// ╚══════════════════════════════════════════════════════════╝
-// ── Encoding helpers ─────────────────────────────────────────
-// Stat/skill keys are short already so we use them directly.
-// For feats, hindrances — we use the index in the live sheet arrays.
-// Type codes: single chars to replace type strings
+// Encoding helpers
 const TYPE_CODE = {
   feat:'f', skill_up:'su', skill_tr:'st', stat_up:'pu', stat_tr:'pt',
   mage1:'m1', mage2:'m2', mage3:'m3', mage4:'m4'
@@ -2251,9 +2182,6 @@ document.getElementById('share-copy').addEventListener('click', () => {
   });
 });
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  STATUS BAR                                              ║
-// ╚══════════════════════════════════════════════════════════╝
 function refreshStatusBar(){
   const ch=getChar(); if(!ch) return;
   const total=ch.xpTotal||200;
@@ -2282,11 +2210,6 @@ function refreshStatusBar(){
     ftEl.className='exp-status-val '+(featCount>maxFeats?'exp-status-over':featCount===maxFeats?'exp-status-warn':'exp-status-ok');
   }
 }
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  CLOUD SAVE / LOAD                                       ║
-// ╚══════════════════════════════════════════════════════════╝
-
 async function cloudSaveChar(ch) {
   const payload = {
     charId:   ch.id,
@@ -2337,7 +2260,7 @@ async function cloudLoadChar(uuid) {
   return JSON.parse(json.data);
 }
 
-// ── Extract UUID from raw input (bare code or share link) ────
+// Extract UUID from raw input (bare code or share link)
 function extractUUID(raw) {
   const trimmed = raw.trim().toLowerCase();
   const hashMatch = trimmed.match(/#c\/([a-z0-9]{8})/);
@@ -2346,7 +2269,7 @@ function extractUUID(raw) {
   return null;
 }
 
-// ── Cloud load (Import) button ───────────────────────────────
+// Cloud load (Import) button
 
 document.getElementById('cloud-load-confirm').addEventListener('click', async () => {
   const raw   = document.getElementById('load-uuid-input').value;
@@ -2384,7 +2307,7 @@ document.getElementById('load-uuid-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('cloud-load-confirm').click();
 });
 
-// ── Cloud save button ────────────────────────────────────────
+// Cloud save button
 document.getElementById('cloud-save-btn').addEventListener('click', async () => {
   const ch = getChar(); if (!ch) return;
   const btn = document.getElementById('cloud-save-btn');
@@ -2406,13 +2329,8 @@ document.getElementById('cloud-save-btn').addEventListener('click', async () => 
   }
 });
 
-// ── Cloud load button ────────────────────────────────────────
-
+// Cloud load button
 // Show UUID on char slots if they have one
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  AUTO LOCAL SAVE (60s debounce)                          ║
-// ╚══════════════════════════════════════════════════════════╝
 let autoSaveTimer = null;
 
 function scheduleAutoSave() {
@@ -2430,9 +2348,6 @@ function scheduleAutoSave() {
   }, 60000); // 60 seconds
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  AUTOSAVE (local, every 60s after a change)              ║
-// ╚══════════════════════════════════════════════════════════╝
 let _autosaveTimer   = null;
 let _lastSavedJSON   = '';
 let _autosavePending = false;
@@ -2495,7 +2410,6 @@ function refreshUUIDDisplay() {
   }
 }
 
-// ── Branch/Patron tag helpers ──────────────────────────────────
 const BRANCH_CLASS = {
   'Ichor':'ichor','Force':'force','Tellurgy':'tellurgy',
   'Artifice':'artifice','Ether':'ether','Cursesmithy':'cursesmithy',
@@ -2520,9 +2434,7 @@ function patronTag(patron) {
   return `<span class="branch-tag branch-${cls}">${patron}</span>`;
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  REQUIREMENT PILLS                                       ║
-// ╚══════════════════════════════════════════════════════════╝
+
 const STAT_COLOR = {
   dex: 'dex', dex_acro: 'dex', dex_stlth: 'dex', dex_fin: 'dex',
   str: 'str', str_fort: 'str', str_ath: 'str', str_forg: 'str',
@@ -2586,10 +2498,6 @@ function renderReqPills(reqStr, ch) {
   });
   return `<div class="req-pills">${pills.join('')}</div>`;
 }
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  SPELLS TAB                                              ║
-// ╚══════════════════════════════════════════════════════════╝
 
 function getMageConfig(ch) {
   const mage1 = ch.exps.find(e => e.type === 'mage1');
@@ -2669,7 +2577,7 @@ function buildSpellsTab() {
     return;
   }
 
-  // ── Mage config row (discipline + patron) ──
+  // Mage config row (discipline + patron) 
   const configDiv = document.createElement('div');
   configDiv.className = 'mage-config';
 
@@ -2705,7 +2613,7 @@ function buildSpellsTab() {
 
   const isSearching = spellSearchQuery && spellSearchQuery.trim().length > 0;
 
-  // ── Cantrip slots (hidden while searching) ──
+  // Cantrip slots (hidden while searching)
   if (!isSearching) {
   const cantripDiv = document.createElement('div');
   cantripDiv.className = 'cantrip-slots';
@@ -2757,9 +2665,9 @@ function buildSpellsTab() {
     cantripDiv.appendChild(cantripSlot('Arcane Bloodline Cantrip', allPatronCantrips, 'bloodlineCantrip'));
   }
   el.appendChild(cantripDiv);
-  } // end if (!isSearching) — cantrip slots
+  } // end if (!isSearching) - cantrip slots
 
-  // ── Spell search bar (sits between cantrip slots and the tab bar) ──
+  // Spell search bar (sits between cantrip slots and the tab bar)
   const searchWrap = document.createElement('div');
   searchWrap.className = 'spell-search-wrap';
   searchWrap.innerHTML = `<input type="text" id="spell-search-input" class="spell-search-input" placeholder="Search spells by name…" value="${(spellSearchQuery||'').replace(/"/g,'&quot;')}">`;
@@ -2775,8 +2683,8 @@ function buildSpellsTab() {
     });
   });
 
-  // ── Spell list grouped by branch, sorted by anima ──
-  // ── Group accessible spells into tabs ──
+  // Spell list grouped by branch, sorted by anima
+  // Group accessible spells into tabs
   const SPELL_TABS = [
     { id: 'cantrip', label: 'Cantrip', branches: ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip'] },
     { id: 'ichor',       label: 'Ichor',       branches: ['Ichor'] },
@@ -2833,7 +2741,7 @@ function buildSpellsTab() {
     el.appendChild(tabBar);
   }
 
-  // ── Helper to render a spell row ──
+  // Helper to render a spell row
   function renderSpellRow(spell, locked=false, showBranch=false, autoMode=false) {
     const reqMet = checkSpellReq(spell, ch);
     const isFav = autoMode
@@ -2846,7 +2754,7 @@ function buildSpellsTab() {
       ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
       : '';
 
-    // ── Unified Requirement section: stat pills + cantrip branch/patron context ──
+    // Unified Requirement section: stat pills + cantrip branch/patron context
     const statPills = (spell.req && spell.req !== 'None') ? renderReqPills(spell.req, ch) : '';
     let cantripCtx = '';
     if (spell.anima === 0) {
@@ -2883,7 +2791,7 @@ function buildSpellsTab() {
     return row;
   }
 
-  // ── Show spells for active tab, or search results ──
+  // Show spells for active tab, or search results
   const activeTab = SPELL_TABS.find(t => t.id === activeSpellTab) || SPELL_TABS[0];
   let anyShown = false;
 
@@ -2916,7 +2824,7 @@ function buildSpellsTab() {
       el.appendChild(empty);
     }
   } else if (activeTab.id === 'cantrip') {
-    // ── Cantrip tab: flat list, no grouping headers ──
+    // Cantrip tab: flat list, no grouping headers
     // Order: General first, then Patron, then branch cantrips
     const cantripBranchOrder = ['General Cantrip','Patron Cantrip','Ichor Cantrip','Cursesmithy Cantrip','Ether Cantrip','Artifice Cantrip','Force Cantrip','Tellurgy Cantrip'];
     cantripBranchOrder.forEach(b => {
@@ -2926,7 +2834,7 @@ function buildSpellsTab() {
       });
     });
   } else {
-    // ── Discipline tabs: group by anima tier with sub-headings ──
+    // Discipline tabs: group by anima tier with sub-headings
     const isLockedTab = activeTab.id === oppositeTabId;
 
     if (isLockedTab) {
@@ -3012,10 +2920,6 @@ function buildSpellsTab() {
   });
 }
 
-
-// ╔══════════════════════════════════════════════════════════╗
-// ║  THEME CUSTOMIZATION (per-character)                     ║
-// ╚══════════════════════════════════════════════════════════╝
 const THEME_DEFAULTS = {
   bg: '#0f0e13', surface1: '#19181f', surface2: '#201f28', surface3: '#2a2934',
   border: '#2e2d3a', borderStrong: '#3e3d4e',
@@ -3135,9 +3039,6 @@ function initThemeModal() {
   });
 }
 
-// ╔══════════════════════════════════════════════════════════╗
-// ║  BOOT                                                    ║
-// ╚══════════════════════════════════════════════════════════╝
 initThemeModal();
 (async()=>{
   const dot=document.getElementById('data-dot');
