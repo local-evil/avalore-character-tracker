@@ -1211,18 +1211,20 @@ function parseReq(reqStr){
 function checkFeatReq(feat,ch){
   const req=feat.req||'None';
   if(req==='None')return{met:true,reason:''};
-  if(req==='Vampire')return ch.isVampire?{met:true,reason:''}:{met:false,reason:'Requires: Vampire'};
-  if(req==='Mutant')return{met:true,reason:''};
-  // Feat prerequisite: the requirement text is the exact name of another feat
-  const prereqFeat = FEATS.find(f=>f.name===req);
-  if (prereqFeat) {
-    const has = ch.exps.some(e=>e.type==='feat'&&e.target===req);
-    return has ? {met:true,reason:''} : {met:false,reason:'Requires feat: '+req};
-  }
+  const clauses=parseRequirementClauses(req);
+  if(clauses.length===0)return{met:true,reason:''};
   const failed=[];
-  parseReq(req).forEach(r=>{
-    const val=r.key&&typeof r.key==='object'?fullTot(ch,r.key.sub,r.key.par):statTot(ch,r.key);
-    if(val<r.min)failed.push(`${r.label} ${r.min>=0?'+':''}${r.min} (have ${val>=0?'+':''}${val})`);
+  clauses.forEach(c=>{
+    if(c.kind==='trait'){
+      if(c.trait==='vampire'&&!ch.isVampire)failed.push('Vampire trait');
+      if(c.trait==='mutant'&&!isMutant(ch))failed.push('Mutant trait');
+    }else if(c.kind==='feat'){
+      const has=ch.exps.some(e=>e.type==='feat'&&e.target===c.featName);
+      if(!has)failed.push(c.featName+' feat');
+    }else if(c.kind==='stat'){
+      const val=statValueForKey(ch,c.statKey);
+      if(val<c.min)failed.push(`${c.label} ${c.min>=0?'+':''}${c.min} (have ${val>=0?'+':''}${val})`);
+    }
   });
   return failed.length>0?{met:false,reason:'Needs: '+failed.join(', ')}:{met:true,reason:''};
 }
@@ -2464,6 +2466,61 @@ const STAT_COLOR = {
 };
 
 // Parse a requirement string into an array of { label, stat, min } objects
+function statValueForKey(ch, key) {
+  if (!key) return 0;
+  const parent = STATS.find(g => g.key === key);
+  if (parent) return statTot(ch, key);
+  const subParent = STATS.find(g => g.subs.some(s => s.key === key));
+  if (subParent) return fullTot(ch, key, subParent.key);
+  return 0;
+}
+
+function classifyReqClause(rawPart) {
+  const part = rawPart.trim();
+  if (!part) return null;
+
+  // Trait clause: "Vampire trait", "Vampire", "Mutant trait", "Mutant"
+  const traitMatch = part.match(/^(vampire|mutant)(\s+trait)?$/i);
+  if (traitMatch) return { kind: 'trait', trait: traitMatch[1].toLowerCase(), label: part };
+
+  // Feat prerequisite: "X feat" (strip trailing "feat") or an exact feat name
+  const featSuffixMatch = part.match(/^(.+?)\s+feat$/i);
+  const candidateName = featSuffixMatch ? featSuffixMatch[1].trim() : part;
+  const prereqFeat = FEATS.find(f => f.name.toLowerCase() === candidateName.toLowerCase());
+  if (prereqFeat) return { kind: 'feat', featName: prereqFeat.name, label: part };
+
+  // Stat requirement: "STAT: Sub +N" or "STAT +N"
+  const m = part.match(/^(.+?)\s*([+-]?\d+)$/);
+  if (m) {
+    const statLabel = m[1].trim();
+    const min = parseInt(m[2]);
+    const sn = statLabel.toLowerCase();
+    const GROUP_ABBREV = { dexterity:'dex', intelligence:'int', harmony:'har', strength:'str' };
+    let statKey = null;
+    STATS.forEach(g => {
+      if (g.group.toLowerCase() === sn) statKey = g.key;
+      const abbrev = GROUP_ABBREV[g.group.toLowerCase()] || g.group.toLowerCase();
+      g.subs.forEach(s => {
+        if ((g.group + ': ' + s.name).toLowerCase() === sn) statKey = s.key;
+        if ((abbrev + ': ' + s.name).toLowerCase() === sn) statKey = s.key;
+      });
+    });
+    if (!statKey) {
+      const firstWord = sn.split(':')[0].trim();
+      const matchedGroup = STATS.find(g => g.key === firstWord || g.group.toLowerCase() === firstWord);
+      if (matchedGroup) statKey = matchedGroup.key;
+    }
+    return { kind: 'stat', statKey, min, label: statLabel };
+  }
+
+  return null;
+}
+
+function parseRequirementClauses(reqStr) {
+  if (!reqStr || reqStr === 'None') return [];
+  return reqStr.split(/,|\band\b/i).map(classifyReqClause).filter(Boolean);
+}
+
 function parseReqParts(reqStr) {
   if (!reqStr || reqStr === 'None') return [];
   const parts = [];
@@ -2501,29 +2558,32 @@ function parseReqParts(reqStr) {
 
 function renderReqPills(reqStr, ch) {
   if (!reqStr || reqStr === 'None') return '';
-  // Feat prerequisite: the requirement text is the exact name of another feat
-  const prereqFeat = FEATS.find(f=>f.name===reqStr);
-  if (prereqFeat) {
-    const has = ch.exps.some(e=>e.type==='feat'&&e.target===reqStr);
-    const cls = has ? 'met-int' : 'unmet-int';
-    const title = has ? 'Feat selected' : 'Feat not selected: '+reqStr;
-    return `<div class="req-pills"><span class="req-pill ${cls}" title="${title}">${reqStr}</span></div>`;
-  }
-  const parts = parseReqParts(reqStr);
-  if (parts.length === 0) return `<div class="req-pills"><span class="req-pill met-int">${reqStr}</span></div>`;
-  const pills = parts.map(({ label, min, statKey, color }) => {
-    let current = 0;
-    if (statKey) {
-      // Check if it's a parent stat or sub-skill
-      const parentStat = STATS.find(g => g.key === statKey);
-      const subStat = !parentStat ? STATS.flatMap(g => g.subs.map(s => ({...s, par: g.key}))).find(s => s.key === statKey) : null;
-      if (parentStat) current = statTot(ch, statKey);
-      else if (subStat) current = fullTot(ch, subStat.key, subStat.par);
+  const clauses = parseRequirementClauses(reqStr);
+  if (clauses.length === 0) return `<div class="req-pills"><span class="req-pill met-int">${reqStr}</span></div>`;
+  const pills = clauses.map(c => {
+    if (c.kind === 'trait') {
+      const met = c.trait === 'vampire' ? !!ch.isVampire : isMutant(ch);
+      const label = c.trait === 'vampire' ? 'Vampire' : 'Mutant';
+      const cls = (met ? 'met-' : 'unmet-') + 'int';
+      const title = met ? 'Trait present' : 'Trait missing: ' + label;
+      return `<span class="req-pill ${cls}" title="${title}">${label}</span>`;
     }
-    const met = !statKey || current >= min;
+    if (c.kind === 'feat') {
+      const met = ch.exps.some(e => e.type === 'feat' && e.target === c.featName);
+      const cls = (met ? 'met-' : 'unmet-') + 'int';
+      const title = met ? 'Feat selected' : 'Feat not selected: ' + c.featName;
+      return `<span class="req-pill ${cls}" title="${title}">${c.featName}</span>`;
+    }
+    // stat clause
+    const current = statValueForKey(ch, c.statKey);
+    const color = c.statKey ? (STAT_COLOR[c.statKey] || 'int') : 'int';
+    const met = !c.statKey || current >= c.min;
     const cls = (met ? 'met-' : 'unmet-') + color;
-    const sign = min >= 0 ? '+' : '';
-    return `<span class="req-pill ${cls}" title="${met ? '✓ Met ('+( current>=0?'+':'')+current+')' : '✗ Need '+(min>=0?'+':'')+min+', have '+(current>=0?'+':'')+current}">${label} <span class="req-pill-val">${sign}${min}</span></span>`;
+    const sign = c.min >= 0 ? '+' : '';
+    const title = met
+      ? '✓ Met (' + (current >= 0 ? '+' : '') + current + ')'
+      : '✗ Need ' + (c.min >= 0 ? '+' : '') + c.min + ', have ' + (current >= 0 ? '+' : '') + current;
+    return `<span class="req-pill ${cls}" title="${title}">${c.label} <span class="req-pill-val">${sign}${c.min}</span></span>`;
   });
   return `<div class="req-pills">${pills.join('')}</div>`;
 }
