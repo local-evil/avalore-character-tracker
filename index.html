@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avalore — Character Tracker</title>
+<title>Avalore - Character Tracker</title>
 <meta property="og:title" content="Avalore Character Tracker">
-<meta property="og:description" content="A tool for planning and tracking Avalore character builds — stats, feats, spells, weapons, and XP expenditures, all in one sheet.">
+<meta property="og:description" content="A tool for planning and tracking Avalore character builds - stats, feats, spells, weapons, and XP expenditures, all in one sheet.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://local-evil.github.io/avalore-character-tracker/avalore-logo.png">
 <meta name="theme-color" content="#8b6fd4">
@@ -298,7 +298,7 @@ body { min-height: 100vh; }
 
 .hidden { display: none !important; }
 
-/* ── Top row: 3-col grid for char card + stats ── */
+/* Top row: 3-col grid for char card + stats */
 .top-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: stretch; }
 @media (max-width: 900px) { .top-row { grid-template-columns: 1fr; } }
 
@@ -355,7 +355,7 @@ body { min-height: 100vh; }
   color: var(--gold-text); letter-spacing: 0.03em;
 }
 
-/* Weapon table in features — fixed column layout*/
+/* Weapon table in features - fixed column layout*/
 .feat-weapon-wrap { padding-left: 10px; }
 .feat-weapon-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
 .feat-weapon-table th {
@@ -413,7 +413,7 @@ option[data-locked="true"] {
   color: var(--text-muted);
 }
 
-/* ── Cloud save/load ── */
+/* Cloud save/load */
 .cloud-status {
   font-size: 11px; color: var(--text-muted); margin-left: 6px;
   display: inline-flex; align-items: center; gap: 4px;
@@ -437,6 +437,18 @@ option[data-locked="true"] {
 .load-uuid-input:focus { outline: none; border-color: var(--accent-border); }
 
 /* Autosave status */
+.hidden-credit {
+  color: transparent;
+  background: transparent;
+  font-size: 9px;
+  user-select: text;
+  cursor: default;
+  pointer-events: auto;
+}
+.hidden-credit::selection {
+  color: var(--text-primary);
+  background: var(--accent-dim);
+}
 .autosave-status {
   font-size: 11px; color: var(--text-muted);
   display: inline-flex; align-items: center; gap: 4px;
@@ -522,7 +534,7 @@ option[data-locked="true"] {
 }
 .spell-search-input:focus { border-color: var(--accent-border); }
 .spell-search-input::placeholder { color: var(--text-muted); }
-/* ── Opposite branch tab (visible but disabled) ── */
+/* Opposite branch tab (visible but disabled) */
 .spell-tab-btn.spell-tab-opposite,
 .spell-tab-btn.spell-tab-opposite:hover,
 .spell-tab-btn.spell-tab-opposite.active {
@@ -539,7 +551,7 @@ option[data-locked="true"] {
   color: var(--gold-text); letter-spacing: 0.03em;
 }
 .spell-tier-header:first-child { margin-top: 4px; }
-/* ── Spell method line ── */
+/* Spell method line */
 .spell-method { font-size: 11px; color: var(--text-muted); margin-top: 3px; grid-column: 1/-1; font-style: italic; text-align: justify; }
 .spell-method b { color: var(--text-secondary); font-style: normal; }
 .spell-desc b { color: var(--text-secondary); }
@@ -769,6 +781,7 @@ option[data-locked="true"] {
     <div class="branding">
       <img src="https://local-evil.github.io/avalore-character-tracker/avalore-logo.png" class="logo-img" alt="Avalore">
       <div class="game-sub">Character Tracker</div>
+      <span class="hidden-credit">Created by Cosmic_Evil</span>
     </div>
     <div class="top-bar-right">
       <div class="data-status" id="data-status">
@@ -824,7 +837,7 @@ option[data-locked="true"] {
           <div class="xp-beneath" style="margin-top:4px">
             <div class="xp-box">
               <div class="xp-lbl">Total XP</div>
-              <input class="xp-inp" id="xp-total" value="200" type="number" min="0">
+              <input class="xp-inp" id="xp-total" value="0" type="number" min="0">
             </div>
             <div class="xp-box">
               <div class="xp-lbl">Used</div>
@@ -890,7 +903,7 @@ option[data-locked="true"] {
           <tbody id="exp-body"></tbody>
         </table>
         <div class="add-row">
-          <select id="new-type"><option value="">— Add expenditure —</option></select>
+          <select id="new-type"><option value="">- Add expenditure -</option></select>
           <button class="btn btn-sm" id="add-btn"><i class="ti ti-plus"></i> Add</button>
           <span id="add-err" style="font-size:12px;color:var(--danger);display:none"></span>
         </div>
@@ -1035,7 +1048,7 @@ let COSTS = {}, LABELS = {};
 
 async function loadDataFiles() {
   // Fetch each JS data file from GitHub Pages and execute it to update globals.
-  // Each file sets window.*_DEFAULT — we then copy that into the live globals.
+  // Each file sets window.*_DEFAULT - we then copy that into the live globals.
   // Falls back to inline data silently if any file fails.
   function fetchDataFile(url, name) {
     const ctrl = new AbortController();
@@ -1139,7 +1152,7 @@ function loadAll(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch{r
 function saveAll(c){localStorage.setItem(LS,JSON.stringify(c))}
 function getAct(){return localStorage.getItem(LSA)||''}
 function setAct(id){localStorage.setItem(LSA,id)}
-function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2),name:name||'New character',xpTotal:200,isVampire:false,exps:[]};}
+function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2),name:name||'New character',xpTotal:0,isVampire:false,exps:[]};}
 
 
 function statTot(ch, key, activeOnly=false) {
@@ -1215,7 +1228,7 @@ function getChar(){return chars.find(c=>c.id===activeId)||chars[0]||null;}
 
 function buildTypeDropdown(){
   const sel=document.getElementById('new-type');
-  sel.innerHTML='<option value="" disabled selected>— Select type —</option>';
+  sel.innerHTML='<option value="" disabled selected>- Select type -</option>';
   Object.keys(COSTS).forEach(type=>{
     const opt=document.createElement('option');
     opt.value=type; if(type.startsWith('mage'))opt.id='opt-'+type;
@@ -1245,7 +1258,7 @@ function refreshTypeDropdown(){
       opt.disabled=false;
       const cantAfford=cost>0&&rem<cost;
       const base=(LABELS[type]||type)+(cost>0?` (${cost} XP)`:'');
-      opt.textContent=cantAfford?base+' — insufficient XP':base;
+      opt.textContent=cantAfford?base+' - insufficient XP':base;
       opt.style.color=cantAfford?'var(--text-muted)':'';
     }
   });
@@ -1253,9 +1266,9 @@ function refreshTypeDropdown(){
 
 function makeFeatSel(idx,currentVal,ch){
   const cats=[...new Set(FEATS.map(f=>f.cat))];
-  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled selected>— pick feat —</option>`;
+  let html=`<select class="exp-sel" data-i="${idx}" data-f="target"><option value="" disabled selected>- pick feat -</option>`;
   cats.forEach(cat=>{
-    html+=`<optgroup label="— ${cat} —">`;
+    html+=`<optgroup label="- ${cat} -">`;
     FEATS.filter(f=>f.cat===cat).forEach(f=>{
       const chk=checkFeatReq(f,ch);
       const tip=!chk.met?chk.reason:(f.req!=='None'&&f.req!=='Mutant'?'Requires: '+f.req:'');
@@ -1316,7 +1329,7 @@ function buildStats(){
     el.appendChild(grp);
   });
 
-  // ── Spellcasting row ──
+  // Spellcasting row
   const cfg = getMageConfig(ch);
   const arcanaTotal = fullTot(ch, 'har_arc', 'har');
   const primaryMod = arcanaTotal + 1;
@@ -1364,7 +1377,7 @@ function buildExps(){
   for(let t=2;t<=4;t++){
     const mExp=ch.exps.find(e=>e.type==='mage'+t);
     if(!mExp)continue;
-    if(!((mExp.hindrances||[])[0]))addN(`Mage ${t} requires 1 arcane hindrance — select it on the Mage ${t} row.`,'nb-warning');
+    if(!((mExp.hindrances||[])[0]))addN(`Mage ${t} requires 1 arcane hindrance - select it on the Mage ${t} row.`,'nb-warning');
   }
 
   ch.exps.forEach((e,i)=>{
@@ -1373,9 +1386,9 @@ function buildExps(){
     let sel='';
 
     if(e.type==='skill_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>— pick skill —</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick skill -</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='stat_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>— pick stat —</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick stat -</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
     }else if(e.type==='skill_tr'){
       const skillTradeOpts = SKILL_OPTS.map(o=>{
         const exceeded = tradeCapExceeded(ch, i, 'skill_tr', o.key);
@@ -1398,14 +1411,14 @@ function buildExps(){
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
-        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="" disabled selected>— pick mutant hindrance —</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
+        sel+=`<div class="inline-block"><div class="inline-block-title">Mutant Hindrance <span style="color:var(--text-muted);font-weight:400">(required)</span></div><select class="exp-sel mut-hind-sel" data-i="${i}" data-f="hindrance"><option value="" disabled selected>- pick mutant hindrance -</option>${MUTANT_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hindPreview(hv,MUTANT_HINDRANCES)}</div>`;
       }
     }else if(e.type.startsWith('mage')){
       const t=parseInt(e.type.slice(-1));
       const needsH=t>=2,hv=(e.hindrances||[])[0]||'';
-      let inner=`<div class="inline-block-title">${LABELS[e.type]||'Mage '+t} — feat limit: ${getFeatMax({...ch,exps:[{type:'mage'+t}]})}${needsH?', +1 arcane hindrance required':''}</div>`;
+      let inner=`<div class="inline-block-title">${LABELS[e.type]||'Mage '+t} - feat limit: ${getFeatMax({...ch,exps:[{type:'mage'+t}]})}${needsH?', +1 arcane hindrance required':''}</div>`;
       if(needsH){
-        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="" disabled selected>— pick arcane hindrance —</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
+        inner+=`<div class="hind-slot"><span class="hind-lbl">Hindrance</span><div class="hind-inner"><select class="exp-sel mage-hind-sel" data-i="${i}" data-hi="0"><option value="" disabled selected>- pick arcane hindrance -</option>${ARCANE_HINDRANCES.map(h=>`<option value="${h.name}"${hv===h.name?' selected':''}>${h.name}</option>`).join('')}</select>${hv?hindPreview(hv,ARCANE_HINDRANCES):''}</div></div>`;
       }
       sel=`<div class="inline-block">${inner}</div>`;
     }
@@ -1429,7 +1442,7 @@ function buildExps(){
         </div>
       </td>
       <td>${sel}</td>
-      <td style="padding-top:7px;font-size:12px;font-weight:600;color:var(--text-secondary)">${cost>0?cost+' XP':'—'}</td>
+      <td style="padding-top:7px;font-size:12px;font-weight:600;color:var(--text-secondary)">${cost>0?cost+' XP':'-'}</td>
       <td style="padding-top:5px"><button class="btn btn-sm btn-danger del-e" data-i="${i}" style="padding:3px 6px" title="Remove"><i class="ti ti-x"></i></button></td>`;
     tbody.appendChild(tr);
   });
@@ -1535,6 +1548,7 @@ function refreshXP(){
   const remEl=document.getElementById('xp-rem');
   remEl.textContent=rem;
   remEl.className='xp-big'+(rem<0?' danger':' remain');
+  scheduleAutoSave();
 }
 
 function refreshTraits(){
@@ -1564,13 +1578,13 @@ function buildWeapons(){
     tr.innerHTML=`
       <td>${w.name}</td>
       <td style="font-size:11px">${w.req && w.req !== 'None' ? renderReqPills(w.req, ch) : '<span style="color:var(--text-muted)">None</span>'}</td>
-      <td style="text-align:center"><span class="${can?'can-use':'no-use'}">${can?'✓':'—'}</span></td>
-      <td style="text-align:center">${w.hit!==null?(w.hit>=0?'+':'')+w.hit:'—'}</td>
-      <td style="text-align:center;font-weight:500" class="${hitCls}">${hitPct!==null?hitPct+'%':'—'}</td>
-      <td style="text-align:center">${w.hands!==null?w.hands:'—'}</td>
-      <td style="text-align:center">${w.dmg!==null?w.dmg:'—'}</td>
-      <td style="text-align:center">${w.acts!==null?w.acts:'—'}</td>
-      <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'—'}</td>
+      <td style="text-align:center"><span class="${can?'can-use':'no-use'}">${can?'✓':'-'}</span></td>
+      <td style="text-align:center">${w.hit!==null?(w.hit>=0?'+':'')+w.hit:'-'}</td>
+      <td style="text-align:center;font-weight:500" class="${hitCls}">${hitPct!==null?hitPct+'%':'-'}</td>
+      <td style="text-align:center">${w.hands!==null?w.hands:'-'}</td>
+      <td style="text-align:center">${w.dmg!==null?w.dmg:'-'}</td>
+      <td style="text-align:center">${w.acts!==null?w.acts:'-'}</td>
+      <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'-'}</td>
       <td style="text-align:center"><button class="spell-fav weapon-fav${tracked?' active':''}" data-weapon="${w.name}" title="${tracked?'Untrack':'Track'}">★</button></td>`;
     tb.appendChild(tr);
   });
@@ -1631,7 +1645,7 @@ function renderSheet(){
   document.getElementById('char-name').value=ch.name||'';
   const unEl=document.getElementById('char-username'); if(unEl) unEl.value=ch.username||'';
   refreshUUIDDisplay();
-  document.getElementById('xp-total').value=ch.xpTotal||200;
+  document.getElementById('xp-total').value=ch.xpTotal??0;
   document.getElementById('is-vampire').checked=ch.isVampire||false;
 
   refreshAll();
@@ -1797,7 +1811,7 @@ function buildFeatures() {
         let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${feat.desc}</div>`;
         if (isMut && e.hindrance) {
           const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
-          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
+          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} - ${h.desc}</div>`;
         }
         html += '</div>';
         chip.innerHTML = html;
@@ -1808,7 +1822,7 @@ function buildFeatures() {
         const hv = (e.hindrances || [])[0];
         if (hv) {
           const h = ARCANE_HINDRANCES.find(x => x.name === hv);
-          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} — ${h.desc}</div>`;
+          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} - ${h.desc}</div>`;
         }
         html += '</div>';
         chip.innerHTML = html;
@@ -1966,19 +1980,19 @@ function buildFeatures() {
           <div style="font-weight:500">${w.name}</div>
           ${w.req && w.req !== 'None' ? renderReqPills(w.req, ch) : ''}
         </td>
-        <td>${w.hit !== null ? (w.hit >= 0 ? '+' : '') + w.hit : '—'}</td>
-        <td class="${hitCls}" style="font-weight:500">${w.hit !== null ? hitPct + '%' : '—'}</td>
-        <td>${w.hands||'—'}</td>
-        <td>${w.dmg||'—'}</td>
-        <td>${w.acts||'—'}</td>
-        <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'—'}</td>
+        <td>${w.hit !== null ? (w.hit >= 0 ? '+' : '') + w.hit : '-'}</td>
+        <td class="${hitCls}" style="font-weight:500">${w.hit !== null ? hitPct + '%' : '-'}</td>
+        <td>${w.hands||'-'}</td>
+        <td>${w.dmg||'-'}</td>
+        <td>${w.acts||'-'}</td>
+        <td style="font-size:11px;color:var(--text-muted);text-align:justify">${w.notes||'-'}</td>
       </tr>`;
     }).join('')}</tbody>`;
     const wrap = document.createElement('div'); wrap.className = 'feat-weapon-wrap'; wrap.appendChild(tbl); el.appendChild(wrap);
 
     if (usable.length > 1) {
       wireDragReorder(tbl, 'tr[data-drag-key]', (fromName, toName) => {
-        // Always refresh to the current full list before reordering — otherwise
+        // Always refresh to the current full list before reordering - otherwise
         // weapons that were never dragged before (and so never made it into a
         // stale ch.weaponOrder) silently fail to find fromName/toName and no-op.
         ch.weaponOrder = usable.map(w => w.name);
@@ -2052,7 +2066,7 @@ function decodeCharFromURL(str) {
     return {
       id:        c.i || 'shared',
       name:      c.n || '',
-      xpTotal:   c.x || 200,
+      xpTotal:   c.x ?? 0,
       isVampire: !!c.v,
       exps:      (c.e||[]).map(expandExp),
       theme:     c.t || {},
@@ -2184,7 +2198,7 @@ document.getElementById('share-copy').addEventListener('click', () => {
 
 function refreshStatusBar(){
   const ch=getChar(); if(!ch) return;
-  const total=ch.xpTotal||200;
+  const total=ch.xpTotal??0;
   const usedAll    = xpUsed(ch);
   const usedActive = xpUsed(ch, true);
   const usedPlan   = xpPlanned(ch);
@@ -2217,7 +2231,7 @@ async function cloudSaveChar(ch) {
     data:     JSON.stringify(ch),
   };
 
-  // Apps Script can be slow on cold start — use a generous timeout
+  // Apps Script can be slow on cold start - use a generous timeout
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 90000); // 90s
 
@@ -2230,7 +2244,7 @@ async function cloudSaveChar(ch) {
     });
     clearTimeout(timer);
     const text = await resp.text();
-    // Apps Script sometimes returns HTML on error — catch that
+    // Apps Script sometimes returns HTML on error - catch that
     if (text.trim().startsWith('<')) {
       throw new Error('Apps Script returned an unexpected response. Check deployment settings.');
     }
@@ -2240,9 +2254,9 @@ async function cloudSaveChar(ch) {
   } catch (err) {
     clearTimeout(timer);
     if (err.name === 'AbortError') {
-      // Timed out — but the save may have still worked on the server side.
+      // Timed out - but the save may have still worked on the server side.
       // Try to fetch the UUID back by charId as a recovery.
-      throw new Error('Save timed out. Your character may have saved — try clicking Cloud save again to confirm.');
+      throw new Error('Save timed out. Your character may have saved - try clicking Cloud save again to confirm.');
     }
     throw err;
   }
@@ -2586,7 +2600,7 @@ function buildSpellsTab() {
   discRow.className = 'mage-config-row';
   discRow.innerHTML = `<span class="mage-config-lbl">Primary discipline</span>`;
   const discSel = document.createElement('select');
-  discSel.innerHTML = '<option value="" disabled selected>— pick discipline —</option>' +
+  discSel.innerHTML = '<option value="" disabled selected>- pick discipline -</option>' +
     DISCIPLINES.map(d => `<option value="${d}"${cfg.discipline===d?' selected':''}>${d}</option>`).join('');
   discSel.addEventListener('change', e => {
     const mage1 = ch.exps.find(x => x.type === 'mage1');
@@ -2600,7 +2614,7 @@ function buildSpellsTab() {
   patRow.className = 'mage-config-row';
   patRow.innerHTML = `<span class="mage-config-lbl">Patron</span>`;
   const patSel = document.createElement('select');
-  patSel.innerHTML = '<option value="" disabled selected>— pick patron —</option>' +
+  patSel.innerHTML = '<option value="" disabled selected>- pick patron -</option>' +
     PATRONS.map(p => `<option value="${p}"${cfg.patron===p?' selected':''}>${p}</option>`).join('');
   patSel.addEventListener('change', e => {
     const mage1 = ch.exps.find(x => x.type === 'mage1');
@@ -2628,7 +2642,7 @@ function buildSpellsTab() {
     const current = mage1[savedKey] || '';
     slot.innerHTML = `<div class="cantrip-slot-title">${title}</div>`;
     const sel = document.createElement('select');
-    sel.innerHTML = '<option value="" disabled selected>— pick cantrip —</option>' +
+    sel.innerHTML = '<option value="" disabled selected>- pick cantrip -</option>' +
       opts.map(s => `<option value="${s.name}"${current===s.name?' selected':''}>${s.name}</option>`).join('');
     sel.addEventListener('change', e => {
       const m1 = ch.exps.find(x => x.type === 'mage1');
@@ -2658,7 +2672,7 @@ function buildSpellsTab() {
   cantripDiv.appendChild(cantripSlot('General Cantrip', generalCantrips, 'generalCantrip'));
   cantripDiv.appendChild(cantripSlot(`Patron Cantrip (${cfg.patron||'pick patron first'})`, patronCantrips, 'patronCantrip'));
 
-  // Arcane bloodline cantrip (if feat exists) — can pick from ANY patron's cantrips
+  // Arcane bloodline cantrip (if feat exists) - can pick from ANY patron's cantrips
   const hasBloodline = ch.exps.some(e => e.type === 'feat' && e.target === 'Arcane Bloodline');
   if (hasBloodline) {
     const allPatronCantrips = SPELLS.filter(s => s.branch === 'Patron Cantrip');
@@ -2731,7 +2745,7 @@ function buildSpellsTab() {
       btn.className = 'spell-tab-btn' + (tab.id === activeSpellTab ? ' active' : '') + (isOppositeTab ? ' spell-tab-opposite' : '');
       btn.textContent = tab.label;
       btn.dataset.branch = tab.id;
-      if (isOppositeTab) btn.title = 'Opposite branch — for reference only, cannot be cast or tracked';
+      if (isOppositeTab) btn.title = 'Opposite branch - for reference only, cannot be cast or tracked';
       btn.addEventListener('click', () => {
         ch._activeSpellTab = tab.id;
         buildSpellsTab();
@@ -2840,7 +2854,7 @@ function buildSpellsTab() {
     if (isLockedTab) {
       const lockedNotice = document.createElement('div');
       lockedNotice.className = 'no-mage-notice';
-      lockedNotice.textContent = 'This is your opposite branch — shown for reference only. These spells cannot be cast or tracked.';
+      lockedNotice.textContent = 'This is your opposite branch - shown for reference only. These spells cannot be cast or tracked.';
       el.appendChild(lockedNotice);
     }
 
@@ -2872,7 +2886,7 @@ function buildSpellsTab() {
       // Sort tiers numerically
       tierOrder.sort((a,b) => a - b);
 
-      const TIER_LABELS = { 0:'Cantrip', 2:'2 Anima', 4:'4 Anima', 6:'6 Anima', 10:'10 Anima — Capstone' };
+      const TIER_LABELS = { 0:'Cantrip', 2:'2 Anima', 4:'4 Anima', 6:'6 Anima', 10:'10 Anima - Capstone' };
 
       tierOrder.forEach(tier => {
         const tierHdr = document.createElement('div');
@@ -3061,7 +3075,7 @@ initThemeModal();
     refreshTypeDropdown();refreshStatusBar();
     dot.className='data-dot loading';
     statusText.textContent='Syncing sheets…';
-    // Background fetch — silently updates data if sheets are available
+    // Background fetch - silently updates data if sheets are available
     loadDataFiles().then(() => {
       buildTypeDropdown();
       if (!checkShareMode()) { renderSheet(); } else { renderSheet(); }
@@ -3081,7 +3095,7 @@ initThemeModal();
     showApp();
     try { buildTypeDropdown();renderSheet(); } catch(e) { console.error('Render error:', e); }
     dot.className='data-dot err';
-    statusText.textContent='Error — check console';
+    statusText.textContent='Error - check console';
   }
 })();
 </script>
