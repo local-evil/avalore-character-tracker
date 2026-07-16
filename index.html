@@ -1030,10 +1030,11 @@ const DATA_BASE   = 'https://local-evil.github.io/avalore-character-tracker/data
 const SPELLS_BASE = DATA_BASE + '/spells';
 const CACHE_BUST  = '?v=' + Date.now();
 const DATA_URLS = {
-  feats:      DATA_BASE + '/feats.js'      + CACHE_BUST,
-  hindrances: DATA_BASE + '/hindrances.js' + CACHE_BUST,
-  costs:      DATA_BASE + '/costs.js'      + CACHE_BUST,
-  weapons:    DATA_BASE + '/weapons.js'    + CACHE_BUST,
+  feats:       DATA_BASE + '/feats.js'        + CACHE_BUST,
+  fabledFeats: DATA_BASE + '/fabled-feats.js' + CACHE_BUST,
+  hindrances:  DATA_BASE + '/hindrances.js'   + CACHE_BUST,
+  costs:       DATA_BASE + '/costs.js'        + CACHE_BUST,
+  weapons:     DATA_BASE + '/weapons.js'      + CACHE_BUST,
   spells_cantrips:   SPELLS_BASE + '/cantrips.js'    + CACHE_BUST,
   spells_ichor:      SPELLS_BASE + '/ichor.js'       + CACHE_BUST,
   spells_cursesmithy:SPELLS_BASE + '/cursesmithy.js' + CACHE_BUST,
@@ -1058,10 +1059,11 @@ async function loadDataFiles() {
       .catch(err => { clearTimeout(timer); console.warn(name + ' fetch failed (using inline):', err.message); return ''; });
   }
 
-  const [fJS, hJS, cJS, wJS,
+  const [fJS, ffJS, hJS, cJS, wJS,
     sCantrips, sIchor, sCurse, sEther, sArtifice, sForce, sTell, sIdx
   ] = await Promise.all([
     fetchDataFile(DATA_URLS.feats,             'Feats'),
+    fetchDataFile(DATA_URLS.fabledFeats,       'Fabled Feats'),
     fetchDataFile(DATA_URLS.hindrances,        'Hindrances'),
     fetchDataFile(DATA_URLS.costs,             'Costs'),
     fetchDataFile(DATA_URLS.weapons,           'Weapons'),
@@ -1077,6 +1079,16 @@ async function loadDataFiles() {
   if (fJS) {
     try { eval(fJS); if (window.FEATS_DEFAULT && window.FEATS_DEFAULT.length > 0) FEATS = window.FEATS_DEFAULT.slice(); }
     catch(e) { console.warn('Error parsing feats data:', e); }
+  }
+  if (ffJS) {
+    try {
+      eval(ffJS);
+      if (window.FABLED_FEATS_DEFAULT && window.FABLED_FEATS_DEFAULT.length > 0) {
+        // Fabled Feats are appended after the base feats so their categories
+        // naturally appear at the bottom of the feats list.
+        FEATS = FEATS.concat(window.FABLED_FEATS_DEFAULT);
+      }
+    } catch(e) { console.warn('Error parsing fabled feats data:', e); }
   }
   if (hJS) {
     try {
@@ -1180,6 +1192,18 @@ function tradeCapExceeded(ch, expIndex, type, tradeKey) {
   ch.exps.forEach((e, idx) => {
     if (idx === expIndex) return;
     if (e.type === type && e.trade === tradeKey) count++;
+  });
+  return (count + 1) > 3;
+}
+function upgradeCapExceeded(ch, expIndex, isStat, targetKey) {
+  // Stat upgrades and stat trades share the same +3 pool for a given stat.
+  // Skill upgrades and skill trades share the same +3 pool for a given skill.
+  if (!targetKey) return false;
+  const relevantTypes = isStat ? ['stat_up','stat_tr'] : ['skill_up','skill_tr'];
+  let count = 0;
+  ch.exps.forEach((e, idx) => {
+    if (idx === expIndex) return;
+    if (relevantTypes.includes(e.type) && e.target === targetKey) count++;
   });
   return (count + 1) > 3;
 }
@@ -1394,21 +1418,37 @@ function buildExps(){
     let sel='';
 
     if(e.type==='skill_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick skill -</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      const skillUpOpts = SKILL_OPTS.map(o=>{
+        const exceeded = upgradeCapExceeded(ch, i, false, o.key);
+        return `<option value="${o.key}"${e.target===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at +3 from skill upgrades/trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick skill -</option>${skillUpOpts}</select>`;
     }else if(e.type==='stat_up'){
-      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick stat -</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select>`;
+      const statUpOpts = STAT_OPTS.map(o=>{
+        const exceeded = upgradeCapExceeded(ch, i, true, o.key);
+        return `<option value="${o.key}"${e.target===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at +3 from stat upgrades/trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<select class="exp-sel" data-i="${i}" data-f="target"><option value="" disabled selected>- pick stat -</option>${statUpOpts}</select>`;
     }else if(e.type==='skill_tr'){
       const skillTradeOpts = SKILL_OPTS.map(o=>{
         const exceeded = tradeCapExceeded(ch, i, 'skill_tr', o.key);
         return `<option value="${o.key}"${e.trade===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at -3 from skill trades"':''}>${o.label}</option>`;
       }).join('');
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ skill up</option>${SKILL_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ skill down</option>${skillTradeOpts}</select></div>`;
+      const skillTargetOpts = SKILL_OPTS.map(o=>{
+        const exceeded = upgradeCapExceeded(ch, i, false, o.key);
+        return `<option value="${o.key}"${e.target===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at +3 from skill upgrades/trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ skill up</option>${skillTargetOpts}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ skill down</option>${skillTradeOpts}</select></div>`;
     }else if(e.type==='stat_tr'){
       const statTradeOpts = STAT_OPTS.map(o=>{
         const exceeded = tradeCapExceeded(ch, i, 'stat_tr', o.key);
         return `<option value="${o.key}"${e.trade===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at -3 from stat trades"':''}>${o.label}</option>`;
       }).join('');
-      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ stat up</option>${STAT_OPTS.map(o=>`<option value="${o.key}"${e.target===o.key?' selected':''}>${o.label}</option>`).join('')}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ stat down</option>${statTradeOpts}</select></div>`;
+      const statTargetOpts = STAT_OPTS.map(o=>{
+        const exceeded = upgradeCapExceeded(ch, i, true, o.key);
+        return `<option value="${o.key}"${e.target===o.key?' selected':''}${exceeded?' data-locked="true" title="Already at +3 from stat upgrades/trades"':''}>${o.label}</option>`;
+      }).join('');
+      sel=`<div class="trade-pair"><select class="exp-sel" data-i="${i}" data-f="target" style="flex:1;min-width:90px"><option value="" disabled selected>↑ stat up</option>${statTargetOpts}</select><span class="trade-arrow">↕</span><select class="exp-sel" data-i="${i}" data-f="trade" style="flex:1;min-width:90px"><option value="" disabled selected>↓ stat down</option>${statTradeOpts}</select></div>`;
     }else if(e.type==='feat'){
       const feat=FEATS.find(f=>f.name===e.target);
       const isMutFeat=feat&&feat.cat==='Mutation';
