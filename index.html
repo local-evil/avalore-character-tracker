@@ -1217,6 +1217,13 @@ function getFeatMax(ch){const t=getMageTier(ch);if(t===1)return 9;if(t===2)retur
 function countFeats(ch){return ch.exps.filter(e=>e.type==='feat').length;}
 function isMutant(ch){return ch.exps.some(e=>e.type==='feat'&&FEATS.find(f=>f.name===e.target&&f.cat==='Mutation'));}
 
+function featBodyHtml(feat){
+  if(feat.boon||feat.bane){
+    return `<b>Boon:</b> ${feat.boon||''}<br><b>Bane:</b> ${feat.bane||''}`;
+  }
+  return feat.desc||'';
+}
+
 function parseReq(reqStr){
   if(!reqStr||reqStr==='None'||reqStr==='Vampire'||reqStr==='Mutant')return[];
   const results=[];
@@ -1456,7 +1463,7 @@ function buildExps(){
       if(feat){
         const chk=checkFeatReq(feat,ch);
         const notMetNote = !chk.met ? `<div class="lim-note" style="color:var(--danger)">${chk.reason}</div>` : '';
-        sel+=`<div class="feat-preview"${!chk.met?' style="opacity:0.6"':''}><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}${notMetNote}<div class="fx">${feat.desc}</div>${renderReqPills(feat.req, ch)}</div>`;
+        sel+=`<div class="feat-preview"${!chk.met?' style="opacity:0.6"':''}><b>${feat.name}${feat.limited?'<span class="lim-tag">Limited</span>':''}</b>${feat.limited?'<div class="lim-note">Limited feats can only be used once per turn.</div>':''}${notMetNote}<div class="fx">${featBodyHtml(feat)}</div>${renderReqPills(feat.req, ch)}</div>`;
       }
       if(isMutFeat){
         const hv=e.hindrance||'';
@@ -1857,7 +1864,7 @@ function buildFeatures() {
         if (!feat) return;
         const isMut = feat.cat === 'Mutation';
         chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
-        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${feat.desc}</div>`;
+        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${featBodyHtml(feat)}</div>`;
         if (isMut && e.hindrance) {
           const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
           if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} - ${h.desc}</div>`;
