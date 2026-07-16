@@ -125,7 +125,7 @@ window.FABLED_FEATS_DEFAULT = [
     "boon": "The individual gains the ability to maintain a particular garden which is struck with supernatural powers, such as growing unique herbs, granting a calming and healing aura, or other benefit of the gardener's wish.",
     "bane": "A sense of paranoia about the state of their home and garden is always with them, and they must spend a not-insignificant amount of time upkeeping their supernatural garden, as it seems to need more care than most.",
     "limited": false
-  }
+  },
   {
     "name": "Nature's Touch",
     "cat": "Divine Gardeners",
