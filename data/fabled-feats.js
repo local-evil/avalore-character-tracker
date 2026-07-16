@@ -75,7 +75,7 @@ window.FABLED_FEATS_DEFAULT = [
     "cat": "Shrine Keepers",
     "req": "None",
     "boon": "The shrinekeeper's consistent and mindful devotion catches the attention of the entity or idea they've dedicated a portion of their life to. The grounds of their shrine, a 20m (20 block) radius around the center, gain a passive, non-offensive benefit. The shrinekeeper may also spend an hour to consecrate a minor shrine elsewhere, providing a lesser version of the shrine's benefit in the same radius. The grounds remain blessed for up to one day, and only one minor shrine may exist at a time. In both instances, the shrinekeeper chooses who may or may not receive the passive benefit.",
-    "bane": "Replace this with the real bane text.",
+    "bane": " As a consequence of their unique connection, the shrinekeeper becomes a target for either aberrations or creatures of the natural order, whichever stands more opposed to their beliefs. Additionally, they take on a unique bane relevant to their shrine's blessing or animus.",
     "limited": false
   },
   {
