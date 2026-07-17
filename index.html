@@ -1892,6 +1892,16 @@ function reorderFeatureExps(ch, fromKey, toKey) {
   idxs.forEach((origIdx, k) => { ch.exps[origIdx] = items[k]; });
 }
 
+// Static banes that apply to every Vampire character, shown in the Hindrances
+// section whenever the Vampire trait box is checked. Rendered through formatDesc,
+// so *Name:* pairs become bold sub-headers with the paragraph below them.
+const VAMPIRE_BANES_DESC =
+  "*Daylight:*\nDaylight and its equivalent (specified in spells or Fabled effects) is chiefly beloathed. Innate boons and many Vampire Feats do not work while under this condition. Though it doesn't burn them like many folktales would suggest, Daylight will still make a vampire's movements sluggish and hinder their eyesight. Their mobility from base movement, Dashing, spells, and feats is reduced by 1m (1 block) and their visual INT: Perception checks are made with a -3 modifier." +
+  "\n\n*Silver:*\nSilver is another reviled weakness. Should a vampire be struck by silver, they are unable to heal through any means for one round. Holding a tool or weapon containing silver or wearing their own silvered bracers will not trigger this weakness. Similar to daylight, being struck by silver may also disable certain vampiric abilities." +
+  "\n\n*Water:*\nContrary to popular mythology, vampires have no issue crossing running water. Submersion in water, however, causes excruciating pain akin to being set aflame. For each round spent submerged, they lose 1 HP, compounding each additional round (1 HP -> 2 HP -> 3 HP)." +
+  "\n\n*Healing:*\nWhile mortals may tend to their wounds in solace, for a vampire, the act of recovery is a curse. Mundane methods do nothing to mend them, nor do the alchemical. For a vampire, the act of healing oneself is only achieved by exacting a toll: consuming fresh blood, straight from the vein. Because of the inability to naturally recover, vampires do not Stabilize to 1 HP when they escape danger or end a scene in Critical. They will remain in Critical until they regain HP, either by feeding, arcane means, or any other allowed source. Vampires also accrue exhaustion just like mortals, however instead of sleeping, they restore energy through feeding." +
+  "\n\n*Craving:*\nThe relationship between a vampire and lifeblood is most sacred and instinctual--like that of a Mournshade and its desire to hunt. This primal craving can overtake a vampire even while Fully Fed: while out of combat, vampires must succeed a HAR: Belief check when in Skirmishing distance of fresh blood (blood other than their own spilled within the scene). A failed check compels them to attempt to feed regardless of their current level of satiation. The compulsion need not be violent, but will give the vampire tunnel-vision. They may behave like a persistent moth orbiting a flame until the source of blood is removed, or until they have fed.";
+
 function buildFeatures() {
   const ch = getChar(); if (!ch) return;
   const el = document.getElementById('features-panel'); if (!el) return;
@@ -1934,11 +1944,22 @@ function buildFeatures() {
         const feat = FEATS.find(f => f.name === e.target);
         if (!feat) return;
         chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
-        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${featBodyHtml(feat)}</div></div>`;
+        let hindLine = '';
+        if (feat.cat === 'Mutation' && e.hindrance) {
+          const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
+          if (h) hindLine = `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name}</div>`;
+        }
+        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${featBodyHtml(feat)}</div>${hindLine}</div>`;
       } else {
         const tier = parseInt(e.type.slice(-1));
         chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
-        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${plannedBadge}</div>`;
+        const hv = (e.hindrances || [])[0];
+        let hindLine = '';
+        if (hv) {
+          const h = ARCANE_HINDRANCES.find(x => x.name === hv);
+          if (h) hindLine = `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name}</div>`;
+        }
+        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${plannedBadge}${hindLine}</div>`;
       }
       featsWrap.appendChild(chip);
     });
@@ -1954,36 +1975,62 @@ function buildFeatures() {
     }
   }
 
-  //  Hindrances (derived from Mutation feats and Mage tiers)
+  //  Hindrances (derived from Mutation feats, Mage tiers, and the Vampire trait)
   const hindEntries = [];
   ch.exps.forEach(e => {
     if (e.type === 'feat' && e.target) {
       const feat = FEATS.find(f => f.name === e.target);
       if (feat && feat.cat === 'Mutation' && e.hindrance) {
         const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
-        if (h) hindEntries.push({ h, source: feat.name });
+        if (h) hindEntries.push({ h, source: feat.name, planned: !!e.planned, key: `feat:${e.target}` });
       }
     } else if (e.type && e.type.startsWith('mage')) {
       const tier = parseInt(e.type.slice(-1));
       const hv = (e.hindrances || [])[0];
       if (hv) {
         const h = ARCANE_HINDRANCES.find(x => x.name === hv);
-        if (h) hindEntries.push({ h, source: LABELS[e.type] || ('Mage ' + tier) });
+        if (h) hindEntries.push({ h, source: LABELS[e.type] || ('Mage ' + tier), planned: !!e.planned, key: `mage:${e.type}` });
       }
     }
   });
+  if (ch.isVampire) {
+    hindEntries.push({ h: { name: 'Vampire Banes', desc: VAMPIRE_BANES_DESC }, source: null, planned: false, key: 'vampire-banes' });
+  }
 
   if (hindEntries.length > 0) {
     el.appendChild(secHeader('Hindrances'));
+
+    const savedHindOrder = ch.hindranceOrder || [];
+    const orderedKeys = savedHindOrder.filter(k => hindEntries.some(en => en.key === k));
+    const remainingKeys = hindEntries.filter(en => !orderedKeys.includes(en.key)).map(en => en.key);
+    const orderedHindEntries = [...orderedKeys, ...remainingKeys]
+      .map(k => hindEntries.find(en => en.key === k))
+      .filter(Boolean);
+
     const hindWrap = document.createElement('div');
     hindWrap.className = 'reorder-wrap';
-    hindEntries.forEach(({ h, source }) => {
+    orderedHindEntries.forEach(({ h, source, planned, key }) => {
       const chip = document.createElement('div');
-      chip.className = 'feat-chip';
-      chip.innerHTML = `<div><span class="feat-chip-name">${h.name}</span><span class="feat-chip-lim" style="background:var(--danger-dim);border-color:var(--danger-border);color:var(--danger)">${source}</span><div class="feat-chip-desc">${formatDesc(h.desc)}</div></div>`;
+      chip.className = 'feat-chip' + (planned ? ' is-planned' : '');
+      chip.setAttribute('draggable', 'true');
+      chip.dataset.dragKey = key;
+      const sourceBadge = source
+        ? `<span class="feat-chip-lim" style="background:var(--danger-dim);border-color:var(--danger-border);color:var(--danger)">${source}</span>`
+        : '';
+      const plannedBadge = planned ? '<span class="feat-chip-planned">Planned</span>' : '';
+      chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${h.name}</span>${sourceBadge}${plannedBadge}<div class="feat-chip-desc">${formatDesc(h.desc)}</div></div>`;
       hindWrap.appendChild(chip);
     });
     el.appendChild(hindWrap);
+
+    if (orderedHindEntries.length > 1) {
+      wireDragReorder(hindWrap, '.feat-chip[data-drag-key]', (fromKey, toKey) => {
+        ch.hindranceOrder = orderedHindEntries.map(en => en.key);
+        reorderByValue(ch.hindranceOrder, fromKey, toKey);
+        saveAll(chars);
+        buildFeatures();
+      });
+    }
   }
 
   //  Favorited spells
