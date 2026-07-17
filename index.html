@@ -296,6 +296,25 @@ body { min-height: 100vh; }
 .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1rem; }
 .modal-preview { background: var(--surface-1); border-radius: var(--radius); padding: 0.75rem; font-size: 13px; border: 1px solid var(--border); }
 
+/* Cloud search / preview */
+.cloud-load-modal-box { width: 460px; max-height: 84vh; overflow-y: auto; }
+.cloud-search-results { max-height: 260px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.cloud-search-result {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; font-size: 13px; background: var(--surface-1);
+}
+.cloud-search-result:hover { border-color: var(--accent-border); background: var(--accent-dim); }
+.cloud-search-result-name { font-weight: 500; color: var(--text-primary); }
+.cloud-search-result-meta { font-size: 11px; color: var(--text-muted); }
+.cloud-search-empty { font-size: 12px; color: var(--text-muted); font-style: italic; padding: 8px 0; }
+.cloud-preview-body { max-height: 50vh; overflow-y: auto; }
+.cloud-preview-body h4 { font-family: var(--font-display); font-size: 14px; margin-bottom: 4px; color: var(--gold-text); }
+.cloud-preview-body .cpv-row { font-size: 12px; color: var(--text-secondary); margin-bottom: 3px; }
+.cloud-preview-body .cpv-feat { font-size: 11px; color: var(--text-muted); padding: 2px 0; border-bottom: 1px solid var(--border); }
+.cloud-preview-body .cpv-feat:last-child { border-bottom: none; }
+.cloud-preview-body .cpv-feat b { color: var(--text-secondary); font-weight: 500; }
+
 .hidden { display: none !important; }
 
 /* Top row: 3-col grid for char card + stats */
@@ -454,8 +473,10 @@ option[data-locked="true"] {
   display: inline-flex; align-items: center; gap: 4px;
   min-width: 120px;
 }
-.autosave-status.dirty  { color: var(--warning); }
-.autosave-status.saved  { color: var(--success); }
+.autosave-status.dirty   { color: var(--warning); }
+.autosave-status.saved   { color: var(--success); }
+.autosave-status.syncing { color: var(--text-muted); }
+.autosave-status.error   { color: var(--danger); }
 
 /* Spells tab */
 .spell-branch-header {
@@ -937,15 +958,48 @@ option[data-locked="true"] {
 
 <!-- Cloud load modal -->
 <div id="cloud-load-modal" class="modal-back hidden">
-  <div class="modal">
-    <h3>Import Character</h3>
-    <p>Enter an 8-character code or paste a share link. The character will be added as a new slot.</p>
-    <input class="load-uuid-input" id="load-uuid-input" placeholder="Code (ab3x9k2m) or share link…" autocomplete="off" autocorrect="off" spellcheck="false">
-    <div id="load-uuid-err" style="font-size:12px;color:var(--danger);margin-top:6px;display:none"></div>
-    <div class="modal-btns" style="margin-top:1rem">
-      <button class="btn" id="cloud-load-cancel">Cancel</button>
-      <button class="btn btn-accent" id="cloud-load-confirm"><i class="ti ti-download"></i> Import</button>
+  <div class="modal cloud-load-modal-box">
+
+    <!-- By code / share link -->
+    <div id="cloud-load-code-section">
+      <h3>Import Character</h3>
+      <p>Enter an 8-character code or paste a share link. The character will be added as a new slot.</p>
+      <input class="load-uuid-input" id="load-uuid-input" placeholder="Code (ab3x9k2m) or share link…" autocomplete="off" autocorrect="off" spellcheck="false">
+      <div id="load-uuid-err" style="font-size:12px;color:var(--danger);margin-top:6px;display:none"></div>
+      <p style="margin-top:0.75rem;font-size:12px"><a href="#" id="cloud-search-show-link">Lost your code? Search by character name or username instead</a></p>
+      <div class="modal-btns" style="margin-top:1rem">
+        <button class="btn" id="cloud-load-cancel">Cancel</button>
+        <button class="btn btn-accent" id="cloud-load-confirm"><i class="ti ti-download"></i> Import</button>
+      </div>
     </div>
+
+    <!-- By name / username search -->
+    <div id="cloud-search-section" class="hidden">
+      <h3>Find Character</h3>
+      <p>Search by character name or username. Matches whose name/username <i>starts with</i> what you type.</p>
+      <div style="display:flex;gap:8px">
+        <input class="load-uuid-input" id="cloud-search-input" style="flex:1" placeholder="Character name or username…" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="btn btn-accent" id="cloud-search-btn"><i class="ti ti-search"></i></button>
+      </div>
+      <div id="cloud-search-err" style="font-size:12px;color:var(--danger);margin-top:6px;display:none"></div>
+      <div id="cloud-search-results" class="cloud-search-results"></div>
+      <div class="modal-btns" style="margin-top:1rem">
+        <button class="btn" id="cloud-search-back-link">Back</button>
+        <button class="btn" id="cloud-search-cancel">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Preview of a search result, before confirming import -->
+    <div id="cloud-preview-section" class="hidden">
+      <h3>Confirm Character</h3>
+      <p>Double-check this is yours before importing it as an editable copy.</p>
+      <div id="cloud-preview-body" class="modal-preview cloud-preview-body"></div>
+      <div class="modal-btns" style="margin-top:1rem">
+        <button class="btn" id="cloud-preview-back">Back to results</button>
+        <button class="btn btn-accent" id="cloud-preview-import"><i class="ti ti-download"></i> Import as mine</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1160,10 +1214,13 @@ const BADGES={skill_up:'b-ku',skill_tr:'b-kt',stat_up:'b-su',stat_tr:'b-st',feat
 
 
 const LS='av_chars', LSA='av_active';
+// While viewing a character shared by someone else (#share/... or #c/...), never
+// persist to this browser's own storage - not even via the autosave timer.
+let shareView=false;
 function loadAll(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch{return[]}}
-function saveAll(c){localStorage.setItem(LS,JSON.stringify(c))}
+function saveAll(c){if(shareView)return;localStorage.setItem(LS,JSON.stringify(c))}
 function getAct(){return localStorage.getItem(LSA)||''}
-function setAct(id){localStorage.setItem(LSA,id)}
+function setAct(id){if(shareView)return;localStorage.setItem(LSA,id)}
 function blank(name){return{id:Date.now()+'_'+Math.random().toString(36).slice(2),name:name||'New character',xpTotal:0,isVampire:false,exps:[]};}
 
 
@@ -1217,11 +1274,25 @@ function getFeatMax(ch){const t=getMageTier(ch);if(t===1)return 9;if(t===2)retur
 function countFeats(ch){return ch.exps.filter(e=>e.type==='feat').length;}
 function isMutant(ch){return ch.exps.some(e=>e.type==='feat'&&FEATS.find(f=>f.name===e.target&&f.cat==='Mutation'));}
 
+// Lightweight formatting for Desc-type text fields: \n for line breaks,
+// *word* for bold, and leading tab characters per line for indentation.
+// Plain text with none of these (all existing data) renders byte-identical.
+function formatDesc(text){
+  if(!text) return '';
+  const esc = String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return esc.split('\n').map(line=>{
+    let indent = 0;
+    while(line.startsWith('\t')){ indent++; line = line.slice(1); }
+    const bolded = line.replace(/\*(.+?)\*/g, '<b>$1</b>');
+    return '&nbsp;&nbsp;&nbsp;&nbsp;'.repeat(indent) + bolded;
+  }).join('<br>');
+}
+
 function featBodyHtml(feat){
   if(feat.boon||feat.bane){
-    return `<b>Boon:</b> ${feat.boon||''}<br><b>Bane:</b> ${feat.bane||''}`;
+    return `<b>Boon:</b> ${formatDesc(feat.boon||'')}<br><b>Bane:</b> ${formatDesc(feat.bane||'')}`;
   }
-  return feat.desc||'';
+  return formatDesc(feat.desc||'');
 }
 
 function parseReq(reqStr){
@@ -1324,7 +1395,7 @@ function makeFeatSel(idx,currentVal,ch){
 
 function hindPreview(name,list){
   const h=list.find(x=>x.name===name);
-  return h?`<div class="feat-preview" style="margin-top:4px"><b>${h.name}</b><div class="fx">${h.desc}</div></div>`:'';
+  return h?`<div class="feat-preview" style="margin-top:4px"><b>${h.name}</b><div class="fx">${formatDesc(h.desc)}</div></div>`:'';
 }
 
 function calcDC(modifier, dc) {
@@ -1862,26 +1933,12 @@ function buildFeatures() {
       if (e.type === 'feat') {
         const feat = FEATS.find(f => f.name === e.target);
         if (!feat) return;
-        const isMut = feat.cat === 'Mutation';
         chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
-        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${featBodyHtml(feat)}</div>`;
-        if (isMut && e.hindrance) {
-          const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
-          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} - ${h.desc}</div>`;
-        }
-        html += '</div>';
-        chip.innerHTML = html;
+        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${feat.name}</span>${feat.limited ? '<span class="feat-chip-lim">Limited</span>' : ''}${plannedBadge}<div class="feat-chip-desc">${featBodyHtml(feat)}</div></div>`;
       } else {
         const tier = parseInt(e.type.slice(-1));
         chip.className = 'feat-chip' + (isPlanned ? ' is-planned' : '');
-        let html = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${plannedBadge}`;
-        const hv = (e.hindrances || [])[0];
-        if (hv) {
-          const h = ARCANE_HINDRANCES.find(x => x.name === hv);
-          if (h) html += `<div class="feat-chip-hind"><span style="color:var(--danger)">Hindrance:</span> ${h.name} - ${h.desc}</div>`;
-        }
-        html += '</div>';
-        chip.innerHTML = html;
+        chip.innerHTML = `<span class="chip-drag-handle" title="Drag to reorder">⠿</span><div><span class="feat-chip-name">${LABELS[e.type] || 'Mage ' + tier}</span>${plannedBadge}</div>`;
       }
       featsWrap.appendChild(chip);
     });
@@ -1897,7 +1954,39 @@ function buildFeatures() {
     }
   }
 
-  //  Favorited spells 
+  //  Hindrances (derived from Mutation feats and Mage tiers)
+  const hindEntries = [];
+  ch.exps.forEach(e => {
+    if (e.type === 'feat' && e.target) {
+      const feat = FEATS.find(f => f.name === e.target);
+      if (feat && feat.cat === 'Mutation' && e.hindrance) {
+        const h = MUTANT_HINDRANCES.find(x => x.name === e.hindrance);
+        if (h) hindEntries.push({ h, source: feat.name });
+      }
+    } else if (e.type && e.type.startsWith('mage')) {
+      const tier = parseInt(e.type.slice(-1));
+      const hv = (e.hindrances || [])[0];
+      if (hv) {
+        const h = ARCANE_HINDRANCES.find(x => x.name === hv);
+        if (h) hindEntries.push({ h, source: LABELS[e.type] || ('Mage ' + tier) });
+      }
+    }
+  });
+
+  if (hindEntries.length > 0) {
+    el.appendChild(secHeader('Hindrances'));
+    const hindWrap = document.createElement('div');
+    hindWrap.className = 'reorder-wrap';
+    hindEntries.forEach(({ h, source }) => {
+      const chip = document.createElement('div');
+      chip.className = 'feat-chip';
+      chip.innerHTML = `<div><span class="feat-chip-name">${h.name}</span><span class="feat-chip-lim" style="background:var(--danger-dim);border-color:var(--danger-border);color:var(--danger)">${source}</span><div class="feat-chip-desc">${formatDesc(h.desc)}</div></div>`;
+      hindWrap.appendChild(chip);
+    });
+    el.appendChild(hindWrap);
+  }
+
+  //  Favorited spells
   const ch2 = getChar();
   const cfg2 = ch2 ? getMageConfig(ch2) : { tier: 0, discipline: '', patron: '' };
 
@@ -1922,8 +2011,8 @@ function buildFeatures() {
       ${spell.targeted?'<span class="feat-chip-lim">Targeted</span>':''}
       ${branchTag(spell.branch)}
       ${autoLabel}
-      <div class="feat-chip-desc"><b>Effect:</b> ${spell.desc}</div>
-      ${spell.method ? `<div class="feat-chip-desc" style="font-style:italic;margin-top:2px"><b>Method:</b> ${spell.method}</div>` : ''}
+      <div class="feat-chip-desc"><b>Effect:</b> ${formatDesc(spell.desc)}</div>
+      ${spell.method ? `<div class="feat-chip-desc" style="font-style:italic;margin-top:2px"><b>Method:</b> ${formatDesc(spell.method)}</div>` : ''}
       ${spell.req && spell.req !== 'None' ? renderReqPills(spell.req, ch2) : ''}
       <div style="font-size:10px;color:var(--accent-text);margin-top:2px">${spell.cmd} · ${spell.anima>0?spell.anima+' anima':'cantrip'} · ${spell.actions} action${spell.actions!=='1'?'s':''}</div>
     </div>`;
@@ -2149,6 +2238,7 @@ function checkShareMode() {
       document.getElementById('loading-screen').innerHTML =
         '<div class="spinner"></div><div class="loading-title">Loading shared character…</div>';
       cloudLoadChar(uuid).then(ch => {
+        shareView = true;
         chars = [ch];
         activeId = ch.id || 'shared';
         if (!ch.id) ch.id = 'shared';
@@ -2190,6 +2280,7 @@ function checkShareMode() {
   document.body.style.paddingTop = '40px';
 
   // Load shared char as a temporary view-only state
+  shareView = true;
   chars = [ch];
   activeId = ch.id || 'shared';
   if (!ch.id) ch.id = 'shared';
@@ -2207,15 +2298,45 @@ function checkShareMode() {
   return true;
 }
 
+function showCloudModalSection(section) {
+  // section: 'code' | 'search' | 'preview'
+  document.getElementById('cloud-load-code-section').classList.toggle('hidden', section !== 'code');
+  document.getElementById('cloud-search-section').classList.toggle('hidden', section !== 'search');
+  document.getElementById('cloud-preview-section').classList.toggle('hidden', section !== 'preview');
+}
+
+function closeCloudModal() {
+  document.getElementById('cloud-load-modal').classList.add('hidden');
+}
+
 document.getElementById('cloud-load-btn').addEventListener('click', () => {
   document.getElementById('load-uuid-input').value = '';
   document.getElementById('load-uuid-err').style.display = 'none';
+  document.getElementById('cloud-search-input').value = '';
+  document.getElementById('cloud-search-err').style.display = 'none';
+  document.getElementById('cloud-search-results').innerHTML = '';
+  _cloudSearchCandidate = null;
+  showCloudModalSection('code');
   document.getElementById('cloud-load-modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('load-uuid-input').focus(), 50);
 });
 
-document.getElementById('cloud-load-cancel').addEventListener('click', () => {
-  document.getElementById('cloud-load-modal').classList.add('hidden');
+document.getElementById('cloud-load-cancel').addEventListener('click', closeCloudModal);
+document.getElementById('cloud-search-cancel').addEventListener('click', closeCloudModal);
+
+document.getElementById('cloud-search-show-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  showCloudModalSection('search');
+  setTimeout(() => document.getElementById('cloud-search-input').focus(), 50);
+});
+
+document.getElementById('cloud-search-back-link').addEventListener('click', () => {
+  showCloudModalSection('code');
+});
+
+document.getElementById('cloud-preview-back').addEventListener('click', () => {
+  _cloudSearchCandidate = null;
+  showCloudModalSection('search');
 });
 
 document.getElementById('share-btn').addEventListener('click', () => {
@@ -2284,6 +2405,7 @@ async function cloudSaveChar(ch) {
   const payload = {
     charId:   ch.id,
     charName: ch.name || 'Unnamed',
+    username: ch.username || '',
     data:     JSON.stringify(ch),
   };
 
@@ -2339,6 +2461,24 @@ function extractUUID(raw) {
   return null;
 }
 
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Adds a cloud-loaded character as a brand new, fully editable local slot
+// (used by both the code/link import and the search-and-preview import).
+function importCharAsNewSlot(ch, uuid) {
+  const nc = { ...ch, id: Date.now() + '_' + Math.random().toString(36).slice(2), cloudUUID: uuid };
+  chars.push(nc);
+  saveAll(chars);
+  activeId = nc.id;
+  setAct(activeId);
+  closeCloudModal();
+  renderSheet();
+}
+
 // Cloud load (Import) button
 
 document.getElementById('cloud-load-confirm').addEventListener('click', async () => {
@@ -2357,13 +2497,7 @@ document.getElementById('cloud-load-confirm').addEventListener('click', async ()
   btn.disabled = true;
   try {
     const ch = await cloudLoadChar(uuid);
-    const nc = { ...ch, id: Date.now() + '_' + Math.random().toString(36).slice(2), cloudUUID: uuid };
-    chars.push(nc);
-    saveAll(chars);
-    activeId = nc.id;
-    setAct(activeId);
-    document.getElementById('cloud-load-modal').classList.add('hidden');
-    renderSheet();
+    importCharAsNewSlot(ch, uuid);
   } catch (err) {
     errEl.textContent = 'Could not find that character. Double-check the code or link and try again.';
     errEl.style.display = '';
@@ -2373,22 +2507,144 @@ document.getElementById('cloud-load-confirm').addEventListener('click', async ()
   }
 });
 
+// ---- Search by character name / username ----
+
+async function cloudSearchChars(query) {
+  const url  = `${APPS_SCRIPT_URL}?search=${encodeURIComponent(query.trim())}`;
+  const resp = await fetch(url, { redirect: 'follow' });
+  const text = await resp.text();
+  if (text.trim().startsWith('<')) {
+    throw new Error('Unexpected response from server.');
+  }
+  const json = JSON.parse(text);
+  if (!json.ok) throw new Error(json.error || 'Search failed');
+  return json.results || [];
+}
+
+function formatUpdatedAt(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+let _cloudSearchCandidate = null; // { uuid, ch } for whatever result is being previewed
+
+async function runCloudSearch() {
+  const q         = document.getElementById('cloud-search-input').value.trim();
+  const errEl     = document.getElementById('cloud-search-err');
+  const resultsEl = document.getElementById('cloud-search-results');
+  errEl.style.display = 'none';
+  resultsEl.innerHTML = '';
+  if (!q) {
+    errEl.textContent = 'Type a character name or username to search.';
+    errEl.style.display = '';
+    return;
+  }
+  const btn = document.getElementById('cloud-search-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="ti ti-loader ti-spin"></i>';
+  btn.disabled = true;
+  try {
+    const results = await cloudSearchChars(q);
+    if (results.length === 0) {
+      resultsEl.innerHTML = '<div class="cloud-search-empty">No matches found.</div>';
+    } else {
+      results.forEach(r => {
+        const row = document.createElement('div');
+        row.className = 'cloud-search-result';
+        const meta = [
+          r.username ? `Username: ${escapeHtml(r.username)}` : 'No username set',
+          r.updatedAt ? `Updated ${formatUpdatedAt(r.updatedAt)}` : '',
+        ].filter(Boolean).join(' · ');
+        row.innerHTML = `<div><div class="cloud-search-result-name">${escapeHtml(r.charName || 'Unnamed')}</div><div class="cloud-search-result-meta">${meta}</div></div><i class="ti ti-chevron-right"></i>`;
+        row.addEventListener('click', () => openCloudPreview(r.uuid));
+        resultsEl.appendChild(row);
+      });
+    }
+  } catch (err) {
+    errEl.textContent = 'Search failed: ' + err.message;
+    errEl.style.display = '';
+  } finally {
+    btn.innerHTML = orig;
+    btn.disabled = false;
+  }
+}
+
+document.getElementById('cloud-search-btn').addEventListener('click', runCloudSearch);
+document.getElementById('cloud-search-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runCloudSearch();
+});
+
+function renderCloudPreviewHtml(ch) {
+  const traits = [];
+  if (ch.isVampire) traits.push('Vampire');
+  const featExps = (ch.exps || []).filter(e => e.type === 'feat' && e.target);
+  const mageExps = (ch.exps || []).filter(e => e.type && e.type.startsWith('mage'));
+  const isMutant = featExps.some(e => { const f = FEATS.find(x => x.name === e.target); return f && f.cat === 'Mutation'; });
+  if (isMutant) traits.push('Mutant');
+
+  const mageLabels   = mageExps.map(e => LABELS[e.type] || e.type);
+  const allFeatLabels = [...featExps.map(e => e.target), ...mageLabels].filter(Boolean);
+  const spellNames    = ch.spellFavorites || [];
+
+  return `
+    <h4>${escapeHtml(ch.name || 'Unnamed')}</h4>
+    <div class="cpv-row"><b>Username:</b> ${ch.username ? escapeHtml(ch.username) : 'not set'}</div>
+    ${traits.length ? `<div class="cpv-row"><b>Traits:</b> ${traits.map(escapeHtml).join(', ')}</div>` : ''}
+    <div class="cpv-row"><b>Total XP:</b> ${Number(ch.xpTotal) || 0}</div>
+    <div class="cpv-row"><b>Feats &amp; Mage tiers (${allFeatLabels.length}):</b> ${allFeatLabels.length ? allFeatLabels.map(escapeHtml).join(', ') : 'none'}</div>
+    <div class="cpv-row"><b>Tracked spells (${spellNames.length}):</b> ${spellNames.length ? spellNames.map(escapeHtml).join(', ') : 'none'}</div>
+  `;
+}
+
+async function openCloudPreview(uuid) {
+  showCloudModalSection('preview');
+  _cloudSearchCandidate = null;
+  const body = document.getElementById('cloud-preview-body');
+  body.innerHTML = '<div class="cloud-search-empty"><i class="ti ti-loader ti-spin"></i> Loading preview…</div>';
+  try {
+    const ch = await cloudLoadChar(uuid);
+    _cloudSearchCandidate = { uuid, ch };
+    body.innerHTML = renderCloudPreviewHtml(ch);
+  } catch (err) {
+    body.innerHTML = `<div class="cloud-search-empty">Could not load this character: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+document.getElementById('cloud-preview-import').addEventListener('click', () => {
+  if (!_cloudSearchCandidate) return;
+  const { uuid, ch } = _cloudSearchCandidate;
+  importCharAsNewSlot(ch, uuid);
+});
+
 document.getElementById('load-uuid-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('cloud-load-confirm').click();
 });
 
-// Cloud save button
+// Cloud save button - forces an immediate sync even if the background auto-sync
+// thinks nothing has changed; shares its in-flight lock and baselines so the two
+// never race each other.
 document.getElementById('cloud-save-btn').addEventListener('click', async () => {
   const ch = getChar(); if (!ch) return;
+  if (_cloudSyncInFlight) return; // a sync (auto or manual) is already running
   const btn = document.getElementById('cloud-save-btn');
   const orig = btn.innerHTML;
   btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Saving…';
   btn.disabled = true;
+  _cloudSyncInFlight = true;
+  const snapshot = JSON.stringify(ch);
   try {
     const uuid = await cloudSaveChar(ch);
     ch.cloudUUID = uuid;
     saveAll(chars);
     refreshUUIDDisplay();
+    const uploaded = JSON.parse(snapshot);
+    uploaded.cloudUUID = uuid;
+    _lastCloudSyncedJSON = JSON.stringify(uploaded);
+    _lastSavedJSON = JSON.stringify(ch);
+    setAutosaveStatus('saved', 'Saved to cloud');
+    setTimeout(() => setAutosaveStatus('', ''), 3000);
     // Flash success on button
     btn.innerHTML = '<i class="ti ti-check"></i> Saved!';
     setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2000);
@@ -2396,69 +2652,117 @@ document.getElementById('cloud-save-btn').addEventListener('click', async () => 
     alert('Cloud save failed: ' + err.message);
     btn.innerHTML = orig;
     btn.disabled = false;
+  } finally {
+    _cloudSyncInFlight = false;
   }
 });
 
 // Cloud load button
 // Show UUID on char slots if they have one
-let autoSaveTimer = null;
 
-function scheduleAutoSave() {
-  if (autoSaveTimer) clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => {
-    const ch = getChar(); if (!ch) return;
-    saveAll(chars);
-    // Flash the autosave indicator
-    const ind = document.getElementById('autosave-indicator');
-    if (ind) {
-      ind.style.display = 'inline-flex';
-      setTimeout(() => { ind.style.display = 'none'; }, 3000);
-    }
-    autoSaveTimer = null;
-  }, 60000); // 60 seconds
-}
+// ---- Local autosave (debounced, fires on any tracked change via markDirty/refreshAll) ----
+let autoSaveTimer  = null;
+let _lastSavedJSON = '';
 
-let _autosaveTimer   = null;
-let _lastSavedJSON   = '';
-let _autosavePending = false;
+function scheduleAutoSave() { markDirty(); }
 
 function markDirty() {
-  // Called whenever a change is made
+  if (shareView) return; // never arm timers while viewing someone else's shared link
   const ch = getChar(); if (!ch) return;
   const current = JSON.stringify(ch);
   if (current === _lastSavedJSON) return; // nothing actually changed
-  _autosavePending = true;
   setAutosaveStatus('dirty', 'Unsaved changes');
-  if (!_autosaveTimer) {
-    _autosaveTimer = setTimeout(() => {
-      doLocalSave();
-    }, 60000); // 60 seconds
-  }
+  if (autoSaveTimer) clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(doLocalSave, 60000); // 60 seconds
 }
 
 function doLocalSave() {
-  _autosaveTimer = null;
-  _autosavePending = false;
+  autoSaveTimer = null;
+  if (shareView) return;
+  const ch = getChar(); if (!ch) return;
   saveAll(chars);
-  _lastSavedJSON = JSON.stringify(getChar());
+  _lastSavedJSON = JSON.stringify(ch);
   setAutosaveStatus('saved', 'Saved locally');
-  setTimeout(() => setAutosaveStatus('', ''), 3000);
+  // The local copy is just the first line of defense - immediately follow up
+  // with a cloud sync so the character survives even if this browser's storage
+  // gets cleared (e.g. Safari's 7-day inactivity cap).
+  cloudSyncIfNeeded();
 }
 
 function setAutosaveStatus(cls, msg) {
   const el = document.getElementById('autosave-status');
   if (!el) return;
+  const icons = { dirty: 'clock', saved: 'check', syncing: 'cloud-upload', error: 'alert-triangle' };
   el.className = 'autosave-status' + (cls ? ' ' + cls : '');
-  el.innerHTML = msg ? `<i class="ti ti-${cls==='dirty'?'clock':'check'}"></i> ${msg}` : '';
+  el.innerHTML = msg ? `<i class="ti ti-${icons[cls] || 'check'}"></i> ${msg}` : '';
 }
 
 function resetAutosaveBaseline() {
   // Call when switching characters or loading fresh
-  _lastSavedJSON = JSON.stringify(getChar());
-  _autosavePending = false;
-  if (_autosaveTimer) { clearTimeout(_autosaveTimer); _autosaveTimer = null; }
+  const ch = getChar();
+  _lastSavedJSON = ch ? JSON.stringify(ch) : '';
+  if (autoSaveTimer) { clearTimeout(autoSaveTimer); autoSaveTimer = null; }
   setAutosaveStatus('', '');
+  // Force a fresh cloud-sync check for whichever character is now active - this
+  // is what backfills a cloud copy for characters that were only ever saved
+  // locally, without requiring the user to touch anything or click Save.
+  _lastCloudSyncedJSON = '';
+  if (_cloudSyncBootTimer) clearTimeout(_cloudSyncBootTimer);
+  if (!shareView) _cloudSyncBootTimer = setTimeout(cloudSyncIfNeeded, 4000);
 }
+
+// ---- Automatic cloud sync ----
+let _lastCloudSyncedJSON = '';
+let _cloudSyncInFlight   = false;
+let _cloudSyncBootTimer  = null;
+
+async function cloudSyncIfNeeded() {
+  if (shareView) return;
+  const ch = getChar(); if (!ch) return;
+  const snapshot = JSON.stringify(ch); // exact state we're about to sync
+  if (snapshot === _lastCloudSyncedJSON) return; // already backed up, nothing new
+  if (_cloudSyncInFlight) return; // a sync is already running; it'll catch up next cycle if needed
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    setAutosaveStatus('error', 'Offline - cloud sync will retry');
+    return;
+  }
+  _cloudSyncInFlight = true;
+  setAutosaveStatus('syncing', 'Syncing to cloud…');
+  try {
+    const uuid = await cloudSaveChar(ch);
+    ch.cloudUUID = uuid;
+    saveAll(chars);
+    refreshUUIDDisplay();
+    // Baseline = exactly what we just uploaded, plus the uuid we learned back -
+    // NOT a fresh re-stringify of ch, which could also pick up edits the user
+    // made while the request was in flight and wrongly mark them as synced too.
+    const uploaded = JSON.parse(snapshot);
+    uploaded.cloudUUID = uuid;
+    _lastCloudSyncedJSON = JSON.stringify(uploaded);
+    _lastSavedJSON = JSON.stringify(ch);
+    setAutosaveStatus('saved', 'Saved to cloud');
+    setTimeout(() => setAutosaveStatus('', ''), 3000);
+  } catch (err) {
+    console.warn('Auto cloud sync failed:', err.message);
+    setAutosaveStatus('error', 'Cloud sync failed - will retry');
+  } finally {
+    _cloudSyncInFlight = false;
+  }
+}
+
+// Best-effort last-chance sync if the tab closes with changes that haven't made it to the cloud yet.
+window.addEventListener('pagehide', () => {
+  if (shareView) return;
+  const ch = getChar(); if (!ch) return;
+  saveAll(chars);
+  const current = JSON.stringify(ch);
+  if (current === _lastCloudSyncedJSON) return; // already backed up
+  if (typeof navigator === 'undefined' || !navigator.sendBeacon) return;
+  try {
+    const payload = JSON.stringify({ charId: ch.id, charName: ch.name || 'Unnamed', data: current });
+    navigator.sendBeacon(APPS_SCRIPT_URL, payload);
+  } catch (err) { /* best effort only */ }
+});
 
 function refreshUUIDDisplay() {
   const ch = getChar();
@@ -2887,7 +3191,7 @@ function buildSpellsTab() {
     row.className = 'spell-row' + (locked ? ' spell-row-locked' : '') + (autoMode ? ' spell-row-pinned' : '');
     row.style.opacity = locked ? '0.45' : (reqMet ? '' : '0.5');
     const methodLine = spell.method
-      ? `<div class="spell-method"><b>Method:</b> ${spell.method}</div>`
+      ? `<div class="spell-method"><b>Method:</b> ${formatDesc(spell.method)}</div>`
       : '';
 
     // Unified Requirement section: stat pills + cantrip branch/patron context
@@ -2916,7 +3220,7 @@ function buildSpellsTab() {
     row.innerHTML = `
       <div>
         <span class="spell-name${spell.capstone?' capstone':''}">${spell.name}${spell.capstone?' ✦':''}</span>${showBranch?branchTag(spell.branch):''}${pinnedBadge}${spell.targeted?'<span class="spell-targeted">Targeted</span>':''}
-        <div class="spell-desc"><b>Effect:</b> ${spell.desc}</div>
+        <div class="spell-desc"><b>Effect:</b> ${formatDesc(spell.desc)}</div>
         ${methodLine}
         ${reqSection}
         <div class="spell-cmd">${spell.cmd}${spell.actions?' · '+spell.actions+' action'+(spell.actions!=='1'?'s':''):''}${spell.anima>0?' · '+spell.anima+' anima':' · cantrip'}</div>
