@@ -11,7 +11,7 @@ window.SPELLS_ARTIFICE = [
     "patron": "",
     "capstone": false,
     "targeted": false,
-    "desc": "The caster magically re-arranges and re-constructs a Construct's physical form to allow it to function in the air, the earth, or the sea for the scene. If adapted to the air, it can slowly hover in any direction with its movement reduced by 1. If adapted to the earth, it can burrow through loose dirt and soil at normal movement and stone and rock with its movement reduced by 3. If adapted to the sea, it can swim through water at normal movement and more viscous liquids with its movement reduced by 1. It also ignores normal penalties to underwater combat.",
+    "desc": "tThe caster magically re-arranges and re-constructs a Construct's physical form to allow it to function in the air, the earth, or the sea for the scene. If adapted to the air, it can slowly hover in any direction with its movement reduced by 1. If adapted to the earth, it can burrow through loose dirt and soil at normal movement and stone and rock with its movement reduced by 3. If adapted to the sea, it can swim through water at normal movement and more viscous liquids with its movement reduced by 1. It also ignores normal penalties to underwater combat.",
     "method": "Gesturing the hands to dismantle and rearrange the construct into a desired form."
   },
   {
