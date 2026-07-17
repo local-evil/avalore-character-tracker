@@ -1031,6 +1031,12 @@ option[data-locked="true"] {
     <div class="theme-row"><span class="theme-row-label">Warning (caution states)</span><input type="color" id="theme-warning" data-key="warning"></div>
     <div class="theme-row"><span class="theme-row-label">Danger (negative states)</span><input type="color" id="theme-danger" data-key="danger"></div>
 
+    <div class="theme-section-label" style="opacity:0.55">Advanced</div>
+    <div class="theme-row">
+      <span class="theme-row-label" style="font-size:11px;color:var(--text-muted);max-width:280px">Allow spending past the 200 XP cap</span>
+      <input type="checkbox" id="theme-allow-over-xp" style="width:16px;height:16px;cursor:pointer">
+    </div>
+
     <div class="btn-row" style="margin-top:1rem">
       <button class="btn" id="theme-reset">Reset to defaults</button>
       <button class="btn btn-accent" id="theme-close" style="margin-left:auto">Done</button>
@@ -1100,6 +1106,7 @@ const DATA_URLS = {
 };
 let FEATS = [], ARCANE_HINDRANCES = [], MUTANT_HINDRANCES = [];
 let COSTS = {}, LABELS = {};
+const XP_HARD_CAP = 200; // total XP spent cap - bypassed per-character via ch.allowOverXP
 
 async function loadDataFiles() {
   // Fetch each JS data file from GitHub Pages and execute it to update globals.
@@ -1783,6 +1790,11 @@ document.getElementById('add-btn').addEventListener('click', ()=>{
   const sel=document.getElementById('new-type');const type=sel.value;if(!type)return;
   const ch=getChar();if(!ch)return;
   const errEl=document.getElementById('add-err');errEl.style.display='none';
+  const addCost=COSTS[type]||0;
+  if(!ch.allowOverXP && addCost>0 && xpUsed(ch)+addCost>XP_HARD_CAP){
+    errEl.textContent=`Adding this would put total XP spent over the ${XP_HARD_CAP} cap (currently ${xpUsed(ch)}/${XP_HARD_CAP}). Enable "Allow spending past the ${XP_HARD_CAP} XP cap" in sheet settings if this is intentional.`;
+    errEl.style.display='';sel.value='';return;
+  }
   if(type.startsWith('mage')){
     const t=parseInt(type.slice(-1));
     if(t>1&&!ch.exps.some(e=>e.type==='mage'+(t-1))){errEl.textContent=`Requires ${LABELS['mage'+(t-1)]||'Mage '+(t-1)} first.`;errEl.style.display='';sel.value='';return;}
@@ -2244,6 +2256,7 @@ function expandExp(exp) {
 function encodeCharForURL(ch) {
   const compact = { i:ch.id, n:ch.name, x:ch.xpTotal };
   if (ch.isVampire) compact.v = 1;
+  if (ch.allowOverXP) compact.o = 1;
   compact.e = (ch.exps||[]).map(compactExp);
   // Only include theme if it has custom overrides (keeps the link short otherwise)
   if (ch.theme && Object.keys(ch.theme).length > 0) compact.t = ch.theme;
@@ -2260,6 +2273,7 @@ function decodeCharFromURL(str) {
       name:      c.n || '',
       xpTotal:   c.x ?? 0,
       isVampire: !!c.v,
+      allowOverXP: !!c.o,
       exps:      (c.e||[]).map(expandExp),
       theme:     c.t || {},
     };
@@ -3499,10 +3513,13 @@ function initThemeModal() {
   const inputs = {};
   modal.querySelectorAll('input[type="color"][data-key]').forEach(inp => { inputs[inp.dataset.key] = inp; });
 
+  const allowOverXPInput = document.getElementById('theme-allow-over-xp');
+
   function populateInputs() {
     const ch = getChar();
     const colors = getCharTheme(ch);
     Object.entries(inputs).forEach(([key, input]) => { input.value = colors[key]; });
+    if (allowOverXPInput) allowOverXPInput.checked = !!(ch && ch.allowOverXP);
   }
 
   Object.values(inputs).forEach(input => {
@@ -3514,6 +3531,15 @@ function initThemeModal() {
       saveAll(chars);
     });
   });
+
+  if (allowOverXPInput) {
+    allowOverXPInput.addEventListener('change', () => {
+      const ch = getChar(); if (!ch) return;
+      ch.allowOverXP = allowOverXPInput.checked;
+      saveAll(chars);
+      refreshTypeDropdown();
+    });
+  }
 
   if (gearBtn) gearBtn.addEventListener('click', () => { populateInputs(); modal.classList.remove('hidden'); });
   if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
