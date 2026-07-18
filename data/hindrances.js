@@ -35,7 +35,7 @@ window.ARCANE_HINDRANCES_DEFAULT = [
   {
     "name": "Void Branded",
     "desc": "Effect: Tattoos or scars of an impossible, inky void appear somewhere upon your body. The more powerful mage you become, the further they spread. Upon miscasting, this brand becomes unstable, cannibalizing your very lifeforce; you take AP damage equal to your HAR: Arcana."
-  }
+  },
   {
     "name": "Arcane Leech",
     "desc": "*Effect:* Your character becomes host to an arcane leech, a Void-dwelling creature invisible to the naked eye. The exact detriment depends on the mage's primary branch:\n- Ichor: The parasite steals a morsel of recuperation; when healing from magical sources, you heal half the amount of HP, rounding down.\n- Cursesmithy: The parasite latches onto your soul, plaguing you with ghostly voices and shadows in the periphery. Should someone die in your vicinity, their spirit tethers to you and you suffer a -2 penalty to HAR: Belief rolls for the next week.\n- Ether: The parasite feasts upon your anima; miscasting your primary branch spells still consumes half anima instead of none.\n- Force: The parasite leeches from your inner strength; effects that apply knockback to you push you 2 additional blocks and knock you prone.\n- Artifice: The parasite is a ferrophage, gnawing away at the metal of your equipment. Your weapons and armour require more maintenance than usual, and count as one quality tier lower than they are.\n- Tellurgy: The parasite maintains its own comfort at the expense of your temperature. In moderate climates you are always a little too hot or too cold, while in extremes your base movement + dashes are both reduced by 1 block as you suffer the elements."
